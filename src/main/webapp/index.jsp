@@ -9,7 +9,7 @@
     <br/>
         <a href="${pageContext.request.contextPath}/app/registration">Registration form</a>
     <br>
-        <a href="${pageContext.request.contextPath}/app/exception">Exception</a>
+        <a href="${pageContext.request.contextPath}/app/userList">Exception</a>
 
     </body>
 </html>

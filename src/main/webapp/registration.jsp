@@ -1,6 +1,6 @@
 <%@ taglib prefix="с" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="jstlC" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 
@@ -27,17 +27,17 @@
         <div class="row mb-3">
             <div class="col-xs-15">
                 <div>
-                    <jstlC:if test="${not empty error}">
+                    <c:if test="${not empty error}">
                         <div class="alert alert-danger col-xs-offset-1 col-xs-10">
                             <span><fmt:message key="registration.emailRegistered"/></span>
                         </div>
-                    </jstlC:if>
+                    </c:if>
 
-                    <jstlC:if test="${not empty status.error}">
+                    <c:if test="${not empty status.error}">
                         <div class="alert alert-danger col-xs-offset-1 col-xs-10">
                             <span><fmt:message key="registration.errorEmailBlank"/></span>
                         </div>
-                    </jstlC:if>
+                    </c:if>
 
                 </div>
             </div>

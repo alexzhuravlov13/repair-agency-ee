@@ -1,9 +1,6 @@
 package com.zhuravlov;
 
-import com.zhuravlov.command.Command;
-import com.zhuravlov.command.Login;
-import com.zhuravlov.command.Register;
-import com.zhuravlov.command.Registration;
+import com.zhuravlov.command.*;
 import com.zhuravlov.db.DbUtil;
 
 import javax.servlet.ServletException;
@@ -15,7 +12,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Servlet extends HttpServlet {
-    private Map<String, Command> commands = new HashMap<>();
+    private final Map<String, Command> commands = new HashMap<>();
 
     @Override
     public void init() throws ServletException {
@@ -24,6 +21,7 @@ public class Servlet extends HttpServlet {
         commands.put("login", new Login());
         commands.put("registration", new Registration());
         commands.put("register", new Register());
+        commands.put("userList", new UserList());
     }
 
     @Override

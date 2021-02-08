@@ -120,4 +120,8 @@ public class UserEntity {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
 }

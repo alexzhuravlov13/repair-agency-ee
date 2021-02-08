@@ -36,10 +36,7 @@ public class Register implements Command {
 
         saveToDb(userEntity);
 
-        HttpSession session = req.getSession();
-        session.setAttribute("users", new UserDaoImpl().findAll());
-
-        return "/users.jsp";
+        return "/login.jsp";
     }
 
     private void saveToDb(UserEntity user){
