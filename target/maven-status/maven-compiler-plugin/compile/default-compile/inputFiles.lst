@@ -1,1 +1,8 @@
-C:\Users\Alexey\IdeaProjects\epam_java\project\ee\repair-agency\src\main\java\MainServlet.java
+C:\Users\Alex.Buyer\IdeaProjects\epam_java\project\repair-agency-ee\src\main\java\com\zhuravlov\Servlet.java
+C:\Users\Alex.Buyer\IdeaProjects\epam_java\project\repair-agency-ee\src\main\java\com\zhuravlov\db\MockDb.java
+C:\Users\Alex.Buyer\IdeaProjects\epam_java\project\repair-agency-ee\src\main\java\com\zhuravlov\command\Command.java
+C:\Users\Alex.Buyer\IdeaProjects\epam_java\project\repair-agency-ee\src\main\java\com\zhuravlov\command\Register.java
+C:\Users\Alex.Buyer\IdeaProjects\epam_java\project\repair-agency-ee\src\main\java\com\zhuravlov\filters\EncodingFilter.java
+C:\Users\Alex.Buyer\IdeaProjects\epam_java\project\repair-agency-ee\src\main\java\com\zhuravlov\command\Login.java
+C:\Users\Alex.Buyer\IdeaProjects\epam_java\project\repair-agency-ee\src\main\java\com\zhuravlov\command\Registration.java
+C:\Users\Alex.Buyer\IdeaProjects\epam_java\project\repair-agency-ee\src\main\java\com\zhuravlov\model\entity\UserEntity.java

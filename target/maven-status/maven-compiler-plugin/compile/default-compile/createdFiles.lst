@@ -1,1 +1,8 @@
-MainServlet.class
+com\zhuravlov\command\Register.class
+com\zhuravlov\command\Registration.class
+com\zhuravlov\command\Login.class
+com\zhuravlov\filters\EncodingFilter.class
+com\zhuravlov\Servlet.class
+com\zhuravlov\db\MockDb.class
+com\zhuravlov\command\Command.class
+com\zhuravlov\model\entity\UserEntity.class
