@@ -7,9 +7,8 @@
         <h2>
            Users List
         </h2>
-        <c:forEach var="user" items="${usersMap}">
-            Key is ${user.key}
-            Value is ${user.value}
+        <c:forEach var="user" items="${users}">
+            ${user}
         </c:forEach>
 
     </body>

@@ -11,20 +11,19 @@ public class DbUtil
 {
   private static final Logger log = LogManager.getLogger(DbUtil.class);
 
-  private static final String PROTOCOL = "jdbc:mysql:";
-  private static final String DB_NAME = "db.name";
+  private static final String DB_URL =
+          "jdbc:mysql://localhost:3306/repair_service_db?useUnicode=true&serverTimezone=UTC&useSSL=false";
 
   private static HikariDataSource dataSource;
 
-  public static void init(String dbFilePath)
+  public static void init()
   {
-
-    log.debug("Db file path : {}", dbFilePath);
+    log.debug("Db file path : {}", DB_URL);
 
     HikariConfig config = new HikariConfig();
     config.setPoolName("MySqlPool");
     config.setDriverClassName("com.mysql.jdbc.Driver");
-    config.setJdbcUrl(PROTOCOL + dbFilePath);
+    config.setJdbcUrl(DB_URL);
     config.setUsername("root");
     config.setPassword("admin");
     config.setMaximumPoolSize(1); // 50 Connections (including idle connections)

@@ -4,6 +4,7 @@ import com.zhuravlov.command.Command;
 import com.zhuravlov.command.Login;
 import com.zhuravlov.command.Register;
 import com.zhuravlov.command.Registration;
+import com.zhuravlov.db.DbUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,8 @@ public class Servlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+        DbUtil.init();
+
         commands.put("login", new Login());
         commands.put("registration", new Registration());
         commands.put("register", new Register());
@@ -35,24 +38,11 @@ public class Servlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Enumeration<String> enumeration = req.getAttributeNames();
-        ArrayList<String> attributeNames = Collections.list(enumeration);
-        for (String attributeName : attributeNames) {
-            System.out.println(attributeName);
-        }
 
-        HttpSession session = req.getSession();
-        Enumeration<String> attributeNames1 = session.getAttributeNames();
-        ArrayList<String> attributeNames3 = Collections.list(attributeNames1);
-        for (String attributeName : attributeNames3) {
-            System.out.println(attributeName);
-        }
-
-        System.out.println();
         String path = req.getRequestURI();
-        System.out.println(path);
+
         path = path.replaceAll(".*/app/" , "");
-        System.out.println(path);
+
         Command command = commands.getOrDefault(path ,
                 (r)->"/index.jsp)");
         String page = command.execute(req);

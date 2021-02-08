@@ -1,5 +1,6 @@
 <%@ taglib prefix="с" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="jstlC" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 
@@ -18,30 +19,35 @@
 <body>
 
 <div class="container">
-    <form action="${pageContext.request.contextPath}/app/register" method="POST" class="mx-auto p-5 m-3" style="width: 50%; background-color: #eee;">
+    <form action="${pageContext.request.contextPath}/app/register" method="POST" class="mx-auto p-5 m-3"
+          style="width: 50%; background-color: #eee;">
         <h2><fmt:message key="registration.createAccount"/></h2>
-        <!--
+
         <div class="row mb-3">
             <div class="col-xs-15">
                 <div>
-
-                    <jstlC:if test="${param.error != null}">
+                    <jstlC:if test="${not empty error}">
                         <div class="alert alert-danger col-xs-offset-1 col-xs-10">
                             <span><fmt:message key="registration.emailRegistered"/></span>
+                        </div>
+                    </jstlC:if>
+
+                    <jstlC:if test="${not empty status.error}">
+                        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                            <span><fmt:message key="registration.errorEmailBlank"/></span>
                         </div>
                     </jstlC:if>
 
                 </div>
             </div>
         </div>
-        -->
 
         <fmt:message key="registration.Email" var="emailPh"/>
-        <div class="row mb-3 ${status.error ? 'has-error' : ''}">
+        <div class="row mb-3">
             <div class="col-xs-15">
-                    <input autofocus="autofocus" class="form-control" name="email"
-                           placeholder="${emailPh}"
-                           type="email"/>
+                <input autofocus="autofocus" class="form-control" name="email"
+                       placeholder="${emailPh}"
+                       type="email"/>
             </div>
         </div>
 
@@ -49,8 +55,8 @@
         <fmt:message key="registration.FirstName" var="firstNamePh"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
-                    <input type="text" name="firstName" class="form-control"
-                                placeholder="${firstNamePh}"/>
+                <input type="text" name="firstName" class="form-control"
+                       placeholder="${firstNamePh}"/>
             </div>
         </div>
 
@@ -58,16 +64,16 @@
         <fmt:message key="registration.LastName" var="lastNamePh"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
-                    <input type="text" name="lastName" class="form-control"
-                           placeholder="${lastNamePh}"/>
-             </div>
+                <input type="text" name="lastName" class="form-control"
+                       placeholder="${lastNamePh}"/>
+            </div>
         </div>
 
         <fmt:message key="registration.Password" var="passwordPh"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
-                    <input type="password" name="password" class="form-control"
-                           placeholder="${passwordPh}"/>
+                <input type="password" name="password" class="form-control"
+                       placeholder="${passwordPh}"/>
             </div>
         </div>
 

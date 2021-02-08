@@ -1,7 +1,10 @@
 package com.zhuravlov.model.entity;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 
 public class UserEntity {
@@ -15,6 +18,8 @@ public class UserEntity {
     private String email;
 
     private String password;
+
+    private Set<Role> roles;
 
     BigDecimal amount = BigDecimal.valueOf(0);
 
@@ -53,9 +58,11 @@ public class UserEntity {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.roles = new HashSet<>();
     }
 
     public UserEntity() {
+        this.roles = new HashSet<>();
     }
 
     public Integer getUserId() {
@@ -104,5 +111,13 @@ public class UserEntity {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
