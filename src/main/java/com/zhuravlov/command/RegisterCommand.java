@@ -1,8 +1,6 @@
 package com.zhuravlov.command;
 
 import com.zhuravlov.db.Dao.UserDaoImpl;
-import com.zhuravlov.db.DbUtil;
-import com.zhuravlov.db.MockDb;
 import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.UserEntity;
 import org.apache.logging.log4j.LogManager;
@@ -10,11 +8,9 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.Connection;
-import java.sql.SQLException;
 
-public class Register implements Command {
-    private static final Logger log = LogManager.getLogger(Register.class);
+public class RegisterCommand implements Command {
+    private static final Logger log = LogManager.getLogger(RegisterCommand.class);
 
     @Override
     public String execute(HttpServletRequest req) {
@@ -31,7 +27,8 @@ public class Register implements Command {
         }
 
         UserEntity userEntity = new UserEntity(firstName, lastName, email, password);
-        userEntity.getRoles().add(Role.ADMIN);
+        //TODO:clear
+        //userEntity.getRoles().add(Role.ADMIN);
         userEntity.getRoles().add(Role.USER);
 
         saveToDb(userEntity);

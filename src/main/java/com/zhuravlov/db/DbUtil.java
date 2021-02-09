@@ -22,7 +22,7 @@ public class DbUtil
 
     HikariConfig config = new HikariConfig();
     config.setPoolName("MySqlPool");
-    config.setDriverClassName("com.mysql.jdbc.Driver");
+    config.setDriverClassName("com.mysql.cj.jdbc.Driver");
     config.setJdbcUrl(DB_URL);
     config.setUsername("root");
     config.setPassword("admin");

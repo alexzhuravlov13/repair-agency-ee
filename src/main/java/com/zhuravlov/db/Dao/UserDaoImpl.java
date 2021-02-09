@@ -17,12 +17,26 @@ public class UserDaoImpl implements Dao<UserEntity> {
             "INSERT INTO users (first_name, last_name, email, password, amount) VALUES (?, ?, ?, ?, ?)";
 
     private static final String INSERT_USER_ROLE_SQL =
-            "INSERT INTO users_roles (user_entity_user_id, role) VALUES (?, ?)";
+            "INSERT INTO users_roles (user_id, role) VALUES (?, ?)";
 
     private static final String SELECT_ALL_FROM_USERS_SQL =
             "SELECT u.user_id, u.first_name, u.last_name, u.email, u.password, u.amount, roles.role " +
                     "FROM users u " +
-                    "LEFT JOIN users_roles roles on u.user_id = roles.user_entity_user_id;";
+                    "LEFT JOIN users_roles roles on u.user_id = roles.user_id";
+
+    private static final String SELECT_USER_BY_ID_SQL =
+                    "SELECT users.user_id, users.first_name, users.last_name, users.email, " +
+                            "users.password, users.amount, users_roles.role " +
+                    "FROM users " +
+                    "JOIN users_roles on users.user_id = users_roles.user_id " +
+                    "WHERE users.user_id= ?";
+
+    private static final String SELECT_USER_BY_EMAIL_SQL =
+            "SELECT users.user_id, users.first_name, users.last_name, users.email, " +
+                    "users.password, users.amount, users_roles.role " +
+                    "FROM users " +
+                    "JOIN users_roles on users.user_id = users_roles.user_id " +
+                    "WHERE users.email= ?";
 
     @Override
     public UserEntity create(UserEntity userEntity) {
@@ -66,10 +80,80 @@ public class UserDaoImpl implements Dao<UserEntity> {
         connection.commit();
     }
 
+    public UserEntity findByEmail(String email) {
+        UserEntity user = null;
+        try (Connection connection = DbUtil.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_EMAIL_SQL);
+            ps.setString(1, email);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                if (user == null) {
+                    user = mapUserFromRsByEmail(email, resultSet);
+                }
+                String role = resultSet.getString("role");
+                user.addRole(Role.valueOf(role));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
 
     @Override
     public UserEntity findById(int id) {
-        return null;
+        UserEntity user = null;
+        try (Connection connection = DbUtil.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_ID_SQL);
+            ps.setInt(1, id);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                if (user == null) {
+                    user = mapUserFromRsById(id, resultSet);
+                }
+                String role = resultSet.getString("role");
+                user.addRole(Role.valueOf(role));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    private UserEntity mapUserFromRsById(int id, ResultSet resultSet) throws SQLException {
+        UserEntity user;
+        String email = resultSet.getString("email");
+        String firstName = resultSet.getString("first_name");
+        String lastName = resultSet.getString("last_name");
+        String password = resultSet.getString("password");
+        BigDecimal amount = resultSet.getBigDecimal("amount");
+        user = new UserEntityBuilder()
+                .setUserId(id)
+                .setEmail(email)
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setPassword(password)
+                .setAmount(amount)
+                .build();
+        return user;
+    }
+
+    private UserEntity mapUserFromRsByEmail(String email, ResultSet resultSet) throws SQLException {
+        UserEntity user;
+        int id = resultSet.getInt("user_id");
+        String firstName = resultSet.getString("first_name");
+        String lastName = resultSet.getString("last_name");
+        String password = resultSet.getString("password");
+        BigDecimal amount = resultSet.getBigDecimal("amount");
+        user = new UserEntityBuilder()
+                .setUserId(id)
+                .setEmail(email)
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setPassword(password)
+                .setAmount(amount)
+                .build();
+        return user;
     }
 
     @Override
@@ -82,40 +166,34 @@ public class UserDaoImpl implements Dao<UserEntity> {
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(SELECT_ALL_FROM_USERS_SQL)) {
             while (resultSet.next()) {
-                UserEntity userEntity = mapUserFromRs(userById, resultSet);
-                list.add(userEntity);
-            }
+                int id = resultSet.getInt("user_id");
+                String email = resultSet.getString("email");
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+                String password = resultSet.getString("password");
+                BigDecimal amount = resultSet.getBigDecimal("amount");
+                String role = resultSet.getString("role");
 
+                UserEntity userEntity = userById.get(id);
+
+                if (userEntity == null) {
+                    userEntity = new UserEntityBuilder()
+                            .setUserId(id)
+                            .setEmail(email)
+                            .setFirstName(firstName)
+                            .setLastName(lastName)
+                            .setPassword(password)
+                            .setAmount(amount)
+                            .build();
+                    userById.put(userEntity.getUserId(), userEntity);
+                }
+                userEntity.addRole(Role.valueOf(role));
+            }
+            list.addAll(userById.values());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
-    }
-
-    private UserEntity mapUserFromRs(Map<Integer, UserEntity> userById, ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt("user_id");
-        String email = resultSet.getString("email");
-        String firstName = resultSet.getString("first_name");
-        String lastName = resultSet.getString("last_name");
-        String password = resultSet.getString("password");
-        BigDecimal amount = resultSet.getBigDecimal("amount");
-        String role = resultSet.getString("role");
-
-        UserEntity userEntity = userById.get(id);
-
-        if (userEntity == null) {
-            userEntity = new UserEntityBuilder()
-                    .setUserId(id)
-                    .setEmail(email)
-                    .setFirstName(firstName)
-                    .setLastName(lastName)
-                    .setPassword(password)
-                    .setAmount(amount)
-                    .build();
-            userById.put(userEntity.getUserId(), userEntity);
-        }
-        userEntity.addRole(Role.valueOf(role));
-        return userEntity;
     }
 
     @Override
@@ -127,4 +205,6 @@ public class UserDaoImpl implements Dao<UserEntity> {
     public boolean delete(int id) {
         return false;
     }
+
+
 }

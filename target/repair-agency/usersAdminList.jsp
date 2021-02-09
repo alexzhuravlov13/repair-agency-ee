@@ -1,4 +1,3 @@
-<%@ taglib prefix="с" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -50,7 +49,7 @@
                     <td>${user.amount}</td>
                     <td>
                         <button type="button" class="btn btn-outline-info"
-                                onclick="location.href='/users/edit?userId=${user.userId}'">
+                                onclick="location.href='/app/admin/users/edit?userId=${user.userId}'">
                             <fmt:message key="userEdit.h"/></button>
                     </td>
                 </tr>

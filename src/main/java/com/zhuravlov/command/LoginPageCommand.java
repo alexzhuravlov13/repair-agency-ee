@@ -2,10 +2,9 @@ package com.zhuravlov.command;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class Login implements Command {
+public class LoginPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
-
-        return null;
+        return "/login.jsp";
     }
 }

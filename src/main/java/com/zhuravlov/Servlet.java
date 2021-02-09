@@ -3,11 +3,11 @@ package com.zhuravlov;
 import com.zhuravlov.command.*;
 import com.zhuravlov.db.DbUtil;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
@@ -15,13 +15,22 @@ public class Servlet extends HttpServlet {
     private final Map<String, Command> commands = new HashMap<>();
 
     @Override
-    public void init() throws ServletException {
+    public void init(ServletConfig servletConfig) throws ServletException {
+        super.init(servletConfig);
+
         DbUtil.init();
 
-        commands.put("login", new Login());
-        commands.put("registration", new Registration());
-        commands.put("register", new Register());
-        commands.put("userList", new UserList());
+        servletConfig.getServletContext()
+                .setAttribute("loggedUsers", new HashSet<String>());
+
+        commands.put("login", new LoginPageCommand());
+        commands.put("loginUser", new LoginCommand());
+        commands.put("registration", new RegistrationPageController());
+        commands.put("register", new RegisterCommand());
+        commands.put("admin/userList", new UserList());
+        commands.put("admin/users/edit", new EditUser());
+        commands.put("user/userRepairFormList", new UserRepairFormListCommand());
+
     }
 
     @Override
@@ -39,13 +48,20 @@ public class Servlet extends HttpServlet {
 
         String path = req.getRequestURI();
 
+        System.out.println("Path:" + path);
+
         path = path.replaceAll(".*/app/" , "");
+
+        System.out.println("Path:" + path);
 
         Command command = commands.getOrDefault(path ,
                 (r)->"/index.jsp)");
         String page = command.execute(req);
+
+        System.out.println("Path:" + page);
+
         if(page.contains("redirect:")){
-            resp.sendRedirect(page.replace("redirect:", "/api"));
+            resp.sendRedirect(page.replace("redirect:", "/app"));
         }else {
             req.getRequestDispatcher(page).forward(req, resp);
         }
