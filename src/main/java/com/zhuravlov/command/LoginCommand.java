@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Set;
 
 public class LoginCommand implements Command{
     private static Logger log = LoggerFactory.getLogger(LoginCommand.class);
@@ -46,17 +47,18 @@ public class LoginCommand implements Command{
             return "/error.jsp";
         }
 
-        if (user.getRoles().contains(Role.ADMIN)){
+        Set<Role> userRoles = user.getRoles();
+        if (userRoles.contains(Role.ADMIN)){
             System.out.println("CommandUtility.setUserRoleAdmin");
-            CommandUtility.setUserRole(request, Role.ADMIN, email);
-            return "redirect:/admin/userList";
-        } else if(user.getRoles().contains(Role.USER)) {
+            CommandUtility.setUserRoles(request, userRoles, email);
+            return "redirect:/admin/listUsers";
+        } else if(userRoles.contains(Role.USER)) {
             System.out.println("CommandUtility.setUserRoleUser");
-            CommandUtility.setUserRole(request, Role.USER, email);
+            CommandUtility.setUserRoles(request, userRoles, email);
             return "redirect:/user/userRepairFormList";
         } else {
             System.out.println("CommandUtility.setUserRoleGUEST");
-            CommandUtility.setUserRole(request, Role.GUEST, email);
+            CommandUtility.setUserRoles(request, userRoles, email);
             return "/login.jsp";
         }
     }

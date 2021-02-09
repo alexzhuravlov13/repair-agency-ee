@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-
+<jsp:include page="navbar.jsp"/>
 <div class="container-fluid">
     <div class="container pb-5">
         <h3><fmt:message key="users.title"/></h3>
@@ -49,7 +49,7 @@
                     <td>${user.amount}</td>
                     <td>
                         <button type="button" class="btn btn-outline-info"
-                                onclick="location.href='/app/admin/users/edit?userId=${user.userId}'">
+                                onclick="location.href='/app/admin/listUsers/edit?userId=${user.userId}'">
                             <fmt:message key="userEdit.h"/></button>
                     </td>
                 </tr>

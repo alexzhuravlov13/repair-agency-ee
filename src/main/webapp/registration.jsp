@@ -16,7 +16,7 @@
 </head>
 
 <body>
-
+<jsp:include page="locale.jsp"/>
 <div class="container">
     <form action="${pageContext.request.contextPath}/app/register" method="POST" class="mx-auto p-5 m-3"
           style="width: 50%; background-color: #eee;">

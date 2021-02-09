@@ -13,18 +13,9 @@ public class UserList implements Command {
     public String execute(HttpServletRequest req) {
         HttpSession session = req.getSession();
 
-        Role role = (Role) session.getAttribute("role");
-
-        System.out.println("UserListCommand:" + role);
-
-        if (role==null || !role.equals(Role.ADMIN)) {
-            return "/error.jsp";
-        }
-
         List<UserEntity> all = new UserDaoImpl().findAll();
         session.setAttribute("users", all);
 
-
-        return "/usersAdminList.jsp";
+        return "/adminUsersList.jsp";
     }
 }

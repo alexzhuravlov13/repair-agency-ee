@@ -9,13 +9,6 @@ public class UserRepairFormListCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Role role = (Role) session.getAttribute("role");
-
-        System.out.println("UserListCommand:" + role);
-
-        if (!role.equals(Role.ADMIN)) {
-            return "/error.jsp";
-        }
 
         return "redirect: /user/userRepairFormList";
     }

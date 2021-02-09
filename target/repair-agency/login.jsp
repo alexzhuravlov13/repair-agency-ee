@@ -16,7 +16,7 @@
 </head>
 
 <body>
-
+<jsp:include page="locale.jsp"/>
 <div class="container">
 
     <form method="POST" action="${pageContext.request.contextPath}/app/loginUser"
@@ -61,7 +61,7 @@
         </div>
         <div class="row mb-3">
             <fmt:message key="login.Create" var="createPh"/>
-            <h4 class="text-center"><a href="/registration">${createPh}</a></h4>
+            <h4 class="text-center"><a href="${pageContext.request.contextPath}/app/registration">${createPh}</a></h4>
         </div>
     </form>
 

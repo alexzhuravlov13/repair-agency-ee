@@ -17,6 +17,6 @@ public class EditUser implements Command {
         //UserEntity byId = userDao.findById(userId);
 
         //TODO:edit form
-        return "/userAdminEdit.jsp";
+        return "/adminEditUser.jsp";
     }
 }

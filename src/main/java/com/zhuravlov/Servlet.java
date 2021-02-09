@@ -27,8 +27,8 @@ public class Servlet extends HttpServlet {
         commands.put("loginUser", new LoginCommand());
         commands.put("registration", new RegistrationPageController());
         commands.put("register", new RegisterCommand());
-        commands.put("admin/userList", new UserList());
-        commands.put("admin/users/edit", new EditUser());
+        commands.put("admin/listUsers", new UserList());
+        commands.put("admin/listUsers/edit", new EditUser());
         commands.put("user/userRepairFormList", new UserRepairFormListCommand());
 
     }
@@ -55,7 +55,7 @@ public class Servlet extends HttpServlet {
         System.out.println("Path:" + path);
 
         Command command = commands.getOrDefault(path ,
-                (r)->"/index.jsp)");
+                (r)->"/login.jsp)");
         String page = command.execute(req);
 
         System.out.println("Path:" + page);

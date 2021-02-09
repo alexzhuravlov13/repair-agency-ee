@@ -16,7 +16,7 @@
 </head>
 
 <body>
-
+<jsp:include page="locale.jsp"/>
 <div class="container">
 
     <form method="POST" action="${pageContext.request.contextPath}/app/loginUser"
