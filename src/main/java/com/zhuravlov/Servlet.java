@@ -25,6 +25,7 @@ public class Servlet extends HttpServlet {
 
         commands.put("login", new LoginPageCommand());
         commands.put("loginUser", new LoginCommand());
+        commands.put("logout", new LogOutCommand());
         commands.put("registration", new RegistrationPageController());
         commands.put("register", new RegisterCommand());
         commands.put("admin/listUsers", new UserList());

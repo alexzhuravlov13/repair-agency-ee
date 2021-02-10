@@ -2,8 +2,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!doctype html>
-<html lang="en">
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="messages"/>
+
+<html lang="${sessionScope.lang}">
 
 <head>
     <title>Users list</title>

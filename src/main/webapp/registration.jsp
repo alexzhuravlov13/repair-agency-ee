@@ -3,9 +3,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 
+<fmt:setLocale value="${sessionScope.lang}" />
 <fmt:setBundle basename="messages"/>
 
-<html>
+<html lang="${sessionScope.lang}">
 <head>
     <meta charset="utf-8">
     <title>Log in with your account</title>
@@ -86,7 +87,7 @@
 
         <fmt:message key="registration.AlreadyRegistered" var="alreadyRegistered"/>
         <div class="row mb-3">
-            <h4 class="text-center"><a href="/login">${alreadyRegistered}</a></h4>
+            <h4 class="text-center"><a href="/app/login">${alreadyRegistered}</a></h4>
         </div>
     </form>
 </div>

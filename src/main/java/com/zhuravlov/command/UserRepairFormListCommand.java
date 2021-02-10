@@ -8,8 +8,6 @@ import javax.servlet.http.HttpSession;
 public class UserRepairFormListCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-
-        return "redirect: /user/userRepairFormList";
+        return "/userRepairFormList.jsp";
     }
 }

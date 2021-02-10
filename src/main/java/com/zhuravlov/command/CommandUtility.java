@@ -32,5 +32,4 @@ class CommandUtility {
         return false;
     }
 
-
 }

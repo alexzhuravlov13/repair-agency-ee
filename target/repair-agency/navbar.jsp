@@ -2,8 +2,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!doctype html>
-<html lang="en">
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="messages"/>
+
+<html lang="${sessionScope.lang}">
 
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
@@ -51,7 +53,7 @@
                 </li>
 
                 <li>
-                    <c:url value="/logout?${_csrf.parameterName}=${_csrf.token}" var="logoutUrl"/>
+                    <c:url value="/app/logout?${_csrf.parameterName}=${_csrf.token}" var="logoutUrl"/>
                     <form class="d-flex position-absolute end-0 me-2" action="${logoutUrl}" method="POST"
                                enctype="multipart/form-data">
                         <span class="navbar-text mr-sm-2">Email: ${pageContext.request.userPrincipal.name}</span>
@@ -71,7 +73,7 @@
         $("#locales").change(function () {
             const selectedOption = $('#locales').val();
             if (selectedOption !== '') {
-                window.location.replace('/?lang=' + selectedOption);
+                window.location.replace('?lang=' + selectedOption);
             }
         });
     });

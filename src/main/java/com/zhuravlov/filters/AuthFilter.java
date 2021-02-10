@@ -41,20 +41,25 @@ public class AuthFilter implements Filter {
         System.out.println("#AUTH: before check login");
         if (requestURL.contains("login")) {
             if (roles != null && !roles.contains(Role.GUEST)) {
-                request.getRequestDispatcher("/home").forward(request, response);
+                request.getRequestDispatcher("/app/home").forward(request, response);
                 filterChain.doFilter(request, response);
                 return;
             }
         }
 
         System.out.println("#AUTH: before check home");
-        if (requestURL.contains("/home")) {
+        if (requestURL.contains("home")) {
             if (roles != null) {
-                if (roles.contains(Role.USER)) {
-                    request.getRequestDispatcher("/user/userRepairFormList").forward(request, response);
+                if (roles.contains(Role.ADMIN)) {
+                    request.getRequestDispatcher("/app/admin/listUsers").forward(request, response);
+                    filterChain.doFilter(request, response);
+                    return;
+                } else if (roles.contains(Role.USER)) {
+                    request.getRequestDispatcher("/app/user/userRepairFormList").forward(request, response);
+                    filterChain.doFilter(request, response);
+                    return;
                 }
-                filterChain.doFilter(request, response);
-                return;
+
             }
         }
 
