@@ -39,17 +39,22 @@
             <div class="col-xs-15">
                 <div>
                     <!-- Check for login error -->
-                    <jstlC:if test="${param.error != null}">
+                    <c:if test="${sessionScope.error!= null}">
                         <div class="alert alert-danger col-xs-offset-1 col-xs-10">
                             <span><fmt:message key="login.error"/></span>
                         </div>
-                    </jstlC:if>
+                    </c:if>
+                    <c:if test="${sessionScope.errorField!= null}">
+                        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                            <span><fmt:message key="login.errorField"/></span>
+                        </div>
+                    </c:if>
                     <!-- Check for logout -->
-                    <jstlC:if test="${param.logout != null}">
+                    <c:if test="${sessionScope.logout != null}">
                         <div class="alert alert-success col-xs-offset-1 col-xs-10">
                             <span><fmt:message key="login.message"/></span>
                         </div>
-                    </jstlC:if>
+                    </c:if>
                 </div>
             </div>
         </div>

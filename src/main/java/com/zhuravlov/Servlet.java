@@ -22,7 +22,7 @@ public class Servlet extends HttpServlet {
 
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
-
+        commands.put("error", new ErrorCommand());
         commands.put("login", new LoginPageCommand());
         commands.put("loginUser", new LoginCommand());
         commands.put("logout", new LogOutCommand());
@@ -49,21 +49,20 @@ public class Servlet extends HttpServlet {
 
         String path = req.getRequestURI();
 
-        System.out.println("Path:" + path);
+        System.out.println("#SERVLET path:" + path);
 
         path = path.replaceAll(".*/app/" , "");
 
-        System.out.println("Path:" + path);
-
         Command command = commands.getOrDefault(path ,
-                (r)->"/login.jsp)");
+                (r)->"error");
         String page = command.execute(req);
 
-        System.out.println("Path:" + page);
-
         if(page.contains("redirect:")){
-            resp.sendRedirect(page.replace("redirect:", "/app"));
+            page = page.replace("redirect:", "/app");
+            System.out.println("#SERVLET redirect to:" + page);
+            resp.sendRedirect(page);
         }else {
+            System.out.println("#SERVLET forward to:" + page);
             req.getRequestDispatcher(page).forward(req, resp);
         }
 

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 public class LoginPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
-        System.out.println("Command:" + this.getClass());
+        System.out.println("#Command:" + this.getClass().getSimpleName());
         return "/login.jsp";
     }
 }

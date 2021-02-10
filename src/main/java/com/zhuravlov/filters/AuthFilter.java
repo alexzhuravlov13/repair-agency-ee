@@ -28,56 +28,48 @@ public class AuthFilter implements Filter {
         System.out.println("#AUTH roles:" + roles);
         System.out.println("#AUTH requestURL:" + requestURL);
 
-        System.out.println("#AUTH: before check /");
+
         if (requestURL.equals("http://localhost:8081/")) {
+            System.out.println("#AUTH: check /");
             if (roles == null || roles.contains(Role.GUEST)) {
                 response.sendRedirect("/app/login");
-                //request.getRequestDispatcher("login").forward(request, response);
-                filterChain.doFilter(request, response);
-                return;
             }
         }
 
-        System.out.println("#AUTH: before check login");
+
         if (requestURL.contains("login")) {
+            System.out.println("#AUTH: check login");
             if (roles != null && !roles.contains(Role.GUEST)) {
                 request.getRequestDispatcher("/app/home").forward(request, response);
-                filterChain.doFilter(request, response);
-                return;
             }
         }
 
-        System.out.println("#AUTH: before check home");
+
         if (requestURL.contains("home")) {
             if (roles != null) {
+                System.out.println("#AUTH: check home");
                 if (roles.contains(Role.ADMIN)) {
                     request.getRequestDispatcher("/app/admin/listUsers").forward(request, response);
-                    filterChain.doFilter(request, response);
-                    return;
                 } else if (roles.contains(Role.USER)) {
                     request.getRequestDispatcher("/app/user/userRepairFormList").forward(request, response);
-                    filterChain.doFilter(request, response);
-                    return;
                 }
 
             }
         }
 
-        System.out.println("#AUTH: before check admin");
+
         if (requestURL.contains("/admin")) {
+            System.out.println("#AUTH: check /admin");
             if (roles == null || !roles.contains(Role.ADMIN)) {
                 request.getRequestDispatcher("/error.jsp").forward(request, response);
-                filterChain.doFilter(request, response);
-                return;
             }
         }
 
-        System.out.println("#AUTH: before check user");
+
         if (requestURL.contains("/user")) {
+            System.out.println("#AUTH: check /user");
             if (roles == null || !roles.contains(Role.USER)) {
                 request.getRequestDispatcher("/error.jsp").forward(request, response);
-                filterChain.doFilter(request, response);
-                return;
             }
         }
 
