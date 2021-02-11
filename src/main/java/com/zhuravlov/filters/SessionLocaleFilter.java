@@ -17,14 +17,15 @@ public class SessionLocaleFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
-       if(req.getSession().getAttribute("lang") ==null){
-           req.getSession().setAttribute("lang", "en");
-       }
+        String sessionLangAttr = (String) req.getSession().getAttribute("lang");
+        String reqLangPar = req.getParameter("lang");
 
-        String langValue = req.getParameter("lang");
+        if (sessionLangAttr == null && reqLangPar == null) {
+            req.getSession().setAttribute("lang", "en");
+        }
 
-        if (langValue != null) {
-            req.getSession().setAttribute("lang", langValue);
+        if (reqLangPar != null && !reqLangPar.equals(sessionLangAttr)) {
+            req.getSession().setAttribute("lang", reqLangPar);
         }
 
         filterChain.doFilter(req, resp);

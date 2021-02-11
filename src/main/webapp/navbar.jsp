@@ -24,11 +24,11 @@
                 </li>
                 <li class="nav-item">
                     <sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/users/list"><fmt:message key="navbar.users"/></a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/app/admin/listUsers"><fmt:message key="navbar.users"/></a>
                     </sec:authorize>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/repairs/list"><fmt:message key="navbar.RepairFormList"/></a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/app/user/userRepairFormList"><fmt:message key="navbar.RepairFormList"/></a>
                 </li>
                 <li class="nav-item">
                     <sec:authorize access="hasRole('ROLE_MANAGER')">

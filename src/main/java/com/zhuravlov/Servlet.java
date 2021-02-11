@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class Servlet extends HttpServlet {
     private final Map<String, Command> commands = new HashMap<>();
@@ -51,17 +53,17 @@ public class Servlet extends HttpServlet {
 
         System.out.println("#SERVLET path:" + path);
 
-        path = path.replaceAll(".*/app/" , "");
+        path = path.replaceAll(".*/app/", "");
 
-        Command command = commands.getOrDefault(path ,
-                (r)->"error");
+        Command command = commands.getOrDefault(path,
+                (r) -> "error");
         String page = command.execute(req);
 
-        if(page.contains("redirect:")){
+        if (page.contains("redirect:")) {
             page = page.replace("redirect:", "/app");
             System.out.println("#SERVLET redirect to:" + page);
             resp.sendRedirect(page);
-        }else {
+        } else {
             System.out.println("#SERVLET forward to:" + page);
             req.getRequestDispatcher(page).forward(req, resp);
         }

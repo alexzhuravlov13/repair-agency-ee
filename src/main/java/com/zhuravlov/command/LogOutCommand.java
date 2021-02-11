@@ -28,7 +28,12 @@ public class LogOutCommand implements Command {
         HashSet<String> loggedUsers = (HashSet<String>) session.getServletContext()
                 .getAttribute("loggedUsers");
         loggedUsers.remove(userName);
+
         CommandUtility.setUserRoles(request, new HashSet<>(Collections.singletonList(Role.GUEST)),
                 "Guest");
+
+        request.getServletContext().setAttribute("userName", "");
+
+        request.getSession().invalidate();
     }
 }

@@ -17,23 +17,23 @@ public class UserDaoImpl implements Dao<UserEntity> {
             "INSERT INTO users (first_name, last_name, email, password, amount) VALUES (?, ?, ?, ?, ?)";
 
     private static final String INSERT_USER_ROLE_SQL =
-            "INSERT INTO users_roles (user_id, role) VALUES (?, ?)";
+            "INSERT INTO users_roles (user_id, user_role) VALUES (?, ?)";
 
     private static final String SELECT_ALL_FROM_USERS_SQL =
-            "SELECT u.user_id, u.first_name, u.last_name, u.email, u.password, u.amount, roles.role " +
+            "SELECT u.user_id, u.first_name, u.last_name, u.email, u.password, u.amount, roles.user_role " +
                     "FROM users u " +
                     "LEFT JOIN users_roles roles on u.user_id = roles.user_id";
 
     private static final String SELECT_USER_BY_ID_SQL =
                     "SELECT users.user_id, users.first_name, users.last_name, users.email, " +
-                            "users.password, users.amount, users_roles.role " +
+                            "users.password, users.amount, users_roles.user_role " +
                     "FROM users " +
                     "JOIN users_roles on users.user_id = users_roles.user_id " +
                     "WHERE users.user_id= ?";
 
     private static final String SELECT_USER_BY_EMAIL_SQL =
             "SELECT users.user_id, users.first_name, users.last_name, users.email, " +
-                    "users.password, users.amount, users_roles.role " +
+                    "users.password, users.amount, users_roles.user_role " +
                     "FROM users " +
                     "JOIN users_roles on users.user_id = users_roles.user_id " +
                     "WHERE users.email= ?";
@@ -90,7 +90,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
                 if (user == null) {
                     user = mapUserFromRsByEmail(email, resultSet);
                 }
-                String role = resultSet.getString("role");
+                String role = resultSet.getString("user_role");
                 user.addRole(Role.valueOf(role));
             }
         } catch (Exception e) {
@@ -111,7 +111,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
                 if (user == null) {
                     user = mapUserFromRsById(id, resultSet);
                 }
-                String role = resultSet.getString("role");
+                String role = resultSet.getString("user_role");
                 user.addRole(Role.valueOf(role));
             }
         } catch (Exception e) {
@@ -172,7 +172,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
                 String lastName = resultSet.getString("last_name");
                 String password = resultSet.getString("password");
                 BigDecimal amount = resultSet.getBigDecimal("amount");
-                String role = resultSet.getString("role");
+                String role = resultSet.getString("user_role");
 
                 UserEntity userEntity = userById.get(id);
 

@@ -47,14 +47,20 @@ public class LoginCommand implements Command {
         //Ifloggined-quit
         System.out.println("checkUserIsLoggedOrLogin");
         if (CommandUtility.checkUserIsLoggedOrLogin(request, email)) {
-            return "/error.jsp";
+            return "redirect:/error.jsp";
         }
 
         Set<Role> userRoles = user.getRoles();
 
         System.out.println("#CommandUtility.setUserRole");
         CommandUtility.setUserRoles(request, userRoles, email);
-        return "redirect:/home";
+
+        if (userRoles.contains(Role.ADMIN)) {
+            return "redirect:/admin/listUsers";
+        } else if (userRoles.contains(Role.USER)) {
+            return "redirect:/user/userRepairFormList";
+        }
+        return "/login.jsp";
     }
 
 }

@@ -28,55 +28,40 @@ public class AuthFilter implements Filter {
         System.out.println("#AUTH roles:" + roles);
         System.out.println("#AUTH requestURL:" + requestURL);
 
-
-        if (requestURL.equals("http://localhost:8081/")) {
-            System.out.println("#AUTH: check /");
-            if (roles == null || roles.contains(Role.GUEST)) {
-                response.sendRedirect("/app/login");
-            }
-        }
-
-
-        if (requestURL.contains("login")) {
-            System.out.println("#AUTH: check login");
-            if (roles != null && !roles.contains(Role.GUEST)) {
-                request.getRequestDispatcher("/app/home").forward(request, response);
-            }
-        }
-
-
-        if (requestURL.contains("home")) {
-            if (roles != null) {
-                System.out.println("#AUTH: check home");
-                if (roles.contains(Role.ADMIN)) {
-                    request.getRequestDispatcher("/app/admin/listUsers").forward(request, response);
-                } else if (roles.contains(Role.USER)) {
-                    request.getRequestDispatcher("/app/user/userRepairFormList").forward(request, response);
-                }
-
-            }
-        }
-
-
-        if (requestURL.contains("/admin")) {
-            System.out.println("#AUTH: check /admin");
-            if (roles == null || !roles.contains(Role.ADMIN)) {
-                request.getRequestDispatcher("/error.jsp").forward(request, response);
-            }
-        }
-
-
-        if (requestURL.contains("/user")) {
-            System.out.println("#AUTH: check /user");
-            if (roles == null || !roles.contains(Role.USER)) {
-                request.getRequestDispatcher("/error.jsp").forward(request, response);
-            }
-        }
-
+        handleByRole(request, response, roles, requestURL);
 
         filterChain.doFilter(request, response);
     }
 
+    private void handleByRole(HttpServletRequest request, HttpServletResponse response, Set<Role> roles, String requestURL) throws IOException, ServletException {
+        System.out.println("Handle by role " + roles);
+        String homeDir = "";
+
+        if (roles == null || roles.contains(Role.GUEST)) {
+            if (requestURL.contains("/admin") || requestURL.contains("/user")) {
+                System.out.println("Send redirect to login");
+                request.getRequestDispatcher("/app/login").forward(request, response);
+                //response.sendRedirect("redirect:/app/login");
+            }
+        } else if (requestURL.contains("/login") || requestURL.contains("/registration")) {
+            if (roles.contains(Role.ADMIN)) {
+                System.out.println("Send redirect to admin");
+                homeDir = "/app/admin/listUsers";
+            } else if (roles.contains(Role.USER)) {
+                System.out.println("Send redirect to user");
+                homeDir = "/app/user/userRepairFormList";
+            }
+            request.getRequestDispatcher(homeDir).forward(request, response);
+            //response.sendRedirect(homeDir);
+        } else if (requestURL.contains("/admin")){
+            if (roles.contains(Role.USER)) {
+                System.out.println("Send redirect to user");
+                homeDir = "/app/user/userRepairFormList";
+            }
+            request.getRequestDispatcher(homeDir).forward(request, response);
+        }
+
+    }
 
     @Override
     public void destroy() {
