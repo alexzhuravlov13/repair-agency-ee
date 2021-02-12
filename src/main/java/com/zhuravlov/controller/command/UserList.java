@@ -16,6 +16,6 @@ public class UserList implements Command {
         List<UserEntity> all = new UserService(new UserDaoImpl()).findAll();
         session.setAttribute("users", all);
 
-        return "/adminUsersList.jsp";
+        return "/admin_users_list.jsp";
     }
 }

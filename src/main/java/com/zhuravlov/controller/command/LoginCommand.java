@@ -48,7 +48,7 @@ public class LoginCommand implements Command {
         //Ifloggined-quit
         System.out.println("checkUserIsLoggedOrLogin");
         if (CommandUtility.checkUserIsLoggedOrLogin(request, email)) {
-            return "redirect:/error.jsp";
+            return "redirect:/errora";
         }
 
         Set<Role> userRoles = user.getRoles();
