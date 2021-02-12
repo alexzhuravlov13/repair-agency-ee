@@ -2,7 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="messages"/>
 
 <html lang="${sessionScope.lang}">
@@ -24,22 +24,27 @@
                 </li>
                 <li class="nav-item">
                     <sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/app/admin/listUsers"><fmt:message key="navbar.users"/></a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/app/admin/listUsers"><fmt:message
+                                key="navbar.users"/></a>
                     </sec:authorize>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/app/user/userRepairFormList"><fmt:message key="navbar.RepairFormList"/></a>
+                    <a class="nav-link"
+                       href="${pageContext.request.contextPath}/app/user/userRepairFormList"><fmt:message
+                            key="navbar.RepairFormList"/></a>
                 </li>
                 <li class="nav-item">
                     <sec:authorize access="hasRole('ROLE_MANAGER')">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/repairs/manager/list"><fmt:message key="navbar.AllRepairFormList"/></a>
+                           href="${pageContext.request.contextPath}/repairs/manager/list"><fmt:message
+                                key="navbar.AllRepairFormList"/></a>
                     </sec:authorize>
                 </li>
                 <li class="nav-item">
                     <sec:authorize access="hasRole('ROLE_REPAIRMAN')">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/repairs/repairman/list"><fmt:message key="navbar.AllRepairFormList"/></a>
+                           href="${pageContext.request.contextPath}/repairs/repairman/list"><fmt:message
+                                key="navbar.AllRepairFormList"/></a>
                     </sec:authorize>
                 </li>
                 <li class="nav-item">
@@ -55,7 +60,7 @@
                 <li>
                     <c:url value="/app/logout?${_csrf.parameterName}=${_csrf.token}" var="logoutUrl"/>
                     <form class="d-flex position-absolute end-0 me-2" action="${logoutUrl}" method="POST"
-                               enctype="multipart/form-data">
+                          enctype="multipart/form-data">
                         <span class="navbar-text mr-sm-2">Email: ${pageContext.request.userPrincipal.name}</span>
                         <button type="Logout" class="btn btn-outline-danger ms-1">
                             <fmt:message key="login.LogOut"/></button>

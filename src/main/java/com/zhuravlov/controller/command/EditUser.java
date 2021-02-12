@@ -1,11 +1,6 @@
-package com.zhuravlov.command;
-
-import com.zhuravlov.db.Dao.UserDaoImpl;
-import com.zhuravlov.model.entity.UserEntity;
+package com.zhuravlov.controller.command;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Map;
 
 public class EditUser implements Command {
     @Override

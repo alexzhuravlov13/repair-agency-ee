@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 
-<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="messages"/>
 
 <html lang="${sessionScope.lang}">

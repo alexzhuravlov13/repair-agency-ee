@@ -1,8 +1,8 @@
-package com.zhuravlov.command;
+package com.zhuravlov.controller.command;
 
 import com.zhuravlov.db.Dao.UserDaoImpl;
-import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.UserEntity;
+import com.zhuravlov.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,7 +13,7 @@ public class UserList implements Command {
     public String execute(HttpServletRequest req) {
         HttpSession session = req.getSession();
 
-        List<UserEntity> all = new UserDaoImpl().findAll();
+        List<UserEntity> all = new UserService(new UserDaoImpl()).findAll();
         session.setAttribute("users", all);
 
         return "/adminUsersList.jsp";

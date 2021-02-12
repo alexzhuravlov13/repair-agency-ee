@@ -1,6 +1,6 @@
 package com.zhuravlov;
 
-import com.zhuravlov.command.*;
+import com.zhuravlov.controller.command.*;
 import com.zhuravlov.db.DbUtil;
 
 import javax.servlet.ServletConfig;

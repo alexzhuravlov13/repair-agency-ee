@@ -1,4 +1,4 @@
-package com.zhuravlov.command;
+package com.zhuravlov.controller.command;
 
 import com.zhuravlov.model.entity.Role;
 
@@ -18,11 +18,11 @@ class CommandUtility {
         session.setAttribute("roles", roles);
     }
 
-    static boolean checkUserIsLoggedOrLogin(HttpServletRequest request, String userName){
+    static boolean checkUserIsLoggedOrLogin(HttpServletRequest request, String userName) {
         HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext()
                 .getAttribute("loggedUsers");
 
-        if(loggedUsers.stream().anyMatch(userName::equals)){
+        if (loggedUsers.stream().anyMatch(userName::equals)) {
             return true;
         }
 

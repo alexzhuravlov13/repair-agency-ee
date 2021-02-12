@@ -1,4 +1,4 @@
-package com.zhuravlov.command;
+package com.zhuravlov.controller.command;
 
 import javax.servlet.http.HttpServletRequest;
 

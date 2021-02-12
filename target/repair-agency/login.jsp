@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="messages"/>
 
 <html lang="${sessionScope.lang}">
@@ -20,7 +20,7 @@
 <div class="container">
 
     <form method="POST" action="${pageContext.request.contextPath}/app/loginUser"
-                     class="mx-auto p-5 m-3" style="width: 50%; background-color: #eee;">
+          class="mx-auto p-5 m-3" style="width: 50%; background-color: #eee;">
         <h2><fmt:message key="login.LogIn"/></h2>
         <div class="row mb-3">
             <div class="col-xs-offset-1 col-xs-10">

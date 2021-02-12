@@ -2,26 +2,31 @@ package com.zhuravlov.model.entity;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 
 public class UserEntity {
 
+    BigDecimal amount = BigDecimal.valueOf(0);
     private Integer userId;
-
     private String firstName;
-
     private String lastName;
-
     private String email;
-
     private String password;
-
     private Set<Role> roles;
 
-    BigDecimal amount = BigDecimal.valueOf(0);
+    public UserEntity(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.roles = new HashSet<>();
+    }
+
+    public UserEntity() {
+        this.roles = new HashSet<>();
+    }
 
     @Override
     public String toString() {
@@ -51,18 +56,6 @@ public class UserEntity {
     @Override
     public int hashCode() {
         return Objects.hash(userId, firstName, lastName, email, password, amount);
-    }
-
-    public UserEntity(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.roles = new HashSet<>();
-    }
-
-    public UserEntity() {
-        this.roles = new HashSet<>();
     }
 
     public Integer getUserId() {

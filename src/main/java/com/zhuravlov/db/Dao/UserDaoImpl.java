@@ -25,8 +25,8 @@ public class UserDaoImpl implements Dao<UserEntity> {
                     "LEFT JOIN users_roles roles on u.user_id = roles.user_id";
 
     private static final String SELECT_USER_BY_ID_SQL =
-                    "SELECT users.user_id, users.first_name, users.last_name, users.email, " +
-                            "users.password, users.amount, users_roles.user_role " +
+            "SELECT users.user_id, users.first_name, users.last_name, users.email, " +
+                    "users.password, users.amount, users_roles.user_role " +
                     "FROM users " +
                     "JOIN users_roles on users.user_id = users_roles.user_id " +
                     "WHERE users.user_id= ?";

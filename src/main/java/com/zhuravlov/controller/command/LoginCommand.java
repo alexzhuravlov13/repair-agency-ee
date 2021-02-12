@@ -1,8 +1,9 @@
-package com.zhuravlov.command;
+package com.zhuravlov.controller.command;
 
 import com.zhuravlov.db.Dao.UserDaoImpl;
 import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.UserEntity;
+import com.zhuravlov.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,10 +15,10 @@ public class LoginCommand implements Command {
     private static Logger log = LoggerFactory.getLogger(LoginCommand.class);
 
 
-    UserDaoImpl userDao;
+    UserService userService;
 
     public LoginCommand() {
-        this.userDao = new UserDaoImpl();
+        this.userService = new UserService();
     }
 
     @Override
@@ -37,7 +38,7 @@ public class LoginCommand implements Command {
 
         System.out.println(email + " " + pass);
         //getFromDb
-        UserEntity user = userDao.findByEmail(email);
+        UserEntity user = userService.findByEmail(email);
         System.out.println("User:" + user);
         if (user == null) {
             session.setAttribute("error", "no such user");

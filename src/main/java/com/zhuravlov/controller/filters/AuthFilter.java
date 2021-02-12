@@ -1,4 +1,4 @@
-package com.zhuravlov.filters;
+package com.zhuravlov.controller.filters;
 
 import com.zhuravlov.model.entity.Role;
 
@@ -33,7 +33,45 @@ public class AuthFilter implements Filter {
         filterChain.doFilter(request, response);
     }
 
-    private void handleByRole(HttpServletRequest request, HttpServletResponse response, Set<Role> roles, String requestURL) throws IOException, ServletException {
+    private void handleByRole(HttpServletRequest request, HttpServletResponse response, Set<Role> roles, String requestURL) throws ServletException, IOException {
+        System.out.println("Handle by role " + roles);
+        String destination = "";
+
+        if (roles == null || roles.contains(Role.GUEST)) {
+            if (requestURL.contains("/admin") || requestURL.contains("/user")) {
+                System.out.println("Send redirect to login");
+                destination = "/app/login";
+                request.getRequestDispatcher(destination).forward(request, response);
+                //response.sendRedirect("redirect:/app/login");
+            }
+        } else if (roles.contains(Role.ADMIN)) {
+            if (requestURL.contains("/login") || requestURL.contains("/registration")) {
+                System.out.println("Send redirect to admin");
+                destination = "/app/admin/listUsers";
+                request.getRequestDispatcher(destination).forward(request, response);
+            }
+        } else if (roles.contains(Role.MANAGER)) {
+            if (requestURL.contains("/login") || requestURL.contains("/registration")
+                    || requestURL.contains("/admin")) {
+                System.out.println("Send redirect to manager");
+                destination = "/app/manager/listUsers";
+                request.getRequestDispatcher(destination).forward(request, response);
+            }
+
+        } else if (roles.contains(Role.REPAIRMAN)) {
+            System.out.println("Send redirect to REPAIRMAN");
+        } else if (roles.contains(Role.USER)) {
+            if (requestURL.contains("/login") || requestURL.contains("/registration")
+                    || requestURL.contains("/admin") || requestURL.contains("/manager")) {
+                System.out.println("Send redirect to user");
+                destination = "/app/user/userRepairFormList";
+                request.getRequestDispatcher(destination).forward(request, response);
+            }
+        }
+    }
+
+    private void handleByRoleD(HttpServletRequest request, HttpServletResponse response, Set<Role> roles, String
+            requestURL) throws IOException, ServletException {
         System.out.println("Handle by role " + roles);
         String homeDir = "";
 
@@ -52,8 +90,8 @@ public class AuthFilter implements Filter {
                 homeDir = "/app/user/userRepairFormList";
             }
             request.getRequestDispatcher(homeDir).forward(request, response);
-            //response.sendRedirect(homeDir);
-        } else if (requestURL.contains("/admin")){
+            //response.sendRedirect(destination);
+        } else if (requestURL.contains("/admin")) {
             if (roles.contains(Role.USER)) {
                 System.out.println("Send redirect to user");
                 homeDir = "/app/user/userRepairFormList";

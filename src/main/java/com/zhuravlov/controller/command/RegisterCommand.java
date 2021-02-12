@@ -1,8 +1,9 @@
-package com.zhuravlov.command;
+package com.zhuravlov.controller.command;
 
 import com.zhuravlov.db.Dao.UserDaoImpl;
 import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.UserEntity;
+import com.zhuravlov.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +20,7 @@ public class RegisterCommand implements Command {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()){
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
             HttpSession session = req.getSession();
             //TODO:error message
             session.setAttribute(" status.error", "errorrrrrrrrrrrrrr");
@@ -36,9 +37,9 @@ public class RegisterCommand implements Command {
         return "/login.jsp";
     }
 
-    private void saveToDb(UserEntity user){
-        UserDaoImpl userDao = new UserDaoImpl();
-        userDao.create(user);
+    private void saveToDb(UserEntity user) {
+        UserService userService = new UserService(new UserDaoImpl());
+        userService.create(user);
     }
 
 

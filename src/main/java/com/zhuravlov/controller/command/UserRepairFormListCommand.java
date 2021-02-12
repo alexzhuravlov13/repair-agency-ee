@@ -1,9 +1,6 @@
-package com.zhuravlov.command;
-
-import com.zhuravlov.model.entity.Role;
+package com.zhuravlov.controller.command;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 public class UserRepairFormListCommand implements Command {
     @Override

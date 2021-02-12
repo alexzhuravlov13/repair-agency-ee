@@ -1,7 +1,6 @@
-package com.zhuravlov.command;
+package com.zhuravlov.controller.command;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 public class LoginPageCommand implements Command {
     @Override

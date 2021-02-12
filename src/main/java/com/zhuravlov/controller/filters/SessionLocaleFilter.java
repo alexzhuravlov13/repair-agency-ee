@@ -1,4 +1,4 @@
-package com.zhuravlov.filters;
+package com.zhuravlov.controller.filters;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
