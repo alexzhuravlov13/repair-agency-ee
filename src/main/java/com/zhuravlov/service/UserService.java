@@ -29,10 +29,12 @@ public class UserService {
     }
 
     public UserEntity update(UserEntity entity) {
-        return dao.update(entity);
+        dao.update(entity);
+        dao.updateRoles(entity);
+        return entity;
     }
 
-    boolean delete(int id) {
+    public boolean delete(int id) {
         return dao.delete(id);
     }
 

@@ -28,6 +28,7 @@
                 <th scope="col"><fmt:message key="users.Roles"/></th>
                 <th scope="col"><fmt:message key="users.Amount"/></th>
                 <th scope="col"><fmt:message key="users.Action"/></th>
+                <th scope="col"><fmt:message key="users.Action"/></th>
             </tr>
             </thead>
             <tbody>
@@ -51,6 +52,11 @@
                         <button type="button" class="btn btn-outline-info"
                                 onclick="location.href='/app/admin/listUsers/edit?userId=${user.userId}'">
                             <fmt:message key="userEdit.h"/></button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-info"
+                                onclick="location.href='/app/admin/listUsers/delete?userId=${user.userId}'">
+                            <fmt:message key="users.delete"/></button>
                     </td>
                 </tr>
             </c:forEach>

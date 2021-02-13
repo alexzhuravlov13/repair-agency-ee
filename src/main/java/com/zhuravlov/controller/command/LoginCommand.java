@@ -56,12 +56,18 @@ public class LoginCommand implements Command {
         System.out.println("#CommandUtility.setUserRole");
         CommandUtility.setUserRoles(request, userRoles, email);
 
+        String x = getUserHomePage(userRoles);
+        if (x != null) return x;
+        return "/login.jsp";
+    }
+
+    private String getUserHomePage(Set<Role> userRoles) {
         if (userRoles.contains(Role.ADMIN)) {
             return "redirect:/admin/listUsers";
         } else if (userRoles.contains(Role.USER)) {
             return "redirect:/user/userRepairFormList";
         }
-        return "/login.jsp";
+        return null;
     }
 
 }

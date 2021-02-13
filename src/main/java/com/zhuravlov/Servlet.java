@@ -30,8 +30,10 @@ public class Servlet extends HttpServlet {
         commands.put("logout", new LogOutCommand());
         commands.put("registration", new RegistrationPageController());
         commands.put("register", new RegisterCommand());
-        commands.put("admin/listUsers", new UserList());
-        commands.put("admin/listUsers/edit", new EditUser());
+        commands.put("admin/listUsers", new UserListCommand());
+        commands.put("admin/listUsers/edit", new EditUserCommand());
+        commands.put("admin/listUsers/delete", new DeleteUserCommand());
+        commands.put("admin/saveEditedUser", new SaveUserCommand());
         commands.put("user/userRepairFormList", new UserRepairFormListCommand());
 
     }

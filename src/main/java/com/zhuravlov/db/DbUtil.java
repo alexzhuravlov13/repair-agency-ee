@@ -11,6 +11,7 @@ import java.sql.SQLException;
 public class DbUtil {
     private static final Logger log = LogManager.getLogger(DbUtil.class);
 
+    //TODO:from properties
     private static final String DB_URL =
             "jdbc:mysql://localhost:3306/repair_service_db?useUnicode=true&serverTimezone=UTC&useSSL=false";
 

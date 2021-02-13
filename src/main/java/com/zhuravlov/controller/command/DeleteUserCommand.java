@@ -1,21 +1,23 @@
 package com.zhuravlov.controller.command;
 
 import com.zhuravlov.db.Dao.UserDaoImpl;
+import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
-public class UserList implements Command {
+public class DeleteUserCommand implements Command {
     @Override
     public String execute(HttpServletRequest req) {
-        HttpSession session = req.getSession();
 
-        List<UserEntity> all = new UserService(new UserDaoImpl()).findAll();
-        session.setAttribute("users", all);
+        int userId = Integer.parseInt(req.getParameter("userId"));
 
-        return "/admin_users_list.jsp";
+        UserService service = new UserService(new UserDaoImpl());
+        service.delete(userId);
+
+        //TODO:edit form
+        return "redirect:/admin/listUsers";
     }
 }
