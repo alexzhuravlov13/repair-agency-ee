@@ -17,7 +17,6 @@ public class DeleteUserCommand implements Command {
         UserService service = new UserService(new UserDaoImpl());
         service.delete(userId);
 
-        //TODO:edit form
         return "redirect:/admin/listUsers";
     }
 }

@@ -12,6 +12,4 @@ public interface Dao<T> {
     T update(T entity);
 
     boolean delete(int id);
-
-    boolean updateRoles(T entity);
 }

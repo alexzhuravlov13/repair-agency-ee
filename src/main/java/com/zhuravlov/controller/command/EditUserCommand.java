@@ -22,7 +22,7 @@ public class EditUserCommand implements Command {
 
         session.setAttribute("editedUser", user);
         session.setAttribute("allRoles", roles);
-        //TODO:edit form
+
         return "/admin_edit_user.jsp";
     }
 }

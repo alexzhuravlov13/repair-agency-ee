@@ -22,14 +22,12 @@ public class RegisterCommand implements Command {
 
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
             HttpSession session = req.getSession();
-            //TODO:error message
             session.setAttribute(" status.error", "errorrrrrrrrrrrrrr");
             return "/registration.jsp";
         }
 
         UserEntity userEntity = new UserEntity(firstName, lastName, email, password);
-        //TODO:clear
-        //userEntity.getRoles().add(Role.ADMIN);
+
         userEntity.getRoles().add(Role.USER);
 
         saveToDb(userEntity);

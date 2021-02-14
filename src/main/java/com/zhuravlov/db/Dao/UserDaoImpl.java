@@ -158,7 +158,6 @@ public class UserDaoImpl implements Dao<UserEntity> {
         return entity;
     }
 
-    @Override
     public boolean updateRoles(UserEntity user) {
         Connection con = null;
         PreparedStatement ps = null;

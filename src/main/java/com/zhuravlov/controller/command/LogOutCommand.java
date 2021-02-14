@@ -11,7 +11,6 @@ import java.util.HashSet;
 public class LogOutCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
-        //TODO: delete current user (context & session)
         HttpSession session = request.getSession();
         ServletContext context = request.getServletContext();
 
