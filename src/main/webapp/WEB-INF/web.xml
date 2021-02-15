@@ -13,7 +13,7 @@
 
     <servlet>
         <servlet-name>ServletName</servlet-name>
-        <servlet-class>com.zhuravlov.Servlet</servlet-class>
+        <servlet-class>com.zhuravlov.controller.Servlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ServletName</servlet-name>

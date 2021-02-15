@@ -16,9 +16,11 @@ public class SessionListener implements HttpSessionListener {
         HashSet<String> loggedUsers = (HashSet<String>) httpSessionEvent
                 .getSession().getServletContext()
                 .getAttribute("loggedUsers");
+
         String userName = (String) httpSessionEvent.getSession()
                 .getAttribute("userName");
         loggedUsers.remove(userName);
+
         httpSessionEvent.getSession().setAttribute("loggedUsers", loggedUsers);
     }
 }

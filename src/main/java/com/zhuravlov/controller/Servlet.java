@@ -1,6 +1,13 @@
-package com.zhuravlov;
+package com.zhuravlov.controller;
 
 import com.zhuravlov.controller.command.*;
+import com.zhuravlov.controller.command.authorization.*;
+import com.zhuravlov.controller.command.repairForm.CreateRepairFormCommand;
+import com.zhuravlov.controller.command.repairForm.UserRepairFormListCommand;
+import com.zhuravlov.controller.command.user.DeleteUserCommand;
+import com.zhuravlov.controller.command.user.EditUserCommand;
+import com.zhuravlov.controller.command.user.SaveUserCommand;
+import com.zhuravlov.controller.command.user.UserListCommand;
 import com.zhuravlov.db.DbUtil;
 
 import javax.servlet.ServletConfig;
@@ -24,6 +31,7 @@ public class Servlet extends HttpServlet {
 
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
+
         commands.put("error", new ErrorCommand());
         commands.put("login", new LoginPageCommand());
         commands.put("loginUser", new LoginCommand());
@@ -35,6 +43,7 @@ public class Servlet extends HttpServlet {
         commands.put("admin/listUsers/delete", new DeleteUserCommand());
         commands.put("admin/saveEditedUser", new SaveUserCommand());
         commands.put("user/userRepairFormList", new UserRepairFormListCommand());
+        commands.put("user/addRepairForm", new CreateRepairFormCommand());
 
     }
 

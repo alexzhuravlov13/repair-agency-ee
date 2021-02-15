@@ -1,4 +1,6 @@
-package com.zhuravlov.controller.command;
+package com.zhuravlov.controller.command.authorization;
+
+import com.zhuravlov.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 

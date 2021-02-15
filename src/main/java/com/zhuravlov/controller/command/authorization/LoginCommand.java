@@ -1,6 +1,7 @@
-package com.zhuravlov.controller.command;
+package com.zhuravlov.controller.command.authorization;
 
-import com.zhuravlov.db.Dao.UserDaoImpl;
+import com.zhuravlov.controller.command.Command;
+import com.zhuravlov.controller.command.CommandUtility;
 import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.UserService;
