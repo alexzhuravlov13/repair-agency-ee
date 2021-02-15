@@ -1,25 +1,30 @@
 package com.zhuravlov.db.Dao;
 
+import com.zhuravlov.model.entity.RepairFormEntity;
+
 import java.util.List;
 
-public class RepairFormDaoImpl implements Dao {
+public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
+
+
     @Override
-    public Object create(Object entity) {
+    public RepairFormEntity create(RepairFormEntity entity) {
         return null;
     }
 
     @Override
-    public Object findById(int id) {
+    public RepairFormEntity findById(int id) {
         return null;
     }
 
     @Override
-    public List findAll() {
+    public List<RepairFormEntity> findAll() {
+
         return null;
     }
 
     @Override
-    public Object update(Object entity) {
+    public RepairFormEntity update(RepairFormEntity entity) {
         return null;
     }
 
@@ -27,5 +32,4 @@ public class RepairFormDaoImpl implements Dao {
     public boolean delete(int id) {
         return false;
     }
-
 }

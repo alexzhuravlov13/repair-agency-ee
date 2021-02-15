@@ -32,4 +32,23 @@ public class Constants {
             "SET amount = ?, email = ?, first_name = ?, last_name = ?, password = ? WHERE user_id = ?";
 
     public static final String DELETE_USER_ROLES_BY_ID = "DELETE FROM users_roles WHERE user_id=?";
+
+    public static final String INSERT_REPAIR_FORM =
+            "INSERT INTO repair_forms" +
+                    "(id, car, creation_date, rf_description, feedback, last_modified_date, price, rf_s_description, rf_status, author_id, repairman_id)" +
+                    "VALUES" +
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    public static final String SELECT_REPAIR_FORM_BY_ID =
+            "SELECT r.id, r.car, r.creation_date, r.rf_description, r.feedback, r.last_modified_date, r.price, r.rf_s_description, r.rf_status, " +
+                    "u.user_id as author_id, u.amount as author_amount, u.email as author_email, u.first_name as author_first_name, u.last_name as author_last_name, u.password as author_password, " +
+                    "author_roles.role as author_role," +
+                    "repairman.user_id as repairman_id, repairman.amount as repairman_amount, repairman.email as repairman_email, repairman.first_name as repairman_first_name, repairman.last_name as repairman_last_name, repairman.password as repairman_password, " +
+                    "repairman_roles.role as repairman_role" +
+                    "FROM repair_forms r" +
+                    "JOIN users u ON u.user_id = r.author_id" +
+                    "JOIN users_roles author_roles ON author_roles.user_id = r.author_id" +
+                    "JOIN users repairman ON repairman.user_id = r.repairman_id" +
+                    "JOIN users_roles repairman_roles on repairman_roles.user_id = r.repairman_id" +
+                    "WHERE r.id=?";
 }
