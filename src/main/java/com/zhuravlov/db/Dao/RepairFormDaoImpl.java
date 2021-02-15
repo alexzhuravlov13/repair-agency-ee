@@ -5,9 +5,7 @@ import com.zhuravlov.db.Constants;
 import com.zhuravlov.db.DbUtil;
 import com.zhuravlov.model.entity.RepairFormEntity;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
@@ -18,7 +16,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
     @Override
     public RepairFormEntity create(RepairFormEntity form) {
         try (Connection connection = DbUtil.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(Constants.INSERT_REPAIR_FORM);
+            PreparedStatement ps = connection.prepareStatement(Constants.INSERT_REPAIR_FORM, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, form.getId());
             ps.setString(2, form.getCar());
             //myResultSet.getObject( … , LocalDate.class )
@@ -33,11 +31,19 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             ps.setInt(10, form.getAuthor().getUserId());
             ps.setInt(11, form.getRepairman().getUserId());
             ps.execute();
-        }
-        catch (SQLException e){
+
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    form.setId(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("Creating form failed, no ID obtained.");
+                }
+            }
+            return form;
+        } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     @Override
@@ -51,6 +57,11 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
         return null;
     }
 
+    public List<RepairFormEntity> findAll(int start, int count) {
+
+        return null;
+    }
+
     @Override
     public RepairFormEntity update(RepairFormEntity entity) {
         return null;
@@ -60,4 +71,6 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
     public boolean delete(int id) {
         return false;
     }
+
+
 }
