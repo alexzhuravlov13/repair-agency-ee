@@ -5,23 +5,23 @@ public class Constants {
             "INSERT INTO users (first_name, last_name, email, password, amount) VALUES (?, ?, ?, ?, ?)";
 
     public static final String INSERT_USER_ROLE_SQL =
-            "INSERT INTO users_roles (user_id, user_role) VALUES (?, ?)";
+            "INSERT INTO users_roles (user_id, role) VALUES (?, ?)";
 
     public static final String SELECT_ALL_FROM_USERS_SQL =
-            "SELECT u.user_id, u.first_name, u.last_name, u.email, u.password, u.amount, roles.user_role " +
+            "SELECT u.user_id, u.first_name, u.last_name, u.email, u.password, u.amount, roles.role " +
                     "FROM users u " +
                     "LEFT JOIN users_roles roles on u.user_id = roles.user_id";
 
     public static final String SELECT_USER_BY_ID_SQL =
             "SELECT users.user_id, users.first_name, users.last_name, users.email, " +
-                    "users.password, users.amount, users_roles.user_role " +
+                    "users.password, users.amount, users_roles.role " +
                     "FROM users " +
                     "JOIN users_roles on users.user_id = users_roles.user_id " +
                     "WHERE users.user_id= ?";
 
     public static final String SELECT_USER_BY_EMAIL_SQL =
             "SELECT users.user_id, users.first_name, users.last_name, users.email, " +
-                    "users.password, users.amount, users_roles.user_role " +
+                    "users.password, users.amount, users_roles.role " +
                     "FROM users " +
                     "JOIN users_roles on users.user_id = users_roles.user_id " +
                     "WHERE users.email= ?";
@@ -51,4 +51,19 @@ public class Constants {
                     "JOIN users repairman ON repairman.user_id = r.repairman_id" +
                     "JOIN users_roles repairman_roles on repairman_roles.user_id = r.repairman_id" +
                     "WHERE r.id=?";
+
+    public static final String SELECT_ALL_REPAIR_FORMS =
+            "SELECT r.id, r.car, r.creation_date, r.rf_description, r.feedback, r.last_modified_date, r.price, r.rf_s_description, r.rf_status, " +
+                    "u.user_id as author_id, u.amount as author_amount, u.email as author_email, u.first_name as author_first_name, u.last_name as author_last_name, u.password as author_password, " +
+                    "author_roles.role as author_role, " +
+                    "repairman.user_id as repairman_id, repairman.amount as repairman_amount, repairman.email as repairman_email, repairman.first_name as repairman_first_name, repairman.last_name as repairman_last_name, repairman.password as repairman_password, " +
+                    "repairman_roles.role as repairman_role, " +
+                    "(SELECT COUNT(*) FROM repair_forms) AS totalForms " +
+                    "FROM repair_forms r " +
+                    "JOIN users u ON u.user_id = r.author_id " +
+                    "JOIN users_roles author_roles ON author_roles.user_id = r.author_id " +
+                    "JOIN users repairman ON repairman.user_id = r.repairman_id " +
+                    "JOIN users_roles repairman_roles on repairman_roles.user_id = r.repairman_id " +
+                    "GROUP BY r.id " +
+                    "LIMIT ? OFFSET ? ORDER BY ?";
 }

@@ -15,6 +15,11 @@ public class RepairFormBuilder {
         this.repairForm = new RepairFormEntity();
     }
 
+    public RepairFormBuilder setId(int id) {
+        this.repairForm.setId(id);
+        return this;
+    }
+
     public RepairFormBuilder setCreationDate(LocalDateTime creationDate) {
         this.repairForm.setCreationDate(creationDate);
         return this;
@@ -45,7 +50,7 @@ public class RepairFormBuilder {
         return this;
     }
 
-    public RepairFormBuilder setRepairmanId(UserEntity repairman) {
+    public RepairFormBuilder setRepairman(UserEntity repairman) {
         this.repairForm.setRepairman(repairman);
         return this;
     }

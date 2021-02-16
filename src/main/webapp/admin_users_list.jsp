@@ -8,6 +8,7 @@
 <html lang="${sessionScope.lang}">
 
 <head>
+    <link rel="shortcut icon" href="#">
     <title><fmt:message key="users.title"/></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -34,15 +35,7 @@
             <tbody>
             <c:forEach var="user" items="${users}" varStatus="i">
                 <tr>
-                    <c:choose>
-                        <c:when test="${currentPage != 1}">
-                            <td>${i.index+1+(currentPage-1)*10}</td>
-                        </c:when>
-                        <c:otherwise>
-                            <td>${i.index+1}</td>
-                        </c:otherwise>
-                    </c:choose>
-
+                    <td>${i.index+1}</td>
                     <td>${user.email}</td>
                     <td>${user.firstName}</td>
                     <td>${user.lastName}</td>
@@ -63,34 +56,6 @@
             </tbody>
         </table>
 
-        <nav aria-label="...">
-            <ul class="pagination">
-                <c:if test="${currentPage != 1}">
-                    <li class="page-item item">
-                        <a class="page-link" href="${basePath}/page/${currentPage - 1}" tabindex="-1"><fmt:message
-                                key="pagination.previous"/></a>
-                    </li>
-                </c:if>
-                <c:forEach begin="1" end="${totalPages}" var="i">
-                    <c:choose>
-                        <c:when test="${currentPage eq i}">
-                            <li class="page-item active">
-                                <a class="page-link">${i}</a>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <li class="page-item"><a class="page-link" href="${basePath}/page/${i}">${i}</a></li>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-                <c:if test="${currentPage lt totalPages}">
-                    <li class="page-item">
-                        <a class="page-link" href="${basePath}/page/${currentPage + 1}"><fmt:message
-                                key="pagination.next"/></a>
-                    </li>
-                </c:if>
-            </ul>
-        </nav>
     </div>
 </div>
 

@@ -1,0 +1,22 @@
+id,car,creation_date,rf_description,feedback,last_modified_date,price,rf_s_description,rf_status,author_id,author_amount,author_email,author_first_name,author_last_name,author_password,author_role,repairman_id,repairman_amount,repairman_email,repairman_first_name,repairman_last_name,repairman_password,repairman_role
+27,Car,"2021-02-16 09:24:03.031921",descr,feedback,"2021-02-16 09:24:03.031921",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN
+27,Car,"2021-02-16 09:24:03.031921",descr,feedback,"2021-02-16 09:24:03.031921",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN,3,0.00,admin@gmail.com,Alex,Admin,111111,USER
+27,Car,"2021-02-16 09:24:03.031921",descr,feedback,"2021-02-16 09:24:03.031921",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,USER,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN
+27,Car,"2021-02-16 09:24:03.031921",descr,feedback,"2021-02-16 09:24:03.031921",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,USER,3,0.00,admin@gmail.com,Alex,Admin,111111,USER
+26,Car,"2021-02-16 09:22:47.371600",descr,feedback,"2021-02-16 09:22:47.371600",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN
+26,Car,"2021-02-16 09:22:47.371600",descr,feedback,"2021-02-16 09:22:47.371600",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN,3,0.00,admin@gmail.com,Alex,Admin,111111,USER
+26,Car,"2021-02-16 09:22:47.371600",descr,feedback,"2021-02-16 09:22:47.371600",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,USER,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN
+26,Car,"2021-02-16 09:22:47.371600",descr,feedback,"2021-02-16 09:22:47.371600",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,USER,3,0.00,admin@gmail.com,Alex,Admin,111111,USER
+25,Car,"2021-02-16 09:18:24.791220",descr,feedback,"2021-02-16 09:18:24.791220",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN
+25,Car,"2021-02-16 09:18:24.791220",descr,feedback,"2021-02-16 09:18:24.791220",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN,3,0.00,admin@gmail.com,Alex,Admin,111111,USER
+25,Car,"2021-02-16 09:18:24.791220",descr,feedback,"2021-02-16 09:18:24.791220",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,USER,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN
+25,Car,"2021-02-16 09:18:24.791220",descr,feedback,"2021-02-16 09:18:24.791220",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,USER,3,0.00,admin@gmail.com,Alex,Admin,111111,USER
+20,Car,"2021-02-16 08:50:07.926130",descr,feedback,"2021-02-16 08:50:07.926130",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN
+20,Car,"2021-02-16 08:50:07.926130",descr,feedback,"2021-02-16 08:50:07.926130",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN,3,0.00,admin@gmail.com,Alex,Admin,111111,USER
+20,Car,"2021-02-16 08:50:07.926130",descr,feedback,"2021-02-16 08:50:07.926130",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,USER,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN
+20,Car,"2021-02-16 08:50:07.926130",descr,feedback,"2021-02-16 08:50:07.926130",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,USER,3,0.00,admin@gmail.com,Alex,Admin,111111,USER
+19,Car,"2021-02-16 08:47:59.058309",descr,feedback,"2021-02-16 08:47:59.058309",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN
+19,Car,"2021-02-16 08:47:59.058309",descr,feedback,"2021-02-16 08:47:59.058309",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN,3,0.00,admin@gmail.com,Alex,Admin,111111,USER
+19,Car,"2021-02-16 08:47:59.058309",descr,feedback,"2021-02-16 08:47:59.058309",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,USER,3,0.00,admin@gmail.com,Alex,Admin,111111,ADMIN
+19,Car,"2021-02-16 08:47:59.058309",descr,feedback,"2021-02-16 08:47:59.058309",0.00,short,NEW,3,0.00,admin@gmail.com,Alex,Admin,111111,USER,3,0.00,admin@gmail.com,Alex,Admin,111111,USER
+24,Car,"2021-02-16 09:15:02.783430",descr,feedback,"2021-02-16 09:15:02.784428",0.00,short,NEW,4,0.00,user@gmail.com,User,NeAdmin,111111,USER,4,0.00,user@gmail.com,User,NeAdmin,111111,USER

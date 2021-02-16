@@ -8,6 +8,7 @@
 <html lang="${sessionScope.lang}">
 
 <head>
+    <link rel="shortcut icon" href="#">
     <title>Users list</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
           rel="stylesheet">

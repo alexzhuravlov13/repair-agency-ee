@@ -69,7 +69,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
                 if (user == null) {
                     user = mapUserFromRsByEmail(email, resultSet);
                 }
-                String role = resultSet.getString("user_role");
+                String role = resultSet.getString("role");
                 user.addRole(Role.valueOf(role));
             }
         } catch (Exception e) {
@@ -90,7 +90,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
                 if (user == null) {
                     user = mapUserFromRsById(id, resultSet);
                 }
-                String role = resultSet.getString("user_role");
+                String role = resultSet.getString("role");
                 user.addRole(Role.valueOf(role));
             }
         } catch (Exception e) {
@@ -115,7 +115,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
                 String lastName = resultSet.getString("last_name");
                 String password = resultSet.getString("password");
                 BigDecimal amount = resultSet.getBigDecimal("amount");
-                String role = resultSet.getString("user_role");
+                String role = resultSet.getString("role");
 
                 UserEntity userEntity = userById.get(id);
 
@@ -142,6 +142,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
     @Override
     public UserEntity update(UserEntity entity) {
         try (Connection connection = DbUtil.getConnection()) {
+            connection.setAutoCommit(false);
             PreparedStatement ps = connection.prepareStatement(Constants.UPDATE_USER_BY_ID);
             ps.setBigDecimal(1, entity.getAmount());
             ps.setString(2, entity.getEmail());
@@ -149,26 +150,23 @@ public class UserDaoImpl implements Dao<UserEntity> {
             ps.setString(4, entity.getLastName());
             ps.setString(5, entity.getPassword());
             ps.setInt(6, entity.getUserId());
-            int i = ps.executeUpdate();
-            System.out.println(i);
-
+            ps.executeUpdate();
+            updateRoles(connection, entity);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return entity;
     }
 
-    public boolean updateRoles(UserEntity user) {
-        Connection con = null;
-        PreparedStatement ps = null;
-        try {
-            con = DbUtil.getConnection();
+    public void updateRoles(Connection con, UserEntity user) {
+        try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_USER_ROLES_BY_ID)) {
             con.setAutoCommit(false);
-            ps = con.prepareStatement(Constants.DELETE_USER_ROLES_BY_ID);
             ps.setInt(1, user.getUserId());
             ps.execute();
             insertUserRoles(user, con);
             con.commit();
+            con.setAutoCommit(true);
+            con.close();
         } catch (SQLException e) {
             try {
                 con.rollback();
@@ -176,19 +174,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
                 exception.printStackTrace();
             }
             e.printStackTrace();
-            return false;
-        } finally {
-            try {
-                if (con != null && ps != null) {
-                    con.setAutoCommit(true);
-                    ps.close();
-                    con.close();
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
-        return true;
     }
 
     @Override

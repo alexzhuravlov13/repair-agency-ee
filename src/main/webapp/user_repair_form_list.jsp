@@ -8,6 +8,7 @@
 <html lang="${sessionScope.lang}">
 
 <head>
+    <link rel="shortcut icon" href="#">
     <title><fmt:message key="repairForm.title"/></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -33,14 +34,14 @@
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col"><a href="${basePath}/page/${currentPage}?sortField=creationDate&sortDir=${reverseSortDir}">
+            <th scope="col"><a href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=creationDate&sortDir=${reverseSortDir}">
                 <fmt:message key="repairForm.Created"/></a></th>
             <th scope="col"><fmt:message key="repairForm.Author"/></th>
             <th scope="col"><fmt:message key="repairForm.car"/></th>
             <th scope="col"><fmt:message key="repairForm.ShortDescription"/></th>
-            <th scope="col"><a href="${basePath}/page/${currentPage}?sortField=status&sortDir=${reverseSortDir}">
+            <th scope="col"><a href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=status&sortDir=${reverseSortDir}">
                 <fmt:message key="repairForm.Status"/></a></th>
-            <th scope="col"><a href="${basePath}/page/${currentPage}?sortField=price&sortDir=${reverseSortDir}">
+            <th scope="col"><a href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=price&sortDir=${reverseSortDir}">
                 <fmt:message key="repairForm.price"/></a></th>
             <th scope="col"><fmt:message key="users.Action"/></th>
         </tr>
@@ -50,8 +51,8 @@
         <c:forEach var="repairForm" items="${repairForms}" varStatus="i">
             <tr>
                 <c:choose>
-                    <c:when test="${currentPage != 1}">
-                        <td>${i.index+1+(currentPage-1)*5}</td>
+                    <c:when test="${sessionScope.currentPage != 1}">
+                        <td>${i.index+1+(sessionScope.currentPage-1)*(sessionScope.perPageSize)}</td>
                     </c:when>
                     <c:otherwise>
                         <td>${i.index+1}</td>
@@ -82,33 +83,31 @@
 
     <nav aria-label="...">
         <ul class="pagination">
-            <c:if test="${currentPage != 1}">
+            <c:if test="${sessionScope.currentPage != 1}">
                 <li class="page-item item">
                     <a class="page-link"
-                       href="${basePath}/page/${currentPage - 1}?sortField=${sortField}&sortDir=${sortDir}"
-                       tabindex="-1"><spring:message
-                            code="pagination.previous"/></a>
+                       href="${sessionScope.basePath}?page=${sessionScope.currentPage - 1}&sortField=${sortField}&sortDir=${sortDir}"
+                       tabindex="-1"><fmt:message key="pagination.previous"/></a>
                 </li>
             </c:if>
-            <c:forEach begin="1" end="${totalPages}" var="i">
+            <c:forEach begin="1" end="${sessionScope.totalPages}" var="i">
                 <c:choose>
-                    <c:when test="${currentPage eq i}">
+                    <c:when test="${sessionScope.currentPage eq i}">
                         <li class="page-item active">
                             <a class="page-link">${i}</a>
                         </li>
                     </c:when>
                     <c:otherwise>
                         <li class="page-item"><a class="page-link"
-                                                 href="${basePath}/page/${i}?sortField=${sortField}&sortDir=${sortDir}">${i}</a>
+                                                 href="${sessionScope.basePath}?page=${i}&sortField=${sortField}&sortDir=${sortDir}">${i}</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
-            <c:if test="${currentPage lt totalPages}">
+            <c:if test="${sessionScope.currentPage lt sessionScope.totalPages}">
                 <li class="page-item">
                     <a class="page-link"
-                       href="${basePath}/page/${currentPage + 1}?sortField=${sortField}&sortDir=${sortDir}"><spring:message
-                            code="pagination.next"/></a>
+                       href="${sessionScope.basePath}?page=${sessionScope.currentPage + 1}&sortField=${sortField}&sortDir=${sortDir}"><fmt:message key="pagination.next"/></a>
                 </li>
             </c:if>
         </ul>

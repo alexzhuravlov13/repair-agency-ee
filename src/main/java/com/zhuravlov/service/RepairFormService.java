@@ -17,7 +17,19 @@ public class RepairFormService {
         this.dao = dao;
     }
 
-    public List<RepairFormEntity> findAll(int start, int count) {
-        return dao.findAll(start, count);
+    public RepairFormEntity create(RepairFormEntity repairForm) {
+        return dao.create(repairForm);
+    }
+
+    public List<RepairFormEntity> findAll(int limit, int offset) {
+        return dao.findAll(limit, offset);
+    }
+
+    public List<RepairFormEntity> findAll() {
+        return dao.findAll();
+    }
+
+    public int getFormsCount(){
+        return dao.getTotalForms();
     }
 }

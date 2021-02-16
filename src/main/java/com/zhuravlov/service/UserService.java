@@ -30,7 +30,6 @@ public class UserService {
 
     public UserEntity update(UserEntity entity) {
         dao.update(entity);
-        dao.updateRoles(entity);
         return entity;
     }
 
