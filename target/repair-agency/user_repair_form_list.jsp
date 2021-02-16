@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col m-3" style="max-width: 20%; display:inline-block">
             <button type="button" class="btn btn-primary m-3"
-                    onclick="location.href='/repairs/add'">
+                    onclick="location.href='/app/user/addRepairFormPage'">
                 <fmt:message key="repairForm.add"/></button>
         </div>
     </div>
@@ -34,21 +34,24 @@
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col"><a href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=creationDate&sortDir=${reverseSortDir}">
+            <th scope="col"><a
+                    href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=creationDate&sortDir=${sessionScope.reverseSortDir}">
                 <fmt:message key="repairForm.Created"/></a></th>
             <th scope="col"><fmt:message key="repairForm.Author"/></th>
             <th scope="col"><fmt:message key="repairForm.car"/></th>
             <th scope="col"><fmt:message key="repairForm.ShortDescription"/></th>
-            <th scope="col"><a href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=status&sortDir=${reverseSortDir}">
+            <th scope="col"><a
+                    href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=status&sortDir=${sessionScope.reverseSortDir}">
                 <fmt:message key="repairForm.Status"/></a></th>
-            <th scope="col"><a href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=price&sortDir=${reverseSortDir}">
+            <th scope="col"><a
+                    href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=price&sortDir=${sessionScope.reverseSortDir}">
                 <fmt:message key="repairForm.price"/></a></th>
             <th scope="col"><fmt:message key="users.Action"/></th>
         </tr>
         </thead>
         <tbody>
 
-        <c:forEach var="repairForm" items="${repairForms}" varStatus="i">
+        <c:forEach var="repairForm" items="${sessionScope.repairForms}" varStatus="i">
             <tr>
                 <c:choose>
                     <c:when test="${sessionScope.currentPage != 1}">
@@ -107,7 +110,8 @@
             <c:if test="${sessionScope.currentPage lt sessionScope.totalPages}">
                 <li class="page-item">
                     <a class="page-link"
-                       href="${sessionScope.basePath}?page=${sessionScope.currentPage + 1}&sortField=${sortField}&sortDir=${sortDir}"><fmt:message key="pagination.next"/></a>
+                       href="${sessionScope.basePath}?page=${sessionScope.currentPage + 1}&sortField=${sortField}&sortDir=${sortDir}"><fmt:message
+                            key="pagination.next"/></a>
                 </li>
             </c:if>
         </ul>

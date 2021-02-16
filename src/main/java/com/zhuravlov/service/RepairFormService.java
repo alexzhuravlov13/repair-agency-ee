@@ -29,7 +29,13 @@ public class RepairFormService {
         return dao.findAll();
     }
 
+    public List<RepairFormEntity> findAll(int limit, int offset, String sortField, String sortDir) {
+        return dao.findAll(limit, offset, sortField, sortDir);
+    }
+
     public int getFormsCount(){
         return dao.getTotalForms();
     }
+
+
 }

@@ -3,6 +3,7 @@ package com.zhuravlov.controller;
 import com.zhuravlov.controller.command.*;
 import com.zhuravlov.controller.command.authorization.*;
 import com.zhuravlov.controller.command.repairForm.CreateRepairFormCommand;
+import com.zhuravlov.controller.command.repairForm.CreateRepairFormPageCommand;
 import com.zhuravlov.controller.command.repairForm.UserRepairFormListCommand;
 import com.zhuravlov.controller.command.user.DeleteUserCommand;
 import com.zhuravlov.controller.command.user.EditUserCommand;
@@ -50,26 +51,10 @@ public class Servlet extends HttpServlet {
         commands.put("admin/listUsers/delete", new DeleteUserCommand());
         commands.put("admin/saveEditedUser", new SaveUserCommand());
         commands.put("user/userRepairFormList", new UserRepairFormListCommand());
+        commands.put("user/addRepairFormPage", new CreateRepairFormPageCommand());
         commands.put("user/addRepairForm", new CreateRepairFormCommand());
 
-        /*UserService userService = new UserService();
-        UserEntity byId = userService.findByEmail("admin@gmail.com");
-        System.out.println(byId);
 
-        RepairFormService service = new RepairFormService();
-        RepairFormEntity entity = new RepairFormBuilder()
-                .setAuthor(byId)
-                .setCar("Car")
-                .setDescription("descr")
-                .setShortDescription("short")
-                .setFeedback("feedback")
-                .setStatus(Status.NEW)
-                .setCreationDate(LocalDateTime.now())
-                .setLastModifiedDate(LocalDateTime.now())
-                .setRepairman(byId)
-                .build();
-
-        service.create(entity);*/
     }
 
     @Override
@@ -113,5 +98,40 @@ public class Servlet extends HttpServlet {
             req.getRequestDispatcher(page).forward(req, resp);
         }
 
+    }
+
+    private void create(){
+        UserService userService = new UserService();
+        UserEntity admin = userService.findByEmail("admin@gmail.com");
+        UserEntity user = userService.findByEmail("user666@gmail.com");
+
+        RepairFormService service = new RepairFormService();
+
+        RepairFormEntity entity = new RepairFormBuilder()
+                .setAuthor(admin)
+                .setCar("Car")
+                .setDescription("descr")
+                .setShortDescription("short")
+                .setFeedback("feedback")
+                .setStatus(Status.READY)
+                .setCreationDate(LocalDateTime.now())
+                .setLastModifiedDate(LocalDateTime.now())
+                .setRepairman(user)
+                .build();
+
+        service.create(entity);
+
+        entity = new RepairFormBuilder()
+                .setAuthor(user)
+                .setCar("Car")
+                .setDescription("descr")
+                .setShortDescription("short")
+                .setFeedback("feedback")
+                .setStatus(Status.IN_PROGRESS)
+                .setCreationDate(LocalDateTime.now())
+                .setLastModifiedDate(LocalDateTime.now())
+                .setRepairman(admin)
+                .build();
+        service.create(entity);
     }
 }

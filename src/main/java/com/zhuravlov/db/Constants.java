@@ -65,5 +65,5 @@ public class Constants {
                     "JOIN users repairman ON repairman.user_id = r.repairman_id " +
                     "JOIN users_roles repairman_roles on repairman_roles.user_id = r.repairman_id " +
                     "GROUP BY r.id " +
-                    "LIMIT ? OFFSET ? ORDER BY ?";
+                    "ORDER BY ? LIMIT ? OFFSET ? ";
 }

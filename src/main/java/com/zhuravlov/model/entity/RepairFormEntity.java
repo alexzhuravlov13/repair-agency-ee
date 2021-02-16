@@ -122,12 +122,11 @@ public class RepairFormEntity {
         return "RepairFormEntity{" +
                 "id=" + id +
                 ", creationDate=" + creationDate +
-                ", author=" + author +
+                ", author=" + author.getUserId() +
                 ", car='" + car + '\'' +
                 ", shortDescription='" + shortDescription + '\'' +
                 ", description='" + description + '\'' +
                 ", feedback='" + feedback + '\'' +
-                ", repairman=" + repairman +
                 ", status=" + status +
                 ", lastModifiedDate=" + lastModifiedDate +
                 ", price=" + price +

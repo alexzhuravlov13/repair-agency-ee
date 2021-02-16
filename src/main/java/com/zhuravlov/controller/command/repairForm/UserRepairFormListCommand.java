@@ -1,6 +1,7 @@
 package com.zhuravlov.controller.command.repairForm;
 
 import com.zhuravlov.controller.command.Command;
+import com.zhuravlov.controller.command.CommandUtility;
 import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.service.RepairFormService;
 
@@ -13,11 +14,24 @@ public class UserRepairFormListCommand implements Command {
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
 
-        int page = 1;
-        int perPageSize = 5;
-        int currentPage = 1;
+        String sortDir = request.getParameter("sortDir");
+        if (sortDir == null) {
+            sortDir = "asc";
+        }
 
-        String basePath = "/app/user/userRepairFormList";
+        String sortField = CommandUtility.getSortField(request);
+        addListWithPagination(request, session, sortField, sortDir);
+
+        session.setAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        session.setAttribute("basePath", "/app/user/userRepairFormList");
+
+        return "/user_repair_form_list.jsp";
+    }
+
+    private void addListWithPagination(HttpServletRequest request, HttpSession session, String sortField, String sortDir) {
+        int page = 1;
+        int perPageSize = 100;
+        int currentPage = 1;
 
         String pagePar = request.getParameter("page");
         if (pagePar != null) {
@@ -32,7 +46,11 @@ public class UserRepairFormListCommand implements Command {
         }
 
         RepairFormService service = new RepairFormService();
-        List<RepairFormEntity> all = service.findAll(perPageSize, offset);
+        if (sortDir == null) {
+            sortDir = "";
+        }
+
+        List<RepairFormEntity> all = service.findAll(perPageSize, offset, sortField, sortDir);
         int formsCount = service.getFormsCount();
 
         int totalPages = formsCount / perPageSize;
@@ -40,17 +58,9 @@ public class UserRepairFormListCommand implements Command {
             totalPages = formsCount / perPageSize + 1;
         }
 
-        /*modelAndView.addObject("sortField", sortField);
-        modelAndView.addObject("sortDir", sortDir);
-        modelAndView.addObject("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");*/
-
-
         session.setAttribute("repairForms", all);
         session.setAttribute("perPageSize", perPageSize);
         session.setAttribute("currentPage", currentPage);
-        session.setAttribute("basePath", basePath);
         session.setAttribute("totalPages", totalPages);
-
-        return "/user_repair_form_list.jsp";
     }
 }

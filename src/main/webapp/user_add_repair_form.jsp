@@ -22,10 +22,6 @@
           class="mx-auto p-5 m-3" style="width: 50%; background-color: #eee;">
         <h2><fmt:message key="repairFormAdd.h"/></h2>
 
-        <input type="hidden" name="creationDate"/>
-        <input type="hidden" name="authorId"/>
-
-
         <fmt:message key="repairFormAdd.car" var="carPh"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">

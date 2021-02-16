@@ -5,7 +5,9 @@ import com.zhuravlov.model.entity.Role;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class CommandUtility {
@@ -30,6 +32,19 @@ public class CommandUtility {
         request.getSession().getServletContext()
                 .setAttribute("loggedUsers", loggedUsers);
         return false;
+    }
+
+    public static String getSortField(HttpServletRequest req) {
+        Map<String, String> sortFieldValueAndColumnName = new HashMap<>();
+        sortFieldValueAndColumnName.put("creationDate", "r.creation_date");
+        sortFieldValueAndColumnName.put("status", "r.rf_status");
+        sortFieldValueAndColumnName.put("price", "r.price");
+        String sortField = req.getParameter("sortField");
+        if (sortField == null) {
+            return "";
+        }
+        return sortFieldValueAndColumnName.get(sortField);
+
     }
 
 }

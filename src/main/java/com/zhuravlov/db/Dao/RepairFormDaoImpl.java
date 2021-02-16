@@ -12,10 +12,7 @@ import com.zhuravlov.model.entity.UserEntity;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
     private int totalForms;
@@ -29,17 +26,19 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             PreparedStatement ps = connection.prepareStatement(Constants.INSERT_REPAIR_FORM, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, form.getId());
             ps.setString(2, form.getCar());
-            //myResultSet.getObject( … , LocalDate.class )
             ps.setObject(3, form.getCreationDate());
             ps.setString(4, form.getDescription());
             ps.setString(5, form.getFeedback());
-            //myResultSet.getObject( … , LocalDate.class )
             ps.setObject(6, form.getLastModifiedDate());
             ps.setBigDecimal(7, form.getPrice());
             ps.setString(8, form.getShortDescription());
             ps.setString(9, form.getStatus().name());
             ps.setInt(10, form.getAuthor().getUserId());
-            ps.setInt(11, form.getRepairman().getUserId());
+            if (form.getRepairman() != null) {
+                ps.setInt(11, form.getRepairman().getUserId());
+            } else {
+                ps.setInt(11, 0);
+            }
             int i = ps.executeUpdate();
 
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
@@ -64,7 +63,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
     @Override
     public List<RepairFormEntity> findAll() {
         String query = Constants.SELECT_ALL_REPAIR_FORMS;
-        query = query.replaceAll("LIMIT \\? OFFSET \\? ORDER BY \\?", "");
+        query = query.replaceAll(" ORDER BY \\? LIMIT \\? OFFSET \\?", "");
         List<RepairFormEntity> repairFormEntityList = null;
 
         Map<Integer, UserEntity> userByIdMap = new HashMap<>();
@@ -81,8 +80,9 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
     }
 
     public List<RepairFormEntity> findAll(int limit, int offset) {
-        String query = Constants.SELECT_ALL_REPAIR_FORMS.replaceAll(" ORDER BY \\?", "");
+        String query = Constants.SELECT_ALL_REPAIR_FORMS.replaceAll("ORDER BY \\? ", "");
         List<RepairFormEntity> repairFormEntityList;
+        System.out.println(query);
 
         Map<Integer, UserEntity> userByIdMap = new HashMap<>();
         Map<Integer, RepairFormEntity> repairFormByIdMap = new HashMap<>();
@@ -91,6 +91,37 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setInt(1, limit);
             preparedStatement.setInt(2, offset);
+
+            repairFormEntityList = getRepairFormEntities(userByIdMap, repairFormByIdMap, preparedStatement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return repairFormEntityList;
+    }
+
+    public List<RepairFormEntity> findAll(int limit, int offset, String sortField, String sortDir) {
+        if (sortDir == null || sortDir.isEmpty()) {
+            sortDir = "ASC";
+        }
+        if (sortField == null || sortField.isEmpty()) {
+            return findAll(limit, offset);
+        }
+
+        String query = Constants.SELECT_ALL_REPAIR_FORMS
+                .replaceAll("ORDER BY \\?", "ORDER BY \\? " + sortDir);
+        System.out.println(query);
+        List<RepairFormEntity> repairFormEntityList;
+
+        Map<Integer, UserEntity> userByIdMap = new HashMap<>();
+        Map<Integer, RepairFormEntity> repairFormByIdMap = new LinkedHashMap<>();
+
+        try (Connection con = DbUtil.getConnection()) {
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, sortField);
+            preparedStatement.setInt(2, limit);
+            preparedStatement.setInt(3, offset);
+
 
             repairFormEntityList = getRepairFormEntities(userByIdMap, repairFormByIdMap, preparedStatement);
         } catch (SQLException e) {
@@ -191,10 +222,13 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             repairFormEntity.setRepairman(userByIdMap.get(repairFormEntity.getRepairman().getUserId()));
         }
 
+        System.out.println(repairFormByIdMap);
         repairFormEntityList = new ArrayList<>(repairFormByIdMap.values());
+        System.out.println(repairFormEntityList);
         totalForms = i;
         return repairFormEntityList;
     }
+
 
     @Override
     public RepairFormEntity update(RepairFormEntity entity) {
@@ -209,4 +243,6 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
     public int getTotalForms() {
         return totalForms;
     }
+
+
 }

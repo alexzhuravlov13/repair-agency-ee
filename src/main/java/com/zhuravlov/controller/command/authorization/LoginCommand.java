@@ -36,25 +36,21 @@ public class LoginCommand implements Command {
             return "/login.jsp";
         }
 
-
-        System.out.println(email + " " + pass);
         //getFromDb
         UserEntity user = userService.findByEmail(email);
-        System.out.println("User:" + user);
+
         if (user == null) {
             session.setAttribute("error", "no such user");
             return "/login.jsp";
         }
 
         //Ifloggined-quit
-        System.out.println("checkUserIsLoggedOrLogin");
         if (CommandUtility.checkUserIsLoggedOrLogin(request, email)) {
             return "redirect:/errora";
         }
 
         Set<Role> userRoles = user.getRoles();
-
-        System.out.println("#CommandUtility.setUserRole");
+        session.setAttribute("user", user);
         CommandUtility.setUserRoles(request, userRoles, email);
 
         String x = getUserHomePage(userRoles);

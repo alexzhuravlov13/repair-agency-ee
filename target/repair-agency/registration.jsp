@@ -8,6 +8,7 @@
 
 <html lang="${sessionScope.lang}">
 <head>
+    <link rel="shortcut icon" href="#">
     <meta charset="utf-8">
     <title>Log in with your account</title>
 
