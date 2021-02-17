@@ -39,7 +39,7 @@ public class Servlet extends HttpServlet {
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
 
-        //commands.put("error", new ErrorCommand());
+        commands.put("error", new ErrorCommand());
         commands.put("login", new LoginPageCommand());
         commands.put("loginUser", new LoginCommand());
         commands.put("logout", new LogOutCommand());

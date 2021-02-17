@@ -60,12 +60,11 @@
 
 
         <fmt:message key="repairFormEdit.repairman"/>
+        ${sessionScope.editedForm.repairman.firstName} ${sessionScope.editedForm.repairman.lastName}
         <c:choose>
             <c:when test="${sessionScope.editedForm.status ne sessionScope.statusReady}">
-                <fmt:message key="repairForm.price" var="pricePh"/>
                 <div class="row mb-3">
                     <div class="col-xs-15">
-                            ${sessionScope.editedForm.repairman.firstName} ${sessionScope.editedForm.repairman.lastName}
                         <select
                                 class="form-select form-select-sm"
                                 name="repairman">
@@ -84,7 +83,8 @@
         </c:choose>
 
         <fmt:message key="repairForm.Status"/>
-        <div class="row mb-3 ${status.error ? 'has-error' : ''}">
+        ${sessionScope.editedForm.status}
+        <div class="row mb-3">
             <c:choose>
                 <c:when test="${sessionScope.editedForm.status ne sessionScope.statusReady}">
                     <div class="col-xs-15">
@@ -117,14 +117,14 @@
                 <fmt:message key="repairForm.price" var="pricePh"/>
                 <div class="row mb-3">
                     <div class="col-xs-15">
-                        <input type="number" min="0" value="0" step=".01" name="price" class="form-control"
+                        <input type="number" min="0" value="${sessionScope.editedForm.price}" step=".01" name="price" class="form-control"
                                placeholder="${pricePh}"/>
                     </div>
                 </div>
             </c:when>
             <c:otherwise>
                 <div class="col-xs-15">
-                    <input name="number" disabled="disabled" class="form-control"/>
+                    <input name="number" disabled="disabled" value="${sessionScope.editedForm.price}" class="form-control"/>
                 </div>
             </c:otherwise>
         </c:choose>

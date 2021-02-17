@@ -112,7 +112,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
         }
 
         String query = Constants.SELECT_ALL_REPAIR_FORMS
-                .replaceAll("ORDER BY \\?", "ORDER BY \\? " + sortDir);
+                .replaceAll("ORDER BY \\?", "ORDER BY " + sortField + " " + sortDir);
         System.out.println(query);
         List<RepairFormEntity> repairFormEntityList;
 
@@ -121,9 +121,8 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
 
         try (Connection con = DbUtil.getConnection()) {
             PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, sortField);
-            preparedStatement.setInt(2, limit);
-            preparedStatement.setInt(3, offset);
+            preparedStatement.setInt(1, limit);
+            preparedStatement.setInt(2, offset);
 
 
             repairFormEntityList = getRepairFormEntities(userByIdMap, repairFormByIdMap, preparedStatement);
@@ -355,10 +354,9 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        }
-        finally {
+        } finally {
             try {
-                if(con!=null && ps!=null && resultSet!=null){
+                if (con != null && ps != null && resultSet != null) {
                     resultSet.close();
                     ps.close();
                     con.close();
