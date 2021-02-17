@@ -26,9 +26,10 @@ public class ManagerSaveRepairFormCommand implements Command {
 
         RepairFormService service = new RepairFormService();
         if (status.equals(Status.PAID)) {
-            if (tryToWriteOffFunds(id, editedForm.getAuthor().getUserId(), status, repairmanId, price, service))
+            if (!tryToWriteOffFunds(id, editedForm.getAuthor().getUserId(), status, repairmanId, price, service)) {
                 session.setAttribute("errorMoney", "errorMoney");
                 return "/manager_repair_form_edit.jsp";
+            }
         } else {
             updateRepairForm(editedForm, session, status, repairmanId, price, service);
         }
@@ -37,8 +38,7 @@ public class ManagerSaveRepairFormCommand implements Command {
     }
 
     private boolean tryToWriteOffFunds(int id, Integer userId, Status status, int repairmanId, BigDecimal price, RepairFormService service) {
-        boolean isWroteOff = service.writeOffFunds(id, userId, status, repairmanId, price);
-        return !isWroteOff;
+        return service.writeOffFunds(id, userId, status, repairmanId, price);
     }
 
     private void updateRepairForm(RepairFormEntity editedForm, HttpSession session, Status status, int repairmanId, BigDecimal price, RepairFormService service) {

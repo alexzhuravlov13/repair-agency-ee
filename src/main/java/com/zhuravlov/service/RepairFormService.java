@@ -50,4 +50,8 @@ public class RepairFormService {
     public boolean writeOffFunds(int id, int authorId, Status status, int repairmanId, BigDecimal price) {
         return dao.writeOffFunds(id, authorId, status, repairmanId, price);
     }
+
+    public RepairFormEntity findById(int repairFormId) {
+        return dao.findById(repairFormId);
+    }
 }

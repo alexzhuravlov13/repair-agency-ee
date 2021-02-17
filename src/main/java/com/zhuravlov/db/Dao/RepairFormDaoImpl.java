@@ -56,51 +56,119 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
     }
 
     @Override
-    public RepairFormEntity findById(int id) {
-        return null;
+    public RepairFormEntity findById(int userId) {
+
+        Map<Integer, UserEntity> userByIdMap = new HashMap<>();
+        Map<Integer, RepairFormEntity> repairFormByIdMap = new LinkedHashMap<>();
+
+        RepairFormEntity repairFormEntityById = null;
+
+        try (Connection con = DbUtil.getConnection()) {
+            PreparedStatement preparedStatement = con.prepareStatement(Constants.SELECT_REPAIR_FORM_BY_ID);
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                //id,car,creation_date,rf_description,feedback,last_modified_date,price,rf_s_description,rf_status,
+                int id = resultSet.getInt("id");
+                String car = resultSet.getString("car");
+                LocalDateTime creationDate = resultSet.getObject("creation_date", LocalDateTime.class);
+                String description = resultSet.getString("rf_description");
+                String feedback = resultSet.getString("feedback");
+                LocalDateTime lastModifiedDate = resultSet.getObject("last_modified_date", LocalDateTime.class);
+                BigDecimal price = resultSet.getBigDecimal("price");
+                String shortDescription = resultSet.getString("rf_s_description");
+                Status status = Status.valueOf(resultSet.getString("rf_status"));
+
+                repairFormEntityById = repairFormByIdMap.get(id);
+                if (repairFormEntityById == null) {
+                    repairFormEntityById = new RepairFormBuilder()
+                            .setId(id)
+                            .setCar(car)
+                            .setCreationDate(creationDate)
+                            .setDescription(description)
+                            .setFeedback(feedback)
+                            .setLastModifiedDate(lastModifiedDate)
+                            .setPrice(price)
+                            .setShortDescription(shortDescription)
+                            .setStatus(status)
+                            .build();
+                }
+
+                // author_id,author_amount,author_email,author_first_name,author_last_name,author_password,author_role,
+                int author_id = resultSet.getInt("author_id");
+                String email = resultSet.getString("author_email");
+                String firstName = resultSet.getString("author_first_name");
+                String lastName = resultSet.getString("author_last_name");
+                String password = resultSet.getString("author_password");
+                BigDecimal amount = resultSet.getBigDecimal("author_amount");
+                String role = resultSet.getString("author_role");
+                UserEntity authorById = userByIdMap.get(author_id);
+
+                if (authorById == null) {
+                    authorById = new UserEntityBuilder()
+                            .setUserId(author_id)
+                            .setEmail(email)
+                            .setFirstName(firstName)
+                            .setLastName(lastName)
+                            .setPassword(password)
+                            .setAmount(amount)
+                            .build();
+                    userByIdMap.put(authorById.getUserId(), authorById);
+                }
+                authorById.addRole(Role.valueOf(role));
+
+                // repairman_id,repairman_amount,repairman_email,repairman_first_name,repairman_last_name,repairman_password,repairman_role
+                UserEntity repairmanEntityById = null;
+                int repairman_id = resultSet.getInt("repairman_id");
+                if (repairman_id != 0) {
+                    String repairmanEmail = resultSet.getString("repairman_email");
+                    String repairmanFirstName = resultSet.getString("repairman_first_name");
+                    String repairmanLastName = resultSet.getString("repairman_last_name");
+                    String repairmanPassword = resultSet.getString("repairman_password");
+                    BigDecimal repairmanAmount = resultSet.getBigDecimal("repairman_amount");
+                    String repairmanRole = resultSet.getString("repairman_role");
+
+                    repairmanEntityById = userByIdMap.get(repairman_id);
+                    if (repairmanEntityById == null) {
+                        repairmanEntityById = new UserEntityBuilder()
+                                .setUserId(repairman_id)
+                                .setEmail(repairmanEmail)
+                                .setFirstName(repairmanFirstName)
+                                .setLastName(repairmanLastName)
+                                .setPassword(repairmanPassword)
+                                .setAmount(repairmanAmount)
+                                .build();
+                        userByIdMap.put(repairmanEntityById.getUserId(), repairmanEntityById);
+                    }
+                    repairmanEntityById.addRole(Role.valueOf(repairmanRole));
+                }
+
+                repairFormEntityById.setAuthor(authorById);
+                repairFormEntityById.setRepairman(repairmanEntityById);
+
+                repairFormByIdMap.put(repairFormEntityById.getId(), repairFormEntityById);
+
+            }
+
+            //TODO:stream
+            for (Map.Entry<Integer, RepairFormEntity> entry : repairFormByIdMap.entrySet()) {
+                RepairFormEntity repairFormEntity = entry.getValue();
+                repairFormEntity.setAuthor(userByIdMap.get(repairFormEntity.getAuthor().getUserId()));
+                if (repairFormEntity.getRepairman() != null) {
+                    repairFormEntity.setRepairman(userByIdMap.get(repairFormEntity.getRepairman().getUserId()));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return repairFormEntityById;
     }
 
     @Override
     public List<RepairFormEntity> findAll() {
-      /*  String query = Constants.SELECT_ALL_REPAIR_FORMS;
-        query = query.replaceAll("LIMIT \\? OFFSET \\?", "");
-        List<RepairFormEntity> repairFormEntityList = null;
-
-        Map<Integer, UserEntity> userByIdMap = new HashMap<>();
-        Map<Integer, RepairFormEntity> repairFormByIdMap = new HashMap<>();
-
-        try (Connection con = DbUtil.getConnection()) {
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            repairFormEntityList = getRepairFormEntities(userByIdMap, repairFormByIdMap, preparedStatement);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return repairFormEntityList;*/
         return null;
     }
-
-    /*public List<RepairFormEntity> findAll(int limit, int offset) {
-        String query = Constants.SELECT_ALL_REPAIR_FORMS;
-        List<RepairFormEntity> repairFormEntityList;
-        System.out.println(query);
-
-        Map<Integer, UserEntity> userByIdMap = new HashMap<>();
-        Map<Integer, RepairFormEntity> repairFormByIdMap = new HashMap<>();
-
-        try (Connection con = DbUtil.getConnection()) {
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, "r.id");
-            preparedStatement.setInt(2, limit);
-            preparedStatement.setInt(3, offset);
-
-            repairFormEntityList = getRepairFormEntities(userByIdMap, repairFormByIdMap, preparedStatement);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return repairFormEntityList;
-    }*/
 
     public List<RepairFormEntity> findAll(int limit, int offset, String sortField, String sortDir) {
         if (sortDir == null || sortDir.isEmpty()) {
