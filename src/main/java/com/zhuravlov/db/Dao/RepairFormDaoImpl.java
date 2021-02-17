@@ -14,8 +14,6 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.zhuravlov.db.Constants.SAVE_REVIEW;
-
 public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
     private int totalForms;
 
@@ -240,7 +238,19 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
 
     @Override
     public RepairFormEntity update(RepairFormEntity entity) {
-        return null;
+        //SET price = ?, rf_status = ?, repairman_id = ?, last_modified_date = ? WHERE id = ?
+        try (Connection con = DbUtil.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(Constants.UPDATE_REPAIR_FORM);
+            ps.setBigDecimal(1, entity.getPrice());
+            ps.setString(2, entity.getStatus().name());
+            ps.setInt(3, entity.getRepairman().getUserId());
+            ps.setObject(4, LocalDateTime.now());
+            ps.setInt(5, entity.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return entity;
     }
 
     @Override
@@ -288,13 +298,74 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
 
     public void saveFeedback(int id, String feedback) {
         try (Connection con = DbUtil.getConnection()) {
-            PreparedStatement ps = con.prepareStatement(SAVE_REVIEW);
+            PreparedStatement ps = con.prepareStatement(Constants.SAVE_REVIEW);
             ps.setString(1, feedback);
-            ps.setInt(2, id);
+            ps.setObject(2, LocalDateTime.now());
+            ps.setInt(3, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public boolean writeOffFunds(int id, int authorId, Status status, int repairmanId, BigDecimal price) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        try {
+            con = DbUtil.getConnection();
+            ps = con.prepareStatement("SELECT amount FROM users WHERE users.user_id=" + authorId);
+            resultSet = ps.executeQuery();
+            BigDecimal amount = null;
+            while (resultSet.next()) {
+                amount = resultSet.getBigDecimal("amount");
+            }
+            if (amount.compareTo(price) < 0) {
+                return false;
+            }
+
+            con.setAutoCommit(false);
+            ps = con.prepareStatement(Constants.UPDATE_REPAIR_FORM);
+            ps.setBigDecimal(1, price);
+            ps.setString(2, status.name());
+            ps.setInt(3, repairmanId);
+            ps.setObject(4, LocalDateTime.now());
+            ps.setInt(5, id);
+            ps.executeUpdate();
+
+            ps = con.prepareStatement("UPDATE users SET users.amount=? WHERE users.user_id=?");
+            ps.setBigDecimal(1, amount.subtract(price));
+            ps.setInt(2, authorId);
+            ps.executeUpdate();
+
+            ps = con.prepareStatement("SELECT amount FROM users WHERE users.user_id=" + authorId);
+            resultSet = ps.executeQuery();
+            amount = null;
+            while (resultSet.next()) {
+                amount = resultSet.getBigDecimal("amount");
+            }
+            if (amount.doubleValue() < 0) {
+                con.rollback();
+            } else {
+                con.commit();
+            }
+            con.setAutoCommit(true);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        finally {
+            try {
+                if(con!=null && ps!=null && resultSet!=null){
+                    resultSet.close();
+                    ps.close();
+                    con.close();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
     }
 }

@@ -24,10 +24,19 @@
                     <a class="nav-link active" href="/"><fmt:message key="navbar.home"/></a>
                 </li>
                 <c:forEach var="role" items="${sessionScope.roles}">
-                    <c:if test="${role eq sessionScope.roleAdmin || role eq sessionScope.roleManager}">
+                    <c:if test="${role eq sessionScope.roleAdmin}">
                         <li class="nav-item">
                             <a class="nav-link"
                                href="${pageContext.request.contextPath}/app/admin/listUsers"><fmt:message
+                                    key="navbar.users"/></a>
+                        </li>
+                    </c:if>
+                </c:forEach>
+                <c:forEach var="role" items="${sessionScope.roles}">
+                    <c:if test="${role eq sessionScope.roleManager}">
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="${pageContext.request.contextPath}/app/manager/listUsers"><fmt:message
                                     key="navbar.users"/></a>
                         </li>
                     </c:if>
@@ -42,7 +51,7 @@
                     <c:if test="${role eq sessionScope.roleManager}">
                         <li class="nav-item">
                             <a class="nav-link"
-                               href="${pageContext.request.contextPath}/repairs/manager/list"><fmt:message
+                               href="${pageContext.request.contextPath}/app/manager/managerRepairFormList"><fmt:message
                                     key="navbar.AllRepairFormList"/></a>
                         </li>
                     </c:if>

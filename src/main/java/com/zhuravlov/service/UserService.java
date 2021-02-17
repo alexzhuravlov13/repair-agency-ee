@@ -40,4 +40,8 @@ public class UserService {
     public UserEntity findByEmail(String email) {
         return dao.findByEmail(email);
     }
+
+    public List<UserEntity> findRepairmans() {
+        return dao.findRepairmans();
+    }
 }

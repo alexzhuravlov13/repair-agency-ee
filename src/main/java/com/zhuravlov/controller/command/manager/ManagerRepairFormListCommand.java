@@ -1,8 +1,7 @@
-package com.zhuravlov.controller.command.repairForm;
+package com.zhuravlov.controller.command.manager;
 
 import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.controller.command.CommandUtility;
-import com.zhuravlov.controller.command.manager.ManagerRepairFormListCommand;
 import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.RepairFormService;
@@ -11,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class UserRepairFormListCommand implements Command {
+public class ManagerRepairFormListCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -25,9 +24,9 @@ public class UserRepairFormListCommand implements Command {
         addListWithPagination(request, session, sortField, sortDir);
 
         session.setAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-        session.setAttribute("basePath", "/app/user/userRepairFormList");
+        session.setAttribute("basePath", "/app/manager/managerRepairFormList");
 
-        return "/user_repair_form_list.jsp";
+        return "/manager_repair_form_list.jsp";
     }
 
     private void addListWithPagination(HttpServletRequest request, HttpSession session, String sortField, String sortDir) {
@@ -51,9 +50,8 @@ public class UserRepairFormListCommand implements Command {
         if (sortDir == null) {
             sortDir = "";
         }
-        UserEntity user = (UserEntity) session.getAttribute("user");
-        Integer userId = user.getUserId();
-        List<RepairFormEntity> all = service.findByUserId(userId, perPageSize, offset, sortField, sortDir);
+
+        List<RepairFormEntity> all = service.findAll(perPageSize, offset, sortField, sortDir);
         CommandUtility.getRepairFomListPaginatedAddSessionAttributes(session, perPageSize, currentPage, service, all);
     }
 }

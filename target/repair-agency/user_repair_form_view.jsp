@@ -79,7 +79,7 @@
             <div class="col text-center">
                 <button type="submit"
                         class="btn btn-success"
-                        onclick="location.href='${pageContext.request.contextPath}/app/user/userRepairFormList'">${ok}
+                        onclick="location.href='${sessionScope.basePath}'">${ok}
                 </button>
             </div>
         </div>

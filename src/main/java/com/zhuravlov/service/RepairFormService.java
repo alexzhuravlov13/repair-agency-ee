@@ -2,7 +2,9 @@ package com.zhuravlov.service;
 
 import com.zhuravlov.db.Dao.RepairFormDaoImpl;
 import com.zhuravlov.model.entity.RepairFormEntity;
+import com.zhuravlov.model.entity.Status;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class RepairFormService {
@@ -39,5 +41,13 @@ public class RepairFormService {
 
     public void saveReview(int id, String feedback) {
         dao.saveFeedback(id, feedback);
+    }
+
+    public void updateRepairForm(RepairFormEntity editedForm) {
+        dao.update(editedForm);
+    }
+
+    public boolean writeOffFunds(int id, int authorId, Status status, int repairmanId, BigDecimal price) {
+        return dao.writeOffFunds(id, authorId, status, repairmanId, price);
     }
 }

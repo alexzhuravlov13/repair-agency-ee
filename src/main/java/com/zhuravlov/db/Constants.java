@@ -12,6 +12,12 @@ public class Constants {
                     "FROM users u " +
                     "LEFT JOIN users_roles roles on u.user_id = roles.user_id";
 
+    public static final String SELECT_ALL_REPAIRMANS =
+            "SELECT u.user_id, u.first_name, u.last_name, u.email, u.password, u.amount, users_roles.role " +
+                    "FROM users u " +
+                    "LEFT JOIN users_roles on u.user_id = users_roles.user_id " +
+                    "WHERE users_roles.role='repairman'";
+
     public static final String SELECT_USER_BY_ID_SQL =
             "SELECT users.user_id, users.first_name, users.last_name, users.email, " +
                     "users.password, users.amount, users_roles.role " +
@@ -84,5 +90,9 @@ public class Constants {
                     "ORDER BY ? LIMIT ? OFFSET ? ";
 
     public final static String SAVE_REVIEW =
-            "UPDATE repair_forms SET feedback = ? WHERE id = ?";
+            "UPDATE repair_forms SET feedback = ?, last_modified_date = ? WHERE id = ?";
+
+    public static final String UPDATE_REPAIR_FORM =
+            "UPDATE repair_forms " +
+            "SET price = ?, rf_status = ?, repairman_id = ?, last_modified_date = ? WHERE id = ?";
 }

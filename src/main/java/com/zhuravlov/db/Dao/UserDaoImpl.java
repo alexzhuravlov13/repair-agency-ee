@@ -108,31 +108,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
         try (Connection connection = DbUtil.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(Constants.SELECT_ALL_FROM_USERS_SQL)) {
-            while (resultSet.next()) {
-                int id = resultSet.getInt("user_id");
-                String email = resultSet.getString("email");
-                String firstName = resultSet.getString("first_name");
-                String lastName = resultSet.getString("last_name");
-                String password = resultSet.getString("password");
-                BigDecimal amount = resultSet.getBigDecimal("amount");
-                String role = resultSet.getString("role");
-
-                UserEntity userEntity = userById.get(id);
-
-                if (userEntity == null) {
-                    userEntity = new UserEntityBuilder()
-                            .setUserId(id)
-                            .setEmail(email)
-                            .setFirstName(firstName)
-                            .setLastName(lastName)
-                            .setPassword(password)
-                            .setAmount(amount)
-                            .build();
-                    userById.put(userEntity.getUserId(), userEntity);
-                }
-                userEntity.addRole(Role.valueOf(role));
-            }
-            list.addAll(userById.values());
+            getUserList(list, userById, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -229,4 +205,45 @@ public class UserDaoImpl implements Dao<UserEntity> {
     }
 
 
+    public List<UserEntity> findRepairmans() {
+        List<UserEntity> list = new ArrayList<>();
+
+        Map<Integer, UserEntity> userById = new HashMap<>();
+        try (Connection connection = DbUtil.getConnection()) {
+            Statement ps = connection.createStatement();
+            ResultSet resultSet = ps.executeQuery(Constants.SELECT_ALL_REPAIRMANS);
+            getUserList(list, userById, resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    private void getUserList(List<UserEntity> list, Map<Integer, UserEntity> userById, ResultSet resultSet) throws SQLException {
+        while (resultSet.next()) {
+            int id = resultSet.getInt("user_id");
+            String email = resultSet.getString("email");
+            String firstName = resultSet.getString("first_name");
+            String lastName = resultSet.getString("last_name");
+            String password = resultSet.getString("password");
+            BigDecimal amount = resultSet.getBigDecimal("amount");
+            String role = resultSet.getString("role");
+
+            UserEntity userEntity = userById.get(id);
+
+            if (userEntity == null) {
+                userEntity = new UserEntityBuilder()
+                        .setUserId(id)
+                        .setEmail(email)
+                        .setFirstName(firstName)
+                        .setLastName(lastName)
+                        .setPassword(password)
+                        .setAmount(amount)
+                        .build();
+                userById.put(userEntity.getUserId(), userEntity);
+            }
+            userEntity.addRole(Role.valueOf(role));
+        }
+        list.addAll(userById.values());
+    }
 }

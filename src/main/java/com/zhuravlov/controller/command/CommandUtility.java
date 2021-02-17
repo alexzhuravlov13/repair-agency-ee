@@ -1,15 +1,14 @@
 package com.zhuravlov.controller.command;
 
+import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.Status;
+import com.zhuravlov.service.RepairFormService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class CommandUtility {
     public static void setUserRoles(HttpServletRequest request,
@@ -50,6 +49,20 @@ public class CommandUtility {
         }
         return sortFieldValueAndColumnName.get(sortField);
 
+    }
+
+    public static void getRepairFomListPaginatedAddSessionAttributes(HttpSession session, int perPageSize, int currentPage, RepairFormService service, List<RepairFormEntity> all) {
+        int formsCount = service.getFormsCount();
+
+        int totalPages = formsCount / perPageSize;
+        if (formsCount % perPageSize != 0) {
+            totalPages = formsCount / perPageSize + 1;
+        }
+
+        session.setAttribute("repairForms", all);
+        session.setAttribute("perPageSize", perPageSize);
+        session.setAttribute("currentPage", currentPage);
+        session.setAttribute("totalPages", totalPages);
     }
 
 }

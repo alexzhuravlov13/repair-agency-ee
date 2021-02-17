@@ -2,6 +2,7 @@ package com.zhuravlov.controller;
 
 import com.zhuravlov.controller.command.*;
 import com.zhuravlov.controller.command.authorization.*;
+import com.zhuravlov.controller.command.manager.*;
 import com.zhuravlov.controller.command.repairForm.*;
 import com.zhuravlov.controller.command.user.DeleteUserCommand;
 import com.zhuravlov.controller.command.user.EditUserCommand;
@@ -44,6 +45,14 @@ public class Servlet extends HttpServlet {
         commands.put("logout", new LogOutCommand());
         commands.put("registration", new RegistrationPageController());
         commands.put("register", new RegisterCommand());
+
+        commands.put("manager/listUsers", new ManagerUserListCommand());
+        commands.put("manager/listUsers/changeAmount", new ChangeAmountPageCommand());
+        commands.put("manager/listUsers/saveAmount", new ChangeAmountCommand());
+        commands.put("manager/managerRepairFormList", new ManagerRepairFormListCommand());
+        commands.put("manager/editRepairForm", new ManagerEditRepairFormCommand());
+        commands.put("manager/saveRepairForm", new ManagerSaveRepairFormCommand());
+
         commands.put("admin/listUsers", new UserListCommand());
         commands.put("admin/listUsers/edit", new EditUserCommand());
         commands.put("admin/listUsers/delete", new DeleteUserCommand());
