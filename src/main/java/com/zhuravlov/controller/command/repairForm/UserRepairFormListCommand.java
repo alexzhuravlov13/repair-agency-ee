@@ -3,6 +3,7 @@ package com.zhuravlov.controller.command.repairForm;
 import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.controller.command.CommandUtility;
 import com.zhuravlov.model.entity.RepairFormEntity;
+import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.RepairFormService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,7 @@ public class UserRepairFormListCommand implements Command {
 
     private void addListWithPagination(HttpServletRequest request, HttpSession session, String sortField, String sortDir) {
         int page = 1;
-        int perPageSize = 100;
+        int perPageSize = 5;
         int currentPage = 1;
 
         String pagePar = request.getParameter("page");
@@ -49,8 +50,9 @@ public class UserRepairFormListCommand implements Command {
         if (sortDir == null) {
             sortDir = "";
         }
-
-        List<RepairFormEntity> all = service.findAll(perPageSize, offset, sortField, sortDir);
+        UserEntity user = (UserEntity) session.getAttribute("user");
+        Integer userId = user.getUserId();
+        List<RepairFormEntity> all = service.findByUserId(userId, perPageSize, offset, sortField, sortDir);
         int formsCount = service.getFormsCount();
 
         int totalPages = formsCount / perPageSize;

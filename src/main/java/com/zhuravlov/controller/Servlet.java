@@ -2,9 +2,7 @@ package com.zhuravlov.controller;
 
 import com.zhuravlov.controller.command.*;
 import com.zhuravlov.controller.command.authorization.*;
-import com.zhuravlov.controller.command.repairForm.CreateRepairFormCommand;
-import com.zhuravlov.controller.command.repairForm.CreateRepairFormPageCommand;
-import com.zhuravlov.controller.command.repairForm.UserRepairFormListCommand;
+import com.zhuravlov.controller.command.repairForm.*;
 import com.zhuravlov.controller.command.user.DeleteUserCommand;
 import com.zhuravlov.controller.command.user.EditUserCommand;
 import com.zhuravlov.controller.command.user.SaveUserCommand;
@@ -53,6 +51,9 @@ public class Servlet extends HttpServlet {
         commands.put("user/userRepairFormList", new UserRepairFormListCommand());
         commands.put("user/addRepairFormPage", new CreateRepairFormPageCommand());
         commands.put("user/addRepairForm", new CreateRepairFormCommand());
+        commands.put("user/viewRepairForm", new ViewRepairFormCommand());
+        commands.put("user/reviewRepairForm", new ReviewRepairFormCommand());
+        commands.put("user/saveReview", new SaveReviewCommand());
 
 
     }

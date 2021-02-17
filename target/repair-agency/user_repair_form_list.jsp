@@ -70,12 +70,12 @@
                 <td>${repairForm.price} </td>
                 <td>
                     <button type="button" class="btn btn-outline-info"
-                            onclick="location.href='/repairs/view/${repairForm.id}'">
+                            onclick="location.href='/app/user/viewRepairForm?repairFormId=${repairForm.id}'">
                         <fmt:message key="repairForm.view"/></button>
 
                     <c:if test="${repairForm.status eq statusReady}">
                         <button type="button" class="btn btn-outline-primary"
-                                onclick="location.href='/repairs/review/${repairForm.id}'">
+                                onclick="location.href='/app/user/reviewRepairForm?repairFormId=${repairForm.id}'">
                             <fmt:message key="repairForm.review"/></button>
                     </c:if>
                 </td>

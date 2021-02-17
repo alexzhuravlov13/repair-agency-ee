@@ -1,6 +1,7 @@
 package com.zhuravlov.controller.command;
 
 import com.zhuravlov.model.entity.Role;
+import com.zhuravlov.model.entity.Status;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,10 @@ public class CommandUtility {
 
         context.setAttribute("userName", name);
         session.setAttribute("roles", roles);
+        session.setAttribute("roleAdmin", Role.ADMIN);
+        session.setAttribute("roleManager", Role.MANAGER);
+        session.setAttribute("roleRepairman", Role.REPAIRMAN);
+        session.setAttribute("statusReady", Status.READY);
     }
 
     public static boolean checkUserIsLoggedOrLogin(HttpServletRequest request, String userName) {

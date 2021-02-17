@@ -23,31 +23,42 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="/"><fmt:message key="navbar.home"/></a>
                 </li>
-                <li class="nav-item">
-                    <sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/app/admin/listUsers"><fmt:message
-                                key="navbar.users"/></a>
-                    </sec:authorize>
-                </li>
+                <c:forEach var="role" items="${sessionScope.roles}">
+                    <c:if test="${role eq sessionScope.roleAdmin || role eq sessionScope.roleManager}">
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="${pageContext.request.contextPath}/app/admin/listUsers"><fmt:message
+                                    key="navbar.users"/></a>
+                        </li>
+                    </c:if>
+                </c:forEach>
+
                 <li class="nav-item">
                     <a class="nav-link"
                        href="${pageContext.request.contextPath}/app/user/userRepairFormList"><fmt:message
                             key="navbar.RepairFormList"/></a>
                 </li>
-                <li class="nav-item">
-                    <sec:authorize access="hasRole('ROLE_MANAGER')">
-                        <a class="nav-link"
-                           href="${pageContext.request.contextPath}/repairs/manager/list"><fmt:message
-                                key="navbar.AllRepairFormList"/></a>
-                    </sec:authorize>
-                </li>
-                <li class="nav-item">
-                    <sec:authorize access="hasRole('ROLE_REPAIRMAN')">
-                        <a class="nav-link"
-                           href="${pageContext.request.contextPath}/repairs/repairman/list"><fmt:message
-                                key="navbar.AllRepairFormList"/></a>
-                    </sec:authorize>
-                </li>
+                <c:forEach var="role" items="${sessionScope.roles}">
+                    <c:if test="${role eq sessionScope.roleManager}">
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="${pageContext.request.contextPath}/repairs/manager/list"><fmt:message
+                                    key="navbar.AllRepairFormList"/></a>
+                        </li>
+                    </c:if>
+                </c:forEach>
+
+                <c:forEach var="role" items="${sessionScope.roles}">
+                    <c:if test="${role eq sessionScope.roleRepairman}">
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="${pageContext.request.contextPath}/repairs/repairman/list"><fmt:message
+                                    key="navbar.AllRepairFormList"/></a>
+                        </li>
+                    </c:if>
+                </c:forEach>
+
+
                 <li class="nav-item">
                     <span class="nav-link"><fmt:message key="changeLocale"/>:</span>
                 <li class="dropdown" style="padding-top: 3px">
@@ -62,7 +73,7 @@
                     <c:url value="/app/logout?${_csrf.parameterName}=${_csrf.token}" var="logoutUrl"/>
                     <form class="d-flex position-absolute end-0 me-2" action="${logoutUrl}" method="POST"
                           enctype="multipart/form-data">
-                        <span class="navbar-text mr-sm-2">Email: ${pageContext.request.userPrincipal.name}</span>
+                        <span class="navbar-text mr-sm-2">Email: ${applicationScope.userName}</span>
                         <button type="Logout" class="btn btn-outline-danger ms-1">
                             <fmt:message key="login.LogOut"/></button>
                     </form>
