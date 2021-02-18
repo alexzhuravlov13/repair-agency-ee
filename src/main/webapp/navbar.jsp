@@ -82,7 +82,7 @@
                     <c:url value="/app/logout?${_csrf.parameterName}=${_csrf.token}" var="logoutUrl"/>
                     <form class="d-flex position-absolute end-0 me-2" action="${logoutUrl}" method="POST"
                           enctype="multipart/form-data">
-                        <span class="navbar-text mr-sm-2">Email: ${applicationScope.userName}</span>
+                        <span class="navbar-text mr-sm-2">Email: ${sessionScope.userName}</span>
                         <button type="Logout" class="btn btn-outline-danger ms-1">
                             <fmt:message key="login.LogOut"/></button>
                     </form>

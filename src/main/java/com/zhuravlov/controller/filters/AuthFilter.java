@@ -42,7 +42,6 @@ public class AuthFilter implements Filter {
                 System.out.println("Send redirect to login");
                 destination = "/app/login";
                 request.getRequestDispatcher(destination).forward(request, response);
-                //response.sendRedirect("redirect:/app/login");
             }
         } else if (roles.contains(Role.ADMIN)) {
             if (requestURL.contains("/login") || requestURL.contains("/registration")) {
@@ -52,17 +51,22 @@ public class AuthFilter implements Filter {
             }
         } else if (roles.contains(Role.MANAGER)) {
             if (requestURL.contains("/login") || requestURL.contains("/registration")
-                    || requestURL.contains("/admin")) {
+                    || requestURL.contains("/admin") || requestURL.contains("/repairman")) {
                 System.out.println("Send redirect to manager");
                 destination = "/app/manager/listUsers";
                 request.getRequestDispatcher(destination).forward(request, response);
             }
-
         } else if (roles.contains(Role.REPAIRMAN)) {
-            System.out.println("Send redirect to REPAIRMAN");
-        } else if (roles.contains(Role.USER)) {
             if (requestURL.contains("/login") || requestURL.contains("/registration")
                     || requestURL.contains("/admin") || requestURL.contains("/manager")) {
+                System.out.println("Send redirect to REPAIRMAN");
+                destination = "/app/manager/listUsers";
+                request.getRequestDispatcher(destination).forward(request, response);
+            }
+        } else if (roles.contains(Role.USER)) {
+            if (requestURL.contains("/login") || requestURL.contains("/registration")
+                    || requestURL.contains("/admin") || requestURL.contains("/manager")
+                    || requestURL.contains("/repairman")) {
                 System.out.println("Send redirect to user");
                 destination = "/app/repairman/repairmanRepairFormList";
                 request.getRequestDispatcher(destination).forward(request, response);

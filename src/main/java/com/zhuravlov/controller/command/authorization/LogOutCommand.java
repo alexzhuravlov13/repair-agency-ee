@@ -16,7 +16,7 @@ public class LogOutCommand implements Command {
         HttpSession session = request.getSession();
         ServletContext context = request.getServletContext();
 
-        String userName = (String) context.getAttribute("userName");
+        String userName = (String) session.getAttribute("userName");
 
         if (CommandUtility.checkUserIsLoggedOrLogin(request, userName)) {
             logOut(request, session, userName);

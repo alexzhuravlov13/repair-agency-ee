@@ -17,31 +17,19 @@ public class RepairmanSaveRepairFormCommand implements Command {
 
         HttpSession session = req.getSession();
 
-        int id = (Integer) session.getAttribute("editedFormId");
-        Status status = Status.valueOf(req.getParameter("status"));
-        int repairmanId = Integer.parseInt(req.getParameter("repairman"));
-
         RepairFormEntity editedForm = (RepairFormEntity) session.getAttribute("editedForm");
 
-        RepairFormService service = new RepairFormService();
-        updateRepairForm(editedForm, session, status, repairmanId, service);
+        if (req.getParameter("status") != null) {
+            Status status = Status.valueOf(req.getParameter("status"));
+            RepairFormService service = new RepairFormService();
+            updateRepairForm(editedForm, status, service);
+        }
 
-
-        return "redirect:/manager/managerRepairFormList";
+        return "redirect:/repairman/repairmanRepairFormList";
     }
 
-    private void updateRepairForm(RepairFormEntity editedForm, HttpSession session, Status status, int repairmanId, RepairFormService service) {
+    private void updateRepairForm(RepairFormEntity editedForm, Status status, RepairFormService service) {
         editedForm.setStatus(status);
-        List<UserEntity> repairmans = (List<UserEntity>) session.getAttribute("repairmans");
-        UserEntity repairman = null;
-        for (UserEntity userEntity : repairmans) {
-            if (userEntity.getUserId() == repairmanId) {
-                repairman = userEntity;
-            }
-        }
-        editedForm.setRepairman(repairman);
-        editedForm.setStatus(status);
-        editedForm.setPrice(editedForm.getPrice());
         service.updateRepairForm(editedForm);
     }
 

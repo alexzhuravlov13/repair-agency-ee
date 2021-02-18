@@ -62,7 +62,7 @@
         ${sessionScope.editedForm.status}
         <div class="row mb-3">
             <c:choose>
-                <c:when test="${sessionScope.editedForm.status ne sessionScope.statusReady || sessionScope.editedForm.status ne sessionScope.statusCanceled}">
+                <c:when test="${(sessionScope.editedForm.status ne sessionScope.statusReady) and (sessionScope.editedForm.status ne sessionScope.statusCanceled)}">
                     <div class="col-xs-15">
                         <select
                                 class="form-select form-select-sm"
