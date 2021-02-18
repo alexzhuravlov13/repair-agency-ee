@@ -61,7 +61,7 @@
                     <c:if test="${role eq sessionScope.roleRepairman}">
                         <li class="nav-item">
                             <a class="nav-link"
-                               href="${pageContext.request.contextPath}/repairs/repairman/list"><fmt:message
+                               href="${pageContext.request.contextPath}/app/repairman/repairmanRepairFormList"><fmt:message
                                     key="navbar.AllRepairFormList"/></a>
                         </li>
                     </c:if>

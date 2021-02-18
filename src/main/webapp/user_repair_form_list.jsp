@@ -41,11 +41,17 @@
             <th scope="col"><fmt:message key="repairForm.car"/></th>
             <th scope="col"><fmt:message key="repairForm.ShortDescription"/></th>
             <th scope="col"><a
+                    href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=repairman&sortDir=${sessionScope.reverseSortDir}">
+                <fmt:message key="repairFormEdit.repairman"/></a>
+            </th>
+            <th scope="col"><a
                     href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=status&sortDir=${sessionScope.reverseSortDir}">
-                <fmt:message key="repairForm.Status"/></a></th>
+                <fmt:message key="repairForm.Status"/></a>
+            </th>
             <th scope="col"><a
                     href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=price&sortDir=${sessionScope.reverseSortDir}">
-                <fmt:message key="repairForm.price"/></a></th>
+                <fmt:message key="repairForm.price"/></a>
+            </th>
             <th scope="col"><fmt:message key="users.Action"/></th>
         </tr>
         </thead>
@@ -65,7 +71,15 @@
                 <td>${repairForm.creationDate.toLocalDate()}</td>
                 <td>${repairForm.author.firstName} ${repairForm.author.lastName}</td>
                 <td>${repairForm.car} </td>
-                <td>${repairForm.shortDescription} </td>
+                <td>${repairForm.shortDescription}</td>
+                <c:choose>
+                    <c:when test="${repairForm.repairman==null}">
+                        <td><fmt:message key="repairFormEdit.repairmanNull"/></td>
+                    </c:when>
+                    <c:otherwise>
+                        <td>${repairForm.repairman.firstName} ${repairForm.repairman.lastName}  </td>
+                    </c:otherwise>
+                </c:choose>
                 <td>${repairForm.status} </td>
                 <td>${repairForm.price} </td>
                 <td>

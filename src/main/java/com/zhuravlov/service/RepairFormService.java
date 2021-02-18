@@ -1,6 +1,7 @@
 package com.zhuravlov.service;
 
 import com.zhuravlov.db.Dao.RepairFormDaoImpl;
+import com.zhuravlov.model.dto.RepairFormDto;
 import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.Status;
 
@@ -53,5 +54,9 @@ public class RepairFormService {
 
     public RepairFormEntity findById(int repairFormId) {
         return dao.findById(repairFormId);
+    }
+
+    public List<RepairFormDto> findByRepairman(int repairmanId, int limit, int offset, String sortField, String sortDir) {
+        return dao.findByRepairman(repairmanId, limit, offset, sortField, sortDir);
     }
 }

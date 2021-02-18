@@ -89,6 +89,18 @@ public class Constants {
                     "GROUP BY r.id " +
                     "ORDER BY ? LIMIT ? OFFSET ? ";
 
+    public static final String SELECT_REPAIRMAN_REPAIR_FORMS =
+            "SELECT r.id, r.car, r.creation_date, r.last_modified_date, r.price, r.rf_s_description, r.rf_status, " +
+                    "u.user_id as author_id, u.first_name as author_first_name, u.last_name as author_last_name, " +
+                    "repairman.user_id as repairman_id, repairman.first_name as repairman_first_name, repairman.last_name as repairman_last_name, " +
+                    "(SELECT COUNT(*) FROM repair_forms WHERE repair_forms.repairman_id = ?) AS totalForms " +
+                    "FROM repair_forms r " +
+                    "JOIN users u ON u.user_id = r.author_id " +
+                    "LEFT JOIN users repairman ON repairman.user_id = r.repairman_id " +
+                    "WHERE r.repairman_id = ? " +
+                    "GROUP BY r.id " +
+                    "ORDER BY ? LIMIT ? OFFSET ? ";
+
     public final static String SAVE_REVIEW =
             "UPDATE repair_forms SET feedback = ?, last_modified_date = ? WHERE id = ?";
 

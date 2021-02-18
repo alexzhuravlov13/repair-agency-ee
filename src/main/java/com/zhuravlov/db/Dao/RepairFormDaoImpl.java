@@ -3,7 +3,9 @@ package com.zhuravlov.db.Dao;
 import com.zhuravlov.db.Constants;
 import com.zhuravlov.db.DbUtil;
 import com.zhuravlov.model.builder.RepairFormBuilder;
+import com.zhuravlov.model.builder.RepairFormDtoBuilder;
 import com.zhuravlov.model.builder.UserEntityBuilder;
+import com.zhuravlov.model.dto.RepairFormDto;
 import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.Status;
@@ -339,7 +341,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
         }
 
         String query = Constants.SELECT_USER_REPAIR_FORMS
-                .replaceAll("ORDER BY \\?", "ORDER BY \\? " + sortDir);
+                .replaceAll("ORDER BY \\?", "ORDER BY " + sortField + " " + sortDir);
 
         List<RepairFormEntity> repairFormEntityList;
 
@@ -350,9 +352,8 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, userId);
-            preparedStatement.setString(3, sortField);
-            preparedStatement.setInt(4, limit);
-            preparedStatement.setInt(5, offset);
+            preparedStatement.setInt(3, limit);
+            preparedStatement.setInt(4, offset);
 
 
             repairFormEntityList = getRepairFormEntities(userByIdMap, repairFormByIdMap, preparedStatement);
@@ -433,5 +434,72 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
                 throwables.printStackTrace();
             }
         }
+    }
+
+    public List<RepairFormDto> findByRepairman(int repairmanId, int limit, int offset, String sortField, String sortDir) {
+        if (sortDir == null || sortDir.isEmpty()) {
+            sortDir = "ASC";
+        }
+        if (sortField == null || sortField.isEmpty()) {
+            sortField = "r.id";
+        }
+
+        String query = Constants.SELECT_REPAIRMAN_REPAIR_FORMS
+                .replaceAll("ORDER BY \\?", "ORDER BY " + sortField + " " + sortDir);
+
+        List<RepairFormDto> repairFormDtoList = new ArrayList<>();
+        int i = 0;
+
+        try (Connection con = DbUtil.getConnection()) {
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setInt(1, repairmanId);
+            preparedStatement.setInt(2, repairmanId);
+            preparedStatement.setInt(3, limit);
+            preparedStatement.setInt(4, offset);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                //id,car,creation_date,rf_description,feedback,last_modified_date,price,rf_s_description,rf_status,
+                int id = resultSet.getInt("id");
+                String car = resultSet.getString("car");
+                LocalDateTime creationDate = resultSet.getObject("creation_date", LocalDateTime.class);
+                LocalDateTime lastModifiedDate = resultSet.getObject("last_modified_date", LocalDateTime.class);
+                BigDecimal price = resultSet.getBigDecimal("price");
+                String shortDescription = resultSet.getString("rf_s_description");
+                Status status = Status.valueOf(resultSet.getString("rf_status"));
+                int authorId = resultSet.getInt("author_id");
+                String authorFirstName = resultSet.getString("author_first_name");
+                String authorLastName = resultSet.getString("author_last_name");
+                String repairmanFirstName = resultSet.getString("repairman_first_name");
+                String repairmanLastName = resultSet.getString("repairman_last_name");
+
+                i = resultSet.getInt("totalForms");
+
+
+                RepairFormDto dto = new RepairFormDtoBuilder()
+                        .setId(id)
+                        .setCar(car)
+                        .setCreationDate(creationDate)
+                        .setAuthorId(authorId)
+                        .setAuthorFirstName(authorFirstName)
+                        .setAuthorLastName(authorLastName)
+                        .setRepairmanId(repairmanId)
+                        .setRepairmanLastName(repairmanFirstName)
+                        .setRepairmanLastName(repairmanLastName)
+                        .setLastModifiedDate(lastModifiedDate)
+                        .setPrice(price)
+                        .setShortDescription(shortDescription)
+                        .setStatus(status)
+                        .build();
+
+                repairFormDtoList.add(dto);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+        totalForms = i;
+        return repairFormDtoList;
     }
 }

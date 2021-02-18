@@ -51,7 +51,7 @@ public class CommandUtility {
 
     }
 
-    public static void getRepairFomListPaginatedAddSessionAttributes(HttpSession session, int perPageSize, int currentPage, RepairFormService service, List<RepairFormEntity> all) {
+    public static void getRepairFomListPaginatedAddSessionAttributes(HttpSession session, int perPageSize, int currentPage, RepairFormService service, List all) {
         int formsCount = service.getFormsCount();
 
         int totalPages = formsCount / perPageSize;
@@ -64,5 +64,7 @@ public class CommandUtility {
         session.setAttribute("currentPage", currentPage);
         session.setAttribute("totalPages", totalPages);
     }
+
+
 
 }

@@ -95,7 +95,8 @@
             <th scope="col"><fmt:message key="repairForm.ShortDescription"/></th>
             <th scope="col"><a
                     href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=repairman&sortDir=${sessionScope.reverseSortDir}">
-                <fmt:message key="repairFormEdit.repairman"/></a></th>
+                <fmt:message key="repairFormEdit.repairman"/></a>
+            </th>
             <th scope="col"><a
                     href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=status&sortDir=${sessionScope.reverseSortDir}">
                 <fmt:message key="repairForm.Status"/></a></th>

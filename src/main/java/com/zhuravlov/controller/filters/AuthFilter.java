@@ -38,7 +38,7 @@ public class AuthFilter implements Filter {
         String destination = "";
 
         if (roles == null || roles.contains(Role.GUEST)) {
-            if (requestURL.contains("/admin") || requestURL.contains("/user")|| requestURL.contains("/manager")) {
+            if (requestURL.contains("/admin") || requestURL.contains("/user") || requestURL.contains("/manager") || requestURL.contains("/repairman")) {
                 System.out.println("Send redirect to login");
                 destination = "/app/login";
                 request.getRequestDispatcher(destination).forward(request, response);
@@ -64,44 +64,10 @@ public class AuthFilter implements Filter {
             if (requestURL.contains("/login") || requestURL.contains("/registration")
                     || requestURL.contains("/admin") || requestURL.contains("/manager")) {
                 System.out.println("Send redirect to user");
-                destination = "/app/user/userRepairFormList";
+                destination = "/app/repairman/repairmanRepairFormList";
                 request.getRequestDispatcher(destination).forward(request, response);
             }
         }
-    }
-
-    private void handleByRoleD(HttpServletRequest request, HttpServletResponse response, Set<Role> roles, String
-            requestURL) throws IOException, ServletException {
-        System.out.println("Handle by role " + roles);
-        String homeDir = "";
-
-        if (roles == null || roles.contains(Role.GUEST)) {
-            if (requestURL.contains("/admin") || requestURL.contains("/user") || requestURL.contains("/manager")) {
-                System.out.println("Send redirect to login");
-                request.getRequestDispatcher("/app/login").forward(request, response);
-                //response.sendRedirect("redirect:/app/login");
-            }
-        } else if (requestURL.contains("/login") || requestURL.contains("/registration")) {
-            if (roles.contains(Role.ADMIN)) {
-                System.out.println("Send redirect to admin");
-                homeDir = "/app/admin/listUsers";
-            } else if (roles.contains(Role.MANAGER)) {
-                System.out.println("Send redirect to admin");
-                homeDir = "/app/manager/managerRepairFormList";
-            } else if (roles.contains(Role.USER)) {
-                System.out.println("Send redirect to user");
-                homeDir = "/app/user/userRepairFormList";
-            }
-            request.getRequestDispatcher(homeDir).forward(request, response);
-            //response.sendRedirect(destination);
-        } else if (requestURL.contains("/admin") || requestURL.contains("/manager")) {
-            if (roles.contains(Role.USER)) {
-                System.out.println("Send redirect to user");
-                homeDir = "/app/user/userRepairFormList";
-            }
-            request.getRequestDispatcher(homeDir).forward(request, response);
-        }
-
     }
 
     @Override

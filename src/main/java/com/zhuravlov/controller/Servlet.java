@@ -4,6 +4,9 @@ import com.zhuravlov.controller.command.*;
 import com.zhuravlov.controller.command.authorization.*;
 import com.zhuravlov.controller.command.manager.*;
 import com.zhuravlov.controller.command.repairForm.*;
+import com.zhuravlov.controller.command.repairman.RepairmanEditRepairFormCommand;
+import com.zhuravlov.controller.command.repairman.RepairmanRepairFormListCommand;
+import com.zhuravlov.controller.command.repairman.RepairmanSaveRepairFormCommand;
 import com.zhuravlov.controller.command.user.DeleteUserCommand;
 import com.zhuravlov.controller.command.user.EditUserCommand;
 import com.zhuravlov.controller.command.user.SaveUserCommand;
@@ -38,34 +41,12 @@ public class Servlet extends HttpServlet {
 
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
-
-        commands.put("error", new ErrorCommand());
-        commands.put("login", new LoginPageCommand());
-        commands.put("loginUser", new LoginCommand());
-        commands.put("logout", new LogOutCommand());
-        commands.put("registration", new RegistrationPageController());
-        commands.put("register", new RegisterCommand());
-
-        commands.put("manager/listUsers", new ManagerUserListCommand());
-        commands.put("manager/listUsers/changeAmount", new ChangeAmountPageCommand());
-        commands.put("manager/listUsers/saveAmount", new ChangeAmountCommand());
-        commands.put("manager/managerRepairFormList", new ManagerRepairFormListCommand());
-        commands.put("manager/editRepairForm", new ManagerEditRepairFormCommand());
-        commands.put("manager/saveRepairForm", new ManagerSaveRepairFormCommand());
-
-        commands.put("admin/listUsers", new UserListCommand());
-        commands.put("admin/listUsers/edit", new EditUserCommand());
-        commands.put("admin/listUsers/delete", new DeleteUserCommand());
-        commands.put("admin/saveEditedUser", new SaveUserCommand());
-        commands.put("user/userRepairFormList", new UserRepairFormListCommand());
-        commands.put("user/addRepairFormPage", new CreateRepairFormPageCommand());
-        commands.put("user/addRepairForm", new CreateRepairFormCommand());
-        commands.put("user/viewRepairForm", new ViewRepairFormCommand());
-        commands.put("user/reviewRepairForm", new ReviewRepairFormCommand());
-        commands.put("user/saveReview", new SaveReviewCommand());
+        initCommandsMap();
 
 
     }
+
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -143,5 +124,37 @@ public class Servlet extends HttpServlet {
                 .setRepairman(admin)
                 .build();
         service.create(entity);
+    }
+
+    private void initCommandsMap() {
+        //commands.put("error", new ErrorCommand());
+        commands.put("login", new LoginPageCommand());
+        commands.put("loginUser", new LoginCommand());
+        commands.put("logout", new LogOutCommand());
+        commands.put("registration", new RegistrationPageController());
+        commands.put("register", new RegisterCommand());
+
+        commands.put("manager/listUsers", new ManagerUserListCommand());
+        commands.put("manager/listUsers/changeAmount", new ChangeAmountPageCommand());
+        commands.put("manager/listUsers/saveAmount", new ChangeAmountCommand());
+        commands.put("manager/managerRepairFormList", new ManagerRepairFormListCommand());
+        commands.put("manager/editRepairForm", new ManagerEditRepairFormCommand());
+        commands.put("manager/saveRepairForm", new ManagerSaveRepairFormCommand());
+
+        commands.put("repairman/repairmanRepairFormList", new RepairmanRepairFormListCommand());
+        commands.put("repairman/editRepairForm", new RepairmanEditRepairFormCommand());
+        commands.put("repairman/saveRepairForm", new RepairmanSaveRepairFormCommand());
+
+        commands.put("admin/listUsers", new UserListCommand());
+        commands.put("admin/listUsers/edit", new EditUserCommand());
+        commands.put("admin/listUsers/delete", new DeleteUserCommand());
+        commands.put("admin/saveEditedUser", new SaveUserCommand());
+
+        commands.put("user/userRepairFormList", new UserRepairFormListCommand());
+        commands.put("user/addRepairFormPage", new CreateRepairFormPageCommand());
+        commands.put("user/addRepairForm", new CreateRepairFormCommand());
+        commands.put("user/viewRepairForm", new ViewRepairFormCommand());
+        commands.put("user/reviewRepairForm", new ReviewRepairFormCommand());
+        commands.put("user/saveReview", new SaveReviewCommand());
     }
 }
