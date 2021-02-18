@@ -3,7 +3,6 @@ package com.zhuravlov.controller.command.repairman;
 import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.Status;
-import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.RepairFormService;
 import com.zhuravlov.service.UserService;
 

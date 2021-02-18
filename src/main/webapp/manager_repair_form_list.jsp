@@ -121,15 +121,15 @@
                 </c:choose>
 
                 <td>${repairForm.creationDate.toLocalDate()}</td>
-                <td>${repairForm.author.firstName} ${repairForm.author.lastName}</td>
+                <td>${repairForm.authorFirstName} ${repairForm.authorLastName}</td>
                 <td>${repairForm.car} </td>
                 <td>${repairForm.shortDescription} </td>
                 <c:choose>
-                    <c:when test="${repairForm.repairman==null}">
+                    <c:when test="${repairForm.repairmanFirstName==null}">
                         <td><fmt:message key="repairFormEdit.repairmanNull"/></td>
                     </c:when>
                     <c:otherwise>
-                        <td>${repairForm.repairman.firstName} ${repairForm.repairman.lastName}  </td>
+                        <td>${repairForm.repairmanFirstName} ${repairForm.repairmanLastName}  </td>
                     </c:otherwise>
                 </c:choose>
                 <td>${repairForm.status} </td>

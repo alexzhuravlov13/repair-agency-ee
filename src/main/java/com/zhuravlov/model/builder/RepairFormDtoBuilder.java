@@ -2,9 +2,7 @@ package com.zhuravlov.model.builder;
 
 
 import com.zhuravlov.model.dto.RepairFormDto;
-import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.Status;
-import com.zhuravlov.model.entity.UserEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

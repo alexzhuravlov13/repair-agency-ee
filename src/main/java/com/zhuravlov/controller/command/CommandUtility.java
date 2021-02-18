@@ -1,6 +1,5 @@
 package com.zhuravlov.controller.command;
 
-import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.Status;
 import com.zhuravlov.service.RepairFormService;
@@ -66,7 +65,6 @@ public class CommandUtility {
         session.setAttribute("currentPage", currentPage);
         session.setAttribute("totalPages", totalPages);
     }
-
 
 
 }

@@ -3,13 +3,10 @@ package com.zhuravlov.controller.command.repairman;
 import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.Status;
-import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.RepairFormService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.math.BigDecimal;
-import java.util.List;
 
 public class RepairmanSaveRepairFormCommand implements Command {
     @Override

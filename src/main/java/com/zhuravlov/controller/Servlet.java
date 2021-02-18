@@ -1,6 +1,6 @@
 package com.zhuravlov.controller;
 
-import com.zhuravlov.controller.command.*;
+import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.controller.command.authorization.*;
 import com.zhuravlov.controller.command.manager.*;
 import com.zhuravlov.controller.command.repairForm.*;
@@ -47,7 +47,6 @@ public class Servlet extends HttpServlet {
     }
 
 
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
@@ -61,9 +60,9 @@ public class Servlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer code = (Integer) req.getAttribute("javax.servlet.error.status_code");
-        String message =  (String) req.getAttribute("javax.servlet.error.message");
-        String exception_type =  (String) req.getAttribute("javax.servlet.error.exception_type");
-        String exception =  (String) req.getAttribute("javax.servlet.error.exception");
+        String message = (String) req.getAttribute("javax.servlet.error.message");
+        String exception_type = (String) req.getAttribute("javax.servlet.error.exception_type");
+        String exception = (String) req.getAttribute("javax.servlet.error.exception");
 
         req.getSession().setAttribute("errorType", exception_type);
         req.getSession().setAttribute("errorMessage", message);
@@ -91,7 +90,7 @@ public class Servlet extends HttpServlet {
 
     }
 
-    private void create(){
+    private void create() {
         UserService userService = new UserService();
         UserEntity admin = userService.findByEmail("admin@gmail.com");
         UserEntity user = userService.findByEmail("user666@gmail.com");

@@ -2,7 +2,6 @@ package com.zhuravlov.controller.command.manager;
 
 import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.db.Dao.UserDaoImpl;
-import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.UserService;
 

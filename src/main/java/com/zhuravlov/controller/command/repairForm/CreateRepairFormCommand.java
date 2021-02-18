@@ -2,7 +2,6 @@ package com.zhuravlov.controller.command.repairForm;
 
 import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.model.builder.RepairFormBuilder;
-import com.zhuravlov.model.builder.UserEntityBuilder;
 import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.Status;
 import com.zhuravlov.model.entity.UserEntity;

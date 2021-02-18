@@ -21,12 +21,13 @@
 <jsp:include page="navbar.jsp"/>
 <div class="container">
     <form method="POST" action="/app/user/saveReview"
-                     class="mx-auto p-5 m-3" style="width: 50%; background-color: #eee;">
+          class="mx-auto p-5 m-3" style="width: 50%; background-color: #eee;">
         <h2><fmt:message key="repairFormView.name"/></h2>
 
         <div class="row mb-3">
             <div class="col-xs-15">
-                <strong><fmt:message key="repairForm.Created"/></strong>: ${sessionScope.repairForm.creationDate.toLocalDate()}
+                <strong><fmt:message
+                        key="repairForm.Created"/></strong>: ${sessionScope.repairForm.creationDate.toLocalDate()}
             </div>
         </div>
 
@@ -38,7 +39,8 @@
 
         <div class="row mb-3">
             <div class="col-xs-15">
-                <strong><fmt:message key="repairForm.ShortDescription"/></strong>: ${sessionScope.repairForm.shortDescription}
+                <strong><fmt:message
+                        key="repairForm.ShortDescription"/></strong>: ${sessionScope.repairForm.shortDescription}
             </div>
         </div>
 

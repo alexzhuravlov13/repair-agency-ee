@@ -117,14 +117,16 @@
                 <fmt:message key="repairForm.price" var="pricePh"/>
                 <div class="row mb-3">
                     <div class="col-xs-15">
-                        <input type="number" min="0" value="${sessionScope.editedForm.price}" step=".01" name="price" class="form-control"
+                        <input type="number" min="0" value="${sessionScope.editedForm.price}" step=".01" name="price"
+                               class="form-control"
                                placeholder="${pricePh}"/>
                     </div>
                 </div>
             </c:when>
             <c:otherwise>
                 <div class="col-xs-15">
-                    <input name="number" disabled="disabled" value="${sessionScope.editedForm.price}" class="form-control"/>
+                    <input name="number" disabled="disabled" value="${sessionScope.editedForm.price}"
+                           class="form-control"/>
                 </div>
             </c:otherwise>
         </c:choose>

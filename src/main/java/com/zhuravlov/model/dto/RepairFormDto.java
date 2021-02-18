@@ -1,7 +1,6 @@
 package com.zhuravlov.model.dto;
 
 import com.zhuravlov.model.entity.Status;
-import com.zhuravlov.model.entity.UserEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

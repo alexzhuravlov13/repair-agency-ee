@@ -9,7 +9,8 @@ import com.zhuravlov.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SaveUserCommand implements Command {

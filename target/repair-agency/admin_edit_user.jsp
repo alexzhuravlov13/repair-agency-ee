@@ -30,7 +30,7 @@
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
                 <input type="email" name="email" value="${sessionScope.editedUser.email}"
-                class="form-control"
+                       class="form-control"
                        placeholder="${emailPh}"
                        autofocus="autofocus"/>
             </div>
@@ -40,7 +40,7 @@
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
                 <input type="text" name="firstName" value="${sessionScope.editedUser.firstName}"
-                 class="form-control"
+                       class="form-control"
                        placeholder="${firstNamePh}"/>
             </div>
         </div>
@@ -49,7 +49,7 @@
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
                 <input type="text" name="lastName" value="${sessionScope.editedUser.lastName}"
-                 class="form-control"
+                       class="form-control"
                        placeholder="${lastNamePh}"/>
             </div>
         </div>
