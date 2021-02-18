@@ -2,6 +2,7 @@ package com.zhuravlov.controller.command.repairForm;
 
 import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.model.entity.RepairFormEntity;
+import com.zhuravlov.service.RepairFormService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,16 +14,9 @@ public class ReviewRepairFormCommand implements Command {
         HttpSession session = request.getSession();
 
         int repairFormId = Integer.parseInt(request.getParameter("repairFormId"));
-        List<RepairFormEntity> repairFormEntities =
-                (List<RepairFormEntity>) session
-                        .getAttribute("repairForms");
 
-        RepairFormEntity repairForm = null;
-        for (RepairFormEntity repairFormEntity : repairFormEntities) {
-            if (repairFormEntity.getId() == repairFormId) {
-                repairForm = repairFormEntity;
-            }
-        }
+        RepairFormEntity repairForm = new RepairFormService().findById(repairFormId);
+
         session.setAttribute("repairForm", repairForm);
         session.setAttribute("repairFormReviewId", repairFormId);
         return "/user_repair_form_review.jsp";

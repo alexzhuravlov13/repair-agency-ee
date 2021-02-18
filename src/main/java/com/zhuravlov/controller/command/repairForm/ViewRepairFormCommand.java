@@ -14,17 +14,9 @@ public class ViewRepairFormCommand implements Command {
         HttpSession session = request.getSession();
 
         int repairFormId = Integer.parseInt(request.getParameter("repairFormId"));
-        /*List<RepairFormEntity> repairFormEntities =
-                (List<RepairFormEntity>) session
-                        .getAttribute("repairForms");*/
 
-        RepairFormEntity repairForm = null;
-        repairForm = new RepairFormService().findById(repairFormId);
-        /*for (RepairFormEntity repairFormEntity : repairFormEntities) {
-            if (repairFormEntity.getId() == repairFormId) {
-                repairForm = repairFormEntity;
-            }
-        }*/
+        RepairFormEntity repairForm = new RepairFormService().findById(repairFormId);
+
         session.setAttribute("repairForm", repairForm);
         return "/user_repair_form_view.jsp";
     }

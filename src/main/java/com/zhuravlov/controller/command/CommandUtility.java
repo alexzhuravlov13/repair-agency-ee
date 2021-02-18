@@ -22,6 +22,7 @@ public class CommandUtility {
         session.setAttribute("roleManager", Role.MANAGER);
         session.setAttribute("roleRepairman", Role.REPAIRMAN);
         session.setAttribute("statusReady", Status.READY);
+        session.setAttribute("statusCanceled", Status.CANCELED);
     }
 
     public static boolean checkUserIsLoggedOrLogin(HttpServletRequest request, String userName) {
@@ -59,6 +60,7 @@ public class CommandUtility {
             totalPages = formsCount / perPageSize + 1;
         }
 
+        session.setAttribute("userAmountForList", service.getAmount().toString());
         session.setAttribute("repairForms", all);
         session.setAttribute("perPageSize", perPageSize);
         session.setAttribute("currentPage", currentPage);

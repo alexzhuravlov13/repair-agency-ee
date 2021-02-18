@@ -66,7 +66,7 @@
 
                 <td>
                     <button type="button" class="btn btn-outline-info"
-                            onclick="location.href='/app/manager/editRepairForm?repairFormId=${repairForm.id}'">
+                            onclick="location.href='/app/repairman/editRepairForm?repairFormId=${repairForm.id}'">
                         <fmt:message key="repairForm.edit"/></button>
                 </td>
             </tr>

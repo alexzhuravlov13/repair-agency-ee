@@ -74,17 +74,14 @@ public class Constants {
                     "ORDER BY ? LIMIT ? OFFSET ? ";
 
     public static final String SELECT_USER_REPAIR_FORMS =
-            "SELECT r.id, r.car, r.creation_date, r.rf_description, r.feedback, r.last_modified_date, r.price, r.rf_s_description, r.rf_status, " +
-                    "u.user_id as author_id, u.amount as author_amount, u.email as author_email, u.first_name as author_first_name, u.last_name as author_last_name, u.password as author_password, " +
-                    "author_roles.role as author_role, " +
-                    "repairman.user_id as repairman_id, repairman.amount as repairman_amount, repairman.email as repairman_email, repairman.first_name as repairman_first_name, repairman.last_name as repairman_last_name, repairman.password as repairman_password, " +
-                    "repairman_roles.role as repairman_role, " +
-                    "(SELECT COUNT(*) FROM repair_forms WHERE repair_forms.author_id = ?) AS totalForms " +
+            "SELECT r.id, r.car, r.creation_date, r.last_modified_date, r.price, r.rf_s_description, r.rf_status, " +
+                    "u.user_id as author_id, u.first_name as author_first_name, u.last_name as author_last_name, " +
+                    "repairman.user_id as repairman_id, repairman.first_name as repairman_first_name, repairman.last_name as repairman_last_name, " +
+                    "(SELECT COUNT(*) FROM repair_forms WHERE repair_forms.author_id = ?) AS totalForms, " +
+                    "(SELECT amount FROM users WHERE users.user_id = ?) as amount " +
                     "FROM repair_forms r " +
                     "JOIN users u ON u.user_id = r.author_id " +
-                    "JOIN users_roles author_roles ON author_roles.user_id = r.author_id " +
                     "LEFT JOIN users repairman ON repairman.user_id = r.repairman_id " +
-                    "LEFT JOIN users_roles repairman_roles on repairman_roles.user_id = r.repairman_id " +
                     "WHERE r.author_id = ? " +
                     "GROUP BY r.id " +
                     "ORDER BY ? LIMIT ? OFFSET ? ";
@@ -106,5 +103,5 @@ public class Constants {
 
     public static final String UPDATE_REPAIR_FORM =
             "UPDATE repair_forms " +
-            "SET price = ?, rf_status = ?, repairman_id = ?, last_modified_date = ? WHERE id = ?";
+                    "SET price = ?, rf_status = ?, repairman_id = ?, last_modified_date = ? WHERE id = ?";
 }

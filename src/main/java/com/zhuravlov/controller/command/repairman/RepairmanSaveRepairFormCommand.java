@@ -20,28 +20,17 @@ public class RepairmanSaveRepairFormCommand implements Command {
         int id = (Integer) session.getAttribute("editedFormId");
         Status status = Status.valueOf(req.getParameter("status"));
         int repairmanId = Integer.parseInt(req.getParameter("repairman"));
-        BigDecimal price = BigDecimal.valueOf(Double.parseDouble(req.getParameter("price")));
 
         RepairFormEntity editedForm = (RepairFormEntity) session.getAttribute("editedForm");
 
         RepairFormService service = new RepairFormService();
-        if (status.equals(Status.PAID)) {
-            if (!tryToWriteOffFunds(id, editedForm.getAuthor().getUserId(), status, repairmanId, price, service)) {
-                session.setAttribute("errorMoney", "errorMoney");
-                return "/manager_repair_form_edit.jsp";
-            }
-        } else {
-            updateRepairForm(editedForm, session, status, repairmanId, price, service);
-        }
+        updateRepairForm(editedForm, session, status, repairmanId, service);
+
 
         return "redirect:/manager/managerRepairFormList";
     }
 
-    private boolean tryToWriteOffFunds(int id, Integer userId, Status status, int repairmanId, BigDecimal price, RepairFormService service) {
-        return service.writeOffFunds(id, userId, status, repairmanId, price);
-    }
-
-    private void updateRepairForm(RepairFormEntity editedForm, HttpSession session, Status status, int repairmanId, BigDecimal price, RepairFormService service) {
+    private void updateRepairForm(RepairFormEntity editedForm, HttpSession session, Status status, int repairmanId, RepairFormService service) {
         editedForm.setStatus(status);
         List<UserEntity> repairmans = (List<UserEntity>) session.getAttribute("repairmans");
         UserEntity repairman = null;
@@ -52,7 +41,7 @@ public class RepairmanSaveRepairFormCommand implements Command {
         }
         editedForm.setRepairman(repairman);
         editedForm.setStatus(status);
-        editedForm.setPrice(price);
+        editedForm.setPrice(editedForm.getPrice());
         service.updateRepairForm(editedForm);
     }
 

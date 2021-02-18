@@ -3,6 +3,7 @@ package com.zhuravlov.controller.command.repairForm;
 import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.controller.command.CommandUtility;
 import com.zhuravlov.controller.command.manager.ManagerRepairFormListCommand;
+import com.zhuravlov.model.dto.RepairFormDto;
 import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.RepairFormService;
@@ -26,6 +27,7 @@ public class UserRepairFormListCommand implements Command {
 
         session.setAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         session.setAttribute("basePath", "/app/user/userRepairFormList");
+
 
         return "/user_repair_form_list.jsp";
     }
@@ -53,7 +55,7 @@ public class UserRepairFormListCommand implements Command {
         }
         UserEntity user = (UserEntity) session.getAttribute("user");
         Integer userId = user.getUserId();
-        List<RepairFormEntity> all = service.findByUserId(userId, perPageSize, offset, sortField, sortDir);
+        List<RepairFormDto> all = service.findByUserId(userId, perPageSize, offset, sortField, sortDir);
         CommandUtility.getRepairFomListPaginatedAddSessionAttributes(session, perPageSize, currentPage, service, all);
     }
 }

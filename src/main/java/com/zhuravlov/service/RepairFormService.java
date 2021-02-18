@@ -34,9 +34,12 @@ public class RepairFormService {
     public int getFormsCount() {
         return dao.getTotalForms();
     }
+    public BigDecimal getAmount() {
+        return dao.getUserAmount();
+    }
 
 
-    public List<RepairFormEntity> findByUserId(Integer userId, int limit, int offset, String sortField, String sortDir) {
+    public List<RepairFormDto> findByUserId(Integer userId, int limit, int offset, String sortField, String sortDir) {
         return dao.findByUserId(userId, limit, offset, sortField, sortDir);
     }
 
