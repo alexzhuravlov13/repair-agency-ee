@@ -28,11 +28,11 @@ public class LoginCommand implements Command {
         String pass = request.getParameter("pass");
 
         HttpSession session = request.getSession();
-        session.setAttribute("errorField", null);
-        session.setAttribute("error", null);
+        request.setAttribute("errorField", null);
+        request.setAttribute("error", null);
 
         if (email == null || email.equals("") || pass == null || pass.equals("")) {
-            session.setAttribute("errorField", "emptyField");
+            request.setAttribute("errorField", "emptyField");
             return "/login.jsp";
         }
 
@@ -40,7 +40,7 @@ public class LoginCommand implements Command {
         UserEntity user = userService.findByEmail(email);
 
         if (user == null) {
-            session.setAttribute("error", "no such user");
+            request.setAttribute("error", "no such user");
             return "/login.jsp";
         }
 

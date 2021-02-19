@@ -16,7 +16,7 @@ public class ReviewRepairFormCommand implements Command {
 
         RepairFormEntity repairForm = new RepairFormService().findById(repairFormId);
 
-        session.setAttribute("repairForm", repairForm);
+        request.setAttribute("repairForm", repairForm);
         session.setAttribute("repairFormReviewId", repairFormId);
         return "/user_repair_form_review.jsp";
     }

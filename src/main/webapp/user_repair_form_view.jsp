@@ -26,51 +26,51 @@
         <div class="row mb-3">
             <div class="col-xs-15">
                 <strong><fmt:message
-                        key="repairForm.Author"/></strong>: ${sessionScope.repairForm.author.firstName} ${sessionScope.repairForm.author.lastName}
+                        key="repairForm.Author"/></strong>: ${repairForm.author.firstName} ${sessionScope.repairForm.author.lastName}
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-xs-15">
                 <strong><fmt:message
-                        key="repairForm.Created"/></strong>: ${sessionScope.repairForm.creationDate.toLocalDate()}
+                        key="repairForm.Created"/></strong>: ${repairForm.creationDate.toLocalDate()}
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-xs-15">
-                <strong><fmt:message key="repairForm.car"/></strong>: ${sessionScope.repairForm.car}
+                <strong><fmt:message key="repairForm.car"/></strong>: ${repairForm.car}
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-xs-15">
                 <strong><fmt:message
-                        key="repairForm.ShortDescription"/></strong>: ${sessionScope.repairForm.shortDescription}
+                        key="repairForm.ShortDescription"/></strong>: ${repairForm.shortDescription}
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-xs-15">
-                <strong><fmt:message key="repairForm.description"/></strong>: ${sessionScope.repairForm.description}
+                <strong><fmt:message key="repairForm.description"/></strong>: ${repairForm.description}
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-xs-15">
-                <strong><fmt:message key="repairForm.Status"/></strong>: ${sessionScope.repairForm.status}
+                <strong><fmt:message key="repairForm.Status"/></strong>: ${repairForm.status}
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-xs-15">
-                <strong><fmt:message key="repairForm.price"/></strong>: ${sessionScope.repairForm.price}
+                <strong><fmt:message key="repairForm.price"/></strong>: ${repairForm.price}
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-xs-15">
-                <strong><fmt:message key="repairForm.review"/></strong>: ${sessionScope.repairForm.feedback}
+                <strong><fmt:message key="repairForm.review"/></strong>: ${repairForm.feedback}
             </div>
         </div>
 

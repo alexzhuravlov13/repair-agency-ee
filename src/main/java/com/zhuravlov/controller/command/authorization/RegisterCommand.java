@@ -15,15 +15,15 @@ public class RegisterCommand implements Command {
     private static final Logger log = LogManager.getLogger(RegisterCommand.class);
 
     @Override
-    public String execute(HttpServletRequest req) {
-        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
+    public String execute(HttpServletRequest request) {
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            HttpSession session = req.getSession();
-            session.setAttribute(" status.error", "errorrrrrrrrrrrrrr");
+            HttpSession session = request.getSession();
+            request.setAttribute(" status.error", "errorrrrrrrrrrrrrr");
             return "/registration.jsp";
         }
 

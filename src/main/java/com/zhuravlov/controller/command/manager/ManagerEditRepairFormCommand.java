@@ -25,7 +25,7 @@ public class ManagerEditRepairFormCommand implements Command {
 
         List<Status> statuses = Arrays.asList(Status.CANCELED, Status.PAID, Status.WAITING_FOR_PAYMENT);
         session.setAttribute("repairmans", repairmans);
-        session.setAttribute("statuses", statuses);
+        request.setAttribute("statuses", statuses);
         session.setAttribute("editedForm", repairForm);
         session.setAttribute("editedFormId", repairFormId);
         return "/manager_repair_form_edit.jsp";

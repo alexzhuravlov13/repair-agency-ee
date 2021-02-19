@@ -10,14 +10,14 @@ import javax.servlet.http.HttpSession;
 
 public class RepairmanSaveRepairFormCommand implements Command {
     @Override
-    public String execute(HttpServletRequest req) {
+    public String execute(HttpServletRequest request) {
 
-        HttpSession session = req.getSession();
+        HttpSession session = request.getSession();
 
         RepairFormEntity editedForm = (RepairFormEntity) session.getAttribute("editedForm");
 
-        if (req.getParameter("status") != null) {
-            Status status = Status.valueOf(req.getParameter("status"));
+        if (request.getParameter("status") != null) {
+            Status status = Status.valueOf(request.getParameter("status"));
             RepairFormService service = new RepairFormService();
             updateRepairForm(editedForm, status, service);
         }

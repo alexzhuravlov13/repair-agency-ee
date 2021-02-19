@@ -22,14 +22,14 @@
           class="mx-auto p-5 m-3" style="width: 50%; background-color: #eee;">
         <h2><fmt:message key="userEdit.h"/></h2>
 
-        <input type="hidden" name="userId" value="${sessionScope.editedUser.userId}"/>
+        <input type="hidden" name="userId" value="${editedUser.userId}"/>
 
-        <input type="hidden" name="amount" value="${sessionScope.editedUser.amount}"/>
+        <input type="hidden" name="amount" value="${editedUser.amount}"/>
 
         <fmt:message key="registration.Email" var="emailPh"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
-                <input type="email" name="email" value="${sessionScope.editedUser.email}"
+                <input type="email" name="email" value="${editedUser.email}"
                        class="form-control"
                        placeholder="${emailPh}"
                        autofocus="autofocus"/>
@@ -39,7 +39,7 @@
         <fmt:message key="registration.FirstName" var="firstNamePh"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
-                <input type="text" name="firstName" value="${sessionScope.editedUser.firstName}"
+                <input type="text" name="firstName" value="${editedUser.firstName}"
                        class="form-control"
                        placeholder="${firstNamePh}"/>
             </div>
@@ -48,7 +48,7 @@
         <fmt:message key="registration.LastName" var="lastNamePh"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
-                <input type="text" name="lastName" value="${sessionScope.editedUser.lastName}"
+                <input type="text" name="lastName" value="${editedUser.lastName}"
                        class="form-control"
                        placeholder="${lastNamePh}"/>
             </div>
@@ -58,7 +58,7 @@
         <fmt:message key="registration.Password" var="passwordPh"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
-                <input type="password" name="password" value="${sessionScope.editedUser.password}"
+                <input type="password" name="password" value="${editedUser.password}"
                        class="form-control"
                        placeholder="${passwordPh}"/>
             </div>
@@ -68,12 +68,12 @@
         <fmt:message key="userEdit.roles"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
-                ${sessionScope.editedUser.roles}
+                ${editedUser.roles}
                 <select
                         class="form-select form-select-sm"
                         multiple="multiple"
                         name="roles">
-                    <c:forEach items="${sessionScope.allRoles}" var="role">
+                    <c:forEach items="${allRoles}" var="role">
                         <option value="${role.name()}">${role.name()}</option>
                     </c:forEach>
                 </select>

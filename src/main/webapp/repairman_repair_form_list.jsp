@@ -24,16 +24,16 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col"><a
-                    href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=creationDate&sortDir=${sessionScope.reverseSortDir}">
+                    href="${sessionScope.basePath}?page=${currentPage}&sortField=creationDate&sortDir=${reverseSortDir}">
                 <fmt:message key="repairForm.Created"/></a></th>
             <th scope="col"><fmt:message key="repairForm.Author"/></th>
             <th scope="col"><fmt:message key="repairForm.car"/></th>
             <th scope="col"><fmt:message key="repairForm.ShortDescription"/></th>
             <th scope="col"><a
-                    href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=status&sortDir=${sessionScope.reverseSortDir}">
+                    href="${sessionScope.basePath}?page=${currentPage}&sortField=status&sortDir=${reverseSortDir}">
                 <fmt:message key="repairForm.Status"/></a></th>
             <th scope="col"><a
-                    href="${sessionScope.basePath}?page=${sessionScope.currentPage}&sortField=price&sortDir=${sessionScope.reverseSortDir}">
+                    href="${sessionScope.basePath}?page=${currentPage}&sortField=price&sortDir=${reverseSortDir}">
                 <fmt:message key="repairForm.price"/></a></th>
             <th scope="col"><fmt:message key="users.Action"/></th>
             <th scope="col"><fmt:message key="users.Action"/></th>
@@ -41,11 +41,11 @@
         </thead>
         <tbody>
 
-        <c:forEach var="repairForm" items="${sessionScope.repairForms}" varStatus="i">
+        <c:forEach var="repairForm" items="${repairForms}" varStatus="i">
             <tr>
                 <c:choose>
-                    <c:when test="${sessionScope.currentPage != 1}">
-                        <td>${i.index+1+(sessionScope.currentPage-1)*(sessionScope.perPageSize)}</td>
+                    <c:when test="${currentPage != 1}">
+                        <td>${i.index+1+(currentPage-1)*(perPageSize)}</td>
                     </c:when>
                     <c:otherwise>
                         <td>${i.index+1}</td>
@@ -76,16 +76,16 @@
 
     <nav aria-label="...">
         <ul class="pagination">
-            <c:if test="${sessionScope.currentPage != 1}">
+            <c:if test="${currentPage != 1}">
                 <li class="page-item item">
                     <a class="page-link"
-                       href="${sessionScope.basePath}?page=${sessionScope.currentPage - 1}&sortField=${sortField}&sortDir=${sortDir}"
+                       href="${sessionScope.basePath}?page=${currentPage - 1}&sortField=${sortField}&sortDir=${sortDir}"
                        tabindex="-1"><fmt:message key="pagination.previous"/></a>
                 </li>
             </c:if>
-            <c:forEach begin="1" end="${sessionScope.totalPages}" var="i">
+            <c:forEach begin="1" end="${totalPages}" var="i">
                 <c:choose>
-                    <c:when test="${sessionScope.currentPage eq i}">
+                    <c:when test="${currentPage eq i}">
                         <li class="page-item active">
                             <a class="page-link">${i}</a>
                         </li>
@@ -97,10 +97,10 @@
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
-            <c:if test="${sessionScope.currentPage lt sessionScope.totalPages}">
+            <c:if test="${currentPage lt totalPages}">
                 <li class="page-item">
                     <a class="page-link"
-                       href="${sessionScope.basePath}?page=${sessionScope.currentPage + 1}&sortField=${sortField}&sortDir=${sortDir}"><fmt:message
+                       href="${sessionScope.basePath}?page=${currentPage + 1}&sortField=${sortField}&sortDir=${sortDir}"><fmt:message
                             key="pagination.next"/></a>
                 </li>
             </c:if>

@@ -27,7 +27,7 @@
         <springForm:hidden path="userId"/>
 
         <div class="col-xs-15">
-            <strong><fmt:message key="users.Amount"/></strong>: ${sessionScope.editedUser.amount}
+            <strong><fmt:message key="users.Amount"/></strong>: ${editedUser.amount}
         </div>
 
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">

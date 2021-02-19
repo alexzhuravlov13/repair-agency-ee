@@ -11,18 +11,18 @@ import javax.servlet.http.HttpSession;
 
 public class EditUserCommand implements Command {
     @Override
-    public String execute(HttpServletRequest req) {
-        HttpSession session = req.getSession();
+    public String execute(HttpServletRequest request) {
+        HttpSession session = request.getSession();
 
-        int userId = Integer.parseInt(req.getParameter("userId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
 
         UserService service = new UserService(new UserDaoImpl());
         UserEntity user = service.findById(userId);
 
         Role[] roles = Role.values();
 
-        session.setAttribute("editedUser", user);
-        session.setAttribute("allRoles", roles);
+        request.setAttribute("editedUser", user);
+        request.setAttribute("allRoles", roles);
 
         return "/admin_edit_user.jsp";
     }

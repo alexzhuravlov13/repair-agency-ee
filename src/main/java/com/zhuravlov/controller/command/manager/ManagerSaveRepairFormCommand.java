@@ -13,21 +13,21 @@ import java.util.List;
 
 public class ManagerSaveRepairFormCommand implements Command {
     @Override
-    public String execute(HttpServletRequest req) {
+    public String execute(HttpServletRequest request) {
 
-        HttpSession session = req.getSession();
+        HttpSession session = request.getSession();
 
         int id = (Integer) session.getAttribute("editedFormId");
-        Status status = Status.valueOf(req.getParameter("status"));
-        int repairmanId = Integer.parseInt(req.getParameter("repairman"));
-        BigDecimal price = BigDecimal.valueOf(Double.parseDouble(req.getParameter("price")));
+        Status status = Status.valueOf(request.getParameter("status"));
+        int repairmanId = Integer.parseInt(request.getParameter("repairman"));
+        BigDecimal price = BigDecimal.valueOf(Double.parseDouble(request.getParameter("price")));
 
         RepairFormEntity editedForm = (RepairFormEntity) session.getAttribute("editedForm");
 
         RepairFormService service = new RepairFormService();
         if (status.equals(Status.PAID)) {
             if (!tryToWriteOffFunds(id, editedForm.getAuthor().getUserId(), status, repairmanId, price, service)) {
-                session.setAttribute("errorMoney", "errorMoney");
+                request.setAttribute("errorMoney", "errorMoney");
                 return "/manager_repair_form_edit.jsp";
             }
         } else {

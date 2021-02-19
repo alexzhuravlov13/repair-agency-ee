@@ -11,11 +11,11 @@ import java.util.List;
 
 public class UserListCommand implements Command {
     @Override
-    public String execute(HttpServletRequest req) {
-        HttpSession session = req.getSession();
+    public String execute(HttpServletRequest request) {
+        HttpSession session = request.getSession();
 
         List<UserEntity> all = new UserService(new UserDaoImpl()).findAll();
-        session.setAttribute("users", all);
+        request.setAttribute("users", all);
 
         return "/admin_users_list.jsp";
     }

@@ -27,27 +27,27 @@
         <div class="row mb-3">
             <div class="col-xs-15">
                 <strong><fmt:message
-                        key="repairForm.Created"/></strong>: ${sessionScope.repairForm.creationDate.toLocalDate()}
+                        key="repairForm.Created"/></strong>: ${repairForm.creationDate.toLocalDate()}
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-xs-15">
-                <strong><fmt:message key="repairForm.car"/></strong>: ${sessionScope.repairForm.car}
+                <strong><fmt:message key="repairForm.car"/></strong>: ${repairForm.car}
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-xs-15">
                 <strong><fmt:message
-                        key="repairForm.ShortDescription"/></strong>: ${sessionScope.repairForm.shortDescription}
+                        key="repairForm.ShortDescription"/></strong>: ${repairForm.shortDescription}
             </div>
         </div>
 
 
         <div class="row mb-3">
             <div class="col-xs-15">
-                <strong><fmt:message key="repairForm.description"/></strong>: ${sessionScope.repairForm.description}
+                <strong><fmt:message key="repairForm.description"/></strong>: ${repairForm.description}
             </div>
         </div>
 
@@ -56,7 +56,7 @@
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
                 <strong><fmt:message key="repairForm.review"/></strong>
-                <input type="text" name="feedback" value="${sessionScope.repairForm.feedback}" class="form-control"/>
+                <input type="text" name="feedback" value="${repairForm.feedback}" class="form-control"/>
             </div>
         </div>
 

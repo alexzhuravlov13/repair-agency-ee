@@ -15,7 +15,7 @@ public class ManagerUserListCommand implements Command {
         HttpSession session = request.getSession();
 
         List<UserEntity> all = new UserService(new UserDaoImpl()).findAll();
-        session.setAttribute("users", all);
+        request.setAttribute("users", all);
 
         return "/manager_users_list.jsp";
     }

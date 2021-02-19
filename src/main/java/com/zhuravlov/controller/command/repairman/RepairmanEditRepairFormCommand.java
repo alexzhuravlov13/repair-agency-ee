@@ -22,9 +22,9 @@ public class RepairmanEditRepairFormCommand implements Command {
         RepairFormEntity repairForm = new RepairFormService().findById(repairFormId);
 
         List<Status> statuses = Arrays.asList(Status.READY, Status.IN_PROGRESS);
-        session.setAttribute("statuses", statuses);
+        request.setAttribute("statuses", statuses);
         session.setAttribute("editedForm", repairForm);
-        session.setAttribute("editedFormId", repairFormId);
+        request.setAttribute("editedFormId", repairFormId);
         return "/repairman_repair_form_edit.jsp";
     }
 }

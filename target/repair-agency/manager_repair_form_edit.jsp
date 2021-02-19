@@ -68,7 +68,7 @@
                         <select
                                 class="form-select form-select-sm"
                                 name="repairman">
-                            <c:forEach items="${sessionScope.repairmans}" var="repairman">
+                            <c:forEach items="${repairmans}" var="repairman">
                                 <option value="${repairman.userId}">${repairman.firstName}</option>
                             </c:forEach>
                         </select>
@@ -91,7 +91,7 @@
                         <select
                                 class="form-select form-select-sm"
                                 name="status">
-                            <c:forEach items="${sessionScope.statuses}" var="status">
+                            <c:forEach items="${statuses}" var="status">
                                 <option value="${status.name()}">${status.name()}</option>
                             </c:forEach>
                         </select>
@@ -106,7 +106,7 @@
 
         </div>
 
-        <c:if test="${sessionScope.errorMoney!= null}">
+        <c:if test="${errorMoney!= null}">
             <div class="alert alert-danger col-xs-offset-1 col-xs-10">
                 <span><fmt:message key="repairFormEdit.error"/></span>
             </div>

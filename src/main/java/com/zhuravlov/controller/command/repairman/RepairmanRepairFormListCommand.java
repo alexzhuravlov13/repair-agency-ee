@@ -23,7 +23,7 @@ public class RepairmanRepairFormListCommand implements Command {
         String sortField = CommandUtility.getSortField(request);
         addListWithPagination(request, session, sortField, sortDir);
 
-        session.setAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        request.setAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         session.setAttribute("basePath", "/app/repairman/repairmanRepairFormList");
 
         return "/repairman_repair_form_list.jsp";
@@ -53,6 +53,6 @@ public class RepairmanRepairFormListCommand implements Command {
         UserEntity user = (UserEntity) session.getAttribute("user");
         Integer userId = user.getUserId();
         List<RepairFormDto> all = service.findByRepairman(userId, perPageSize, offset, sortField, sortDir);
-        CommandUtility.getRepairFomListPaginatedAddSessionAttributes(session, perPageSize, currentPage, service, all);
+        CommandUtility.getRepairFomListPaginatedAddSessionAttributes(request, perPageSize, currentPage, service, all);
     }
 }

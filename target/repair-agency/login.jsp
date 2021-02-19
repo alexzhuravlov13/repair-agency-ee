@@ -40,18 +40,18 @@
             <div class="col-xs-15">
                 <div>
                     <!-- Check for login error -->
-                    <c:if test="${sessionScope.error!= null}">
+                    <c:if test="${error!= null}">
                         <div class="alert alert-danger col-xs-offset-1 col-xs-10">
                             <span><fmt:message key="login.error"/></span>
                         </div>
                     </c:if>
-                    <c:if test="${sessionScope.errorField!= null}">
+                    <c:if test="${errorField!= null}">
                         <div class="alert alert-danger col-xs-offset-1 col-xs-10">
                             <span><fmt:message key="login.errorField"/></span>
                         </div>
                     </c:if>
                     <!-- Check for logout -->
-                    <c:if test="${sessionScope.logout != null}">
+                    <c:if test="${logout != null}">
                         <div class="alert alert-success col-xs-offset-1 col-xs-10">
                             <span><fmt:message key="login.message"/></span>
                         </div>

@@ -62,12 +62,12 @@
         ${sessionScope.editedForm.status}
         <div class="row mb-3">
             <c:choose>
-                <c:when test="${(sessionScope.editedForm.status ne sessionScope.statusReady) and (sessionScope.editedForm.status ne sessionScope.statusCanceled)}">
+                <c:when test="${(editedForm.status ne sessionScope.statusReady) and (editedForm.status ne sessionScope.statusCanceled)}">
                     <div class="col-xs-15">
                         <select
                                 class="form-select form-select-sm"
                                 name="status">
-                            <c:forEach items="${sessionScope.statuses}" var="status">
+                            <c:forEach items="${statuses}" var="status">
                                 <option value="${status.name()}">${status.name()}</option>
                             </c:forEach>
                         </select>

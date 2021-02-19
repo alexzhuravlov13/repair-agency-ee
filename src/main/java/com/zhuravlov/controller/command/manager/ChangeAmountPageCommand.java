@@ -10,16 +10,16 @@ import javax.servlet.http.HttpSession;
 
 public class ChangeAmountPageCommand implements Command {
     @Override
-    public String execute(HttpServletRequest req) {
-        HttpSession session = req.getSession();
+    public String execute(HttpServletRequest request) {
+        HttpSession session = request.getSession();
 
-        int userId = Integer.parseInt(req.getParameter("userId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
 
         UserService service = new UserService(new UserDaoImpl());
         UserEntity user = service.findById(userId);
 
 
-        session.setAttribute("editedUser", user);
+        request.setAttribute("editedUser", user);
 
         return "/manager_change_amount.jsp";
     }
