@@ -1,6 +1,7 @@
 package com.zhuravlov.controller.command.manager;
 
 import com.zhuravlov.controller.command.Command;
+import com.zhuravlov.controller.command.CommandUtility;
 import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.Status;
 import com.zhuravlov.model.entity.UserEntity;
@@ -14,9 +15,15 @@ import java.util.List;
 public class ManagerSaveRepairFormCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
+        if (!CommandUtility.isValidated(request.getParameter("status"),
+                request.getParameter("repairman"),
+                request.getParameter("price"))) {
+
+            request.setAttribute("repairFormEmptyFields", "repairFormEmptyFields");
+            return "/manager_repair_form_edit.jsp";
+        }
 
         HttpSession session = request.getSession();
-
         int id = (Integer) session.getAttribute("editedFormId");
         Status status = Status.valueOf(request.getParameter("status"));
         int repairmanId = Integer.parseInt(request.getParameter("repairman"));

@@ -28,11 +28,7 @@ public class LoginCommand implements Command {
         String email = request.getParameter("email");
         String pass = request.getParameter("pass");
 
-        HttpSession session = request.getSession();
-        request.setAttribute("errorField", null);
-        request.setAttribute("error", null);
-
-        if (email == null || email.equals("") || pass == null || pass.equals("")) {
+        if(!CommandUtility.isValidated(email, pass)){
             request.setAttribute("errorField", "emptyField");
             return "/login.jsp";
         }
@@ -45,12 +41,13 @@ public class LoginCommand implements Command {
             return "/login.jsp";
         }
 
-        //Ifloggined-quit
+        //IfLoggined-quit
         if (CommandUtility.checkUserIsLoggedOrLogin(request, email)) {
             return "redirect:/error";
         }
 
         Set<Role> userRoles = user.getRoles();
+        HttpSession session = request.getSession();
         session.setAttribute("user", user);
         CommandUtility.setUserRoles(request, userRoles, email);
 

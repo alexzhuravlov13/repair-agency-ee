@@ -60,6 +60,12 @@
             </div>
         </div>
 
+        <c:if test="${repairFormEmptyFields ne null}">
+            <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                <span><fmt:message key="repairForm.error"/></span>
+            </div>
+        </c:if>
+
 
         <fmt:message key="repairFormView.ok" var="ok"/>
         <div class="row mb-3">
@@ -69,7 +75,6 @@
 
             </div>
         </div>
-
     </form>
 </div>
 <jsp:include page="navbottom.jsp"/>

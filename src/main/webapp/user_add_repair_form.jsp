@@ -23,7 +23,7 @@
         <h2><fmt:message key="repairFormAdd.h"/></h2>
 
         <fmt:message key="repairFormAdd.car" var="carPh"/>
-        <div class="row mb-3 ${status.error ? 'has-error' : ''}">
+        <div class="row mb-3">
             <div class="col-xs-15">
                 <input type="text" name="car" class="form-control"
                        placeholder="${carPh}"
@@ -33,7 +33,7 @@
 
 
         <fmt:message key="repairFormAdd.shortDescription" var="shortDescriptionPh"/>
-        <div class="row mb-3 ${status.error ? 'has-error' : ''}">
+        <div class="row mb-3">
             <div class="col-xs-15">
                 <input type="text" name="shortDescription" class="form-control"
                        placeholder="${shortDescriptionPh}"/>
@@ -42,12 +42,18 @@
 
 
         <fmt:message key="repairFormAdd.description" var="descriptionPh"/>
-        <div class="row mb-3 ${status.error ? 'has-error' : ''}">
+        <div class="row mb-3">
             <div class="col-xs-15">
                 <input type="text" name="description" class="form-control"
                        placeholder="${descriptionPh}"/>
             </div>
         </div>
+
+        <c:if test="${repairFormEmptyFields ne null}">
+            <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                <span><fmt:message key="repairForm.error"/></span>
+            </div>
+        </c:if>
 
 
         <fmt:message key="repairFormAdd.save" var="save"/>

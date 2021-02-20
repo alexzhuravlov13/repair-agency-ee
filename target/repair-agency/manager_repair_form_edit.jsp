@@ -68,6 +68,7 @@
                         <select
                                 class="form-select form-select-sm"
                                 name="repairman">
+                            <option value="${null}"> </option>
                             <c:forEach items="${repairmans}" var="repairman">
                                 <option value="${repairman.userId}">${repairman.firstName}</option>
                             </c:forEach>
@@ -91,6 +92,7 @@
                         <select
                                 class="form-select form-select-sm"
                                 name="status">
+                            <option value="${null}"> </option>
                             <c:forEach items="${statuses}" var="status">
                                 <option value="${status.name()}">${status.name()}</option>
                             </c:forEach>
@@ -131,15 +133,35 @@
             </c:otherwise>
         </c:choose>
 
-
-        <fmt:message key="repairFormView.ok" var="ok"/>
-        <div class="row mb-3">
-            <div class="col text-center">
-                <button type="submit"
-                        class="btn btn-success">${ok}
-                </button>
+        <c:if test="${repairFormEmptyFields ne null}">
+            <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                <span><fmt:message key="repairForm.error"/></span>
             </div>
-        </div>
+        </c:if>
+
+        <c:choose>
+            <c:when test="${sessionScope.editedForm.status ne sessionScope.statusReady}">
+                <fmt:message key="repairFormView.ok" var="ok"/>
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <button type="submit"
+                                class="btn btn-success">${ok}
+                        </button>
+                    </div>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <fmt:message key="repairFormView.ok" var="ok"/>
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <button type="button"
+                                onclick="location.href='/app/manager/managerRepairFormList'"
+                                class="btn btn-success">${ok}
+                        </button>
+                    </div>
+                </div>
+            </c:otherwise>
+        </c:choose>
 
     </form>
 </div>

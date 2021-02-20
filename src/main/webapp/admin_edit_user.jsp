@@ -6,7 +6,9 @@
 <fmt:setBundle basename="messages"/>
 
 <html lang="${sessionScope.lang}">
+
 <head>
+    <link rel="shortcut icon" href="#">
     <meta charset="utf-8">
     <title><fmt:message key="userEdit.h"/></title>
 
@@ -22,14 +24,14 @@
           class="mx-auto p-5 m-3" style="width: 50%; background-color: #eee;">
         <h2><fmt:message key="userEdit.h"/></h2>
 
-        <input type="hidden" name="userId" value="${editedUser.userId}"/>
+        <input type="hidden" name="userId" value="${sessionScope.editedUser.userId}"/>
 
-        <input type="hidden" name="amount" value="${editedUser.amount}"/>
+        <input type="hidden" name="amount" value="${sessionScope.editedUser.amount}"/>
 
         <fmt:message key="registration.Email" var="emailPh"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
-                <input type="email" name="email" value="${editedUser.email}"
+                <input type="email" name="email" value="${sessionScope.editedUser.email}"
                        class="form-control"
                        placeholder="${emailPh}"
                        autofocus="autofocus"/>
@@ -39,7 +41,7 @@
         <fmt:message key="registration.FirstName" var="firstNamePh"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
-                <input type="text" name="firstName" value="${editedUser.firstName}"
+                <input type="text" name="firstName" value="${sessionScope.editedUser.firstName}"
                        class="form-control"
                        placeholder="${firstNamePh}"/>
             </div>
@@ -48,7 +50,7 @@
         <fmt:message key="registration.LastName" var="lastNamePh"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
-                <input type="text" name="lastName" value="${editedUser.lastName}"
+                <input type="text" name="lastName" value="${sessionScope.editedUser.lastName}"
                        class="form-control"
                        placeholder="${lastNamePh}"/>
             </div>
@@ -58,7 +60,7 @@
         <fmt:message key="registration.Password" var="passwordPh"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
-                <input type="password" name="password" value="${editedUser.password}"
+                <input type="password" name="password" value="${sessionScope.editedUser.password}"
                        class="form-control"
                        placeholder="${passwordPh}"/>
             </div>
@@ -68,7 +70,7 @@
         <fmt:message key="userEdit.roles"/>
         <div class="row mb-3 ${status.error ? 'has-error' : ''}">
             <div class="col-xs-15">
-                ${editedUser.roles}
+                ${sessionScope.editedUser.roles}
                 <select
                         class="form-select form-select-sm"
                         multiple="multiple"
@@ -79,6 +81,12 @@
                 </select>
             </div>
         </div>
+
+        <c:if test="${userEmptyFields ne null}">
+            <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                <span><fmt:message key="login.errorField"/></span>
+            </div>
+        </c:if>
 
 
         <fmt:message key="userEdit.save" var="save"/>

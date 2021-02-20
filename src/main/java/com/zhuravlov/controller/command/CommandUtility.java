@@ -1,10 +1,8 @@
 package com.zhuravlov.controller.command;
 
 import com.zhuravlov.model.entity.Role;
-import com.zhuravlov.model.entity.Status;
 import com.zhuravlov.service.RepairFormService;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -57,6 +55,15 @@ public class CommandUtility {
         request.setAttribute("perPageSize", perPageSize);
         request.setAttribute("currentPage", currentPage);
         request.setAttribute("totalPages", totalPages);
+    }
+
+    public static boolean isValidated(String... args) {
+        for (String arg : args) {
+            if (arg == null || arg.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
 

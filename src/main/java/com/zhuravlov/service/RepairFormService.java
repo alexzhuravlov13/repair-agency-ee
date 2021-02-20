@@ -64,4 +64,8 @@ public class RepairFormService {
     public List<RepairFormDto> findByRepairman(int repairmanId, int limit, int offset, String sortField, String sortDir) {
         return dao.findByRepairman(repairmanId, limit, offset, sortField, sortDir);
     }
+
+    public static RepairFormService getInstance() {
+        return new RepairFormService();
+    }
 }

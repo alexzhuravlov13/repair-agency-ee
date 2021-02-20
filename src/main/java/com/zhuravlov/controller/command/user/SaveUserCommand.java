@@ -1,7 +1,7 @@
 package com.zhuravlov.controller.command.user;
 
 import com.zhuravlov.controller.command.Command;
-import com.zhuravlov.db.Dao.UserDaoImpl;
+import com.zhuravlov.controller.command.CommandUtility;
 import com.zhuravlov.model.builder.UserEntityBuilder;
 import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.UserEntity;
@@ -16,12 +16,17 @@ import java.util.stream.Collectors;
 public class SaveUserCommand implements Command {
     @Override
     public String execute(HttpServletRequest req) {
-        UserEntity user = getUserFromRequest(req);
+        if (!CommandUtility.isValidated(req.getParameter("userId"),
+                req.getParameter("amount"),
+                req.getParameter("firstName"),
+                req.getParameter("lastName"),
+                req.getParameter("email"),
+                req.getParameter("password")) || req.getParameterValues("roles") == null) {
+            req.setAttribute("userEmptyFields", "userEmptyFields");
+            return "/admin_edit_user.jsp";
+        }
 
-        System.out.println(user);
-
-        UserService service = new UserService(new UserDaoImpl());
-        service.update(user);
+        UserService.getInstance().update(getUserFromRequest(req));
         return "redirect:/admin/listUsers";
     }
 
@@ -35,7 +40,7 @@ public class SaveUserCommand implements Command {
         String[] rolesArr = req.getParameterValues("roles");
         Set<Role> roles = Arrays.stream(rolesArr).map(Role::valueOf).collect(Collectors.toSet());
 
-        return new UserEntityBuilder()
+        return UserEntityBuilder.getInstance()
                 .setUserId(id)
                 .setAmount(amount)
                 .setFirstName(firstName)

@@ -44,4 +44,8 @@ public class UserService {
     public List<UserEntity> findRepairmans() {
         return dao.findRepairmans();
     }
+
+    public static UserService getInstance() {
+        return new UserService();
+    }
 }

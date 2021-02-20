@@ -24,7 +24,7 @@ public class ManagerEditRepairFormCommand implements Command {
 
         List<Status> statuses = Arrays.asList(Status.CANCELED, Status.PAID, Status.WAITING_FOR_PAYMENT);
         List<UserEntity> repairmans = service.findRepairmans();
-        request.setAttribute("statuses", statuses);
+        session.setAttribute("statuses", statuses);
         session.setAttribute("repairmans", repairmans);
         session.setAttribute("editedForm", repairForm);
         session.setAttribute("editedFormId", repairFormId);

@@ -69,9 +69,11 @@ public class RepairFormBuilder {
         this.repairForm.setPrice(price);
         return this;
     }
-
     public RepairFormEntity build() {
         return repairForm;
     }
 
+    public static RepairFormBuilder getInstance(){
+        return new RepairFormBuilder();
+    }
 }

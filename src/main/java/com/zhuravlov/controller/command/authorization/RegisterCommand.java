@@ -1,15 +1,16 @@
 package com.zhuravlov.controller.command.authorization;
 
 import com.zhuravlov.controller.command.Command;
-import com.zhuravlov.db.Dao.UserDaoImpl;
+import com.zhuravlov.controller.command.CommandUtility;
+import com.zhuravlov.model.builder.UserEntityBuilder;
 import com.zhuravlov.model.entity.Role;
-import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.Collections;
+import java.util.HashSet;
 
 public class RegisterCommand implements Command {
     private static final Logger log = LogManager.getLogger(RegisterCommand.class);
@@ -21,25 +22,21 @@ public class RegisterCommand implements Command {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            HttpSession session = request.getSession();
-            request.setAttribute(" status.error", "errorrrrrrrrrrrrrr");
+        if (!CommandUtility.isValidated(firstName, lastName, email, password)) {
+            request.setAttribute(" status.error", "error");
             return "/registration.jsp";
         }
 
-        UserEntity userEntity = new UserEntity(firstName, lastName, email, password);
-
-        userEntity.getRoles().add(Role.USER);
-
-        saveToDb(userEntity);
+        UserService.getInstance().
+                create(UserEntityBuilder.getInstance()
+                        .setFirstName(firstName)
+                        .setLastName(lastName)
+                        .setEmail(email)
+                        .setPassword(password)
+                        .setRoles(new HashSet<>(Collections.singletonList(Role.USER)))
+                        .build());
 
         return "/login.jsp";
     }
-
-    private void saveToDb(UserEntity user) {
-        UserService userService = new UserService(new UserDaoImpl());
-        userService.create(user);
-    }
-
 
 }

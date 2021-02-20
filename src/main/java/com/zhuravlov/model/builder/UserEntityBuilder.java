@@ -51,4 +51,8 @@ public class UserEntityBuilder {
     public UserEntity build() {
         return userEntity;
     }
+
+    public static UserEntityBuilder getInstance() {
+        return new UserEntityBuilder();
+    }
 }

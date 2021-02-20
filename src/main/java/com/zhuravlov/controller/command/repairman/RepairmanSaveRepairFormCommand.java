@@ -1,6 +1,7 @@
 package com.zhuravlov.controller.command.repairman;
 
 import com.zhuravlov.controller.command.Command;
+import com.zhuravlov.controller.command.CommandUtility;
 import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.Status;
 import com.zhuravlov.service.RepairFormService;
@@ -11,23 +12,18 @@ import javax.servlet.http.HttpSession;
 public class RepairmanSaveRepairFormCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
+        if (!CommandUtility.isValidated(request.getParameter("status"))) {
+            request.setAttribute("repairFormEmptyFields", "repairFormEmptyFields");
+            return "/repairman_repair_form_edit.jsp";
+        }
 
         HttpSession session = request.getSession();
 
         RepairFormEntity editedForm = (RepairFormEntity) session.getAttribute("editedForm");
-
-        if (request.getParameter("status") != null) {
-            Status status = Status.valueOf(request.getParameter("status"));
-            RepairFormService service = new RepairFormService();
-            updateRepairForm(editedForm, status, service);
-        }
+        Status status = Status.valueOf(request.getParameter("status"));
+        editedForm.setStatus(status);
+        RepairFormService.getInstance().updateRepairForm(editedForm);
 
         return "redirect:/repairman/repairmanRepairFormList";
     }
-
-    private void updateRepairForm(RepairFormEntity editedForm, Status status, RepairFormService service) {
-        editedForm.setStatus(status);
-        service.updateRepairForm(editedForm);
-    }
-
 }
