@@ -6,7 +6,6 @@ import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Statement;
 import java.util.List;
 
 public class ManagerHomePageCommand implements Command {
