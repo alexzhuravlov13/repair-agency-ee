@@ -69,87 +69,42 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             ResultSet resultSet = preparedStatement.executeQuery();
             System.out.println(Constants.SELECT_REPAIR_FORM_BY_ID);
             while (resultSet.next()) {
-
-                String car = resultSet.getString("car");
-                LocalDateTime creationDate = resultSet.getObject("creation_date", LocalDateTime.class);
-                String description = resultSet.getString("rf_description");
-                String feedback = resultSet.getString("feedback");
-                LocalDateTime lastModifiedDate = resultSet.getObject("last_modified_date", LocalDateTime.class);
-                BigDecimal price = resultSet.getBigDecimal("price");
-                String shortDescription = resultSet.getString("rf_s_description");
-                Status status = Status.valueOf(resultSet.getString("rf_status"));
-
                 repairFormEntityById = repairFormByIdMap.get(repairFormId);
                 if (repairFormEntityById == null) {
-                    repairFormEntityById = new RepairFormBuilder()
-                            .setId(repairFormId)
-                            .setCar(car)
-                            .setCreationDate(creationDate)
-                            .setDescription(description)
-                            .setFeedback(feedback)
-                            .setLastModifiedDate(lastModifiedDate)
-                            .setPrice(price)
-                            .setShortDescription(shortDescription)
-                            .setStatus(status)
-                            .build();
+                    repairFormEntityById = getRepairFormEntity(repairFormId, resultSet);
                 }
-
 
                 int author_id = resultSet.getInt("author_id");
-                String email = resultSet.getString("author_email");
-                String firstName = resultSet.getString("author_first_name");
-                String lastName = resultSet.getString("author_last_name");
-                String password = resultSet.getString("author_password");
-                BigDecimal amount = resultSet.getBigDecimal("author_amount");
-                String role = resultSet.getString("author_role");
-                UserEntity authorById = userByIdMap.get(author_id);
 
-                if (authorById == null) {
-                    authorById = new UserEntityBuilder()
-                            .setUserId(author_id)
-                            .setEmail(email)
-                            .setFirstName(firstName)
-                            .setLastName(lastName)
-                            .setPassword(password)
-                            .setAmount(amount)
-                            .build();
-                    userByIdMap.put(authorById.getUserId(), authorById);
+                UserEntity authorId = userByIdMap.get(author_id);
+                String authorRole = resultSet.getString("author_role");
+
+                if (authorId == null) {
+                    authorId = getAuthorUserEntity(resultSet, author_id);
+                    userByIdMap.put(authorId.getUserId(), authorId);
                 }
-                authorById.addRole(Role.valueOf(role));
+                authorId.addRole(Role.valueOf(authorRole));
 
                 UserEntity repairmanEntityById = null;
-                int repairman_id = resultSet.getInt("repairman_id");
-                if (repairman_id != 0) {
-                    String repairmanEmail = resultSet.getString("repairman_email");
-                    String repairmanFirstName = resultSet.getString("repairman_first_name");
-                    String repairmanLastName = resultSet.getString("repairman_last_name");
-                    String repairmanPassword = resultSet.getString("repairman_password");
-                    BigDecimal repairmanAmount = resultSet.getBigDecimal("repairman_amount");
-                    String repairmanRole = resultSet.getString("repairman_role");
+                int repairmanId = resultSet.getInt("repairman_id");
+                String repairmanRole = resultSet.getString("repairman_role");
 
-                    repairmanEntityById = userByIdMap.get(repairman_id);
+                if (repairmanId != 0) {
+                    repairmanEntityById = userByIdMap.get(repairmanId);
                     if (repairmanEntityById == null) {
-                        repairmanEntityById = new UserEntityBuilder()
-                                .setUserId(repairman_id)
-                                .setEmail(repairmanEmail)
-                                .setFirstName(repairmanFirstName)
-                                .setLastName(repairmanLastName)
-                                .setPassword(repairmanPassword)
-                                .setAmount(repairmanAmount)
-                                .build();
+                        repairmanEntityById = getRepairmanUserEntity(resultSet, repairmanId);
                         userByIdMap.put(repairmanEntityById.getUserId(), repairmanEntityById);
                     }
                     repairmanEntityById.addRole(Role.valueOf(repairmanRole));
                 }
 
-                repairFormEntityById.setAuthor(authorById);
+                repairFormEntityById.setAuthor(authorId);
                 repairFormEntityById.setRepairman(repairmanEntityById);
 
                 repairFormByIdMap.put(repairFormEntityById.getId(), repairFormEntityById);
 
             }
 
-            //TODO:stream
             for (Map.Entry<Integer, RepairFormEntity> entry : repairFormByIdMap.entrySet()) {
                 RepairFormEntity repairFormEntity = entry.getValue();
                 repairFormEntity.setAuthor(userByIdMap.get(repairFormEntity.getAuthor().getUserId()));
@@ -161,6 +116,70 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             e.printStackTrace();
             return null;
         }
+        return repairFormEntityById;
+    }
+
+    private UserEntity getAuthorUserEntity(ResultSet resultSet, int author_id) throws SQLException {
+        UserEntity authorId;
+        String email = resultSet.getString("author_email");
+        String firstName = resultSet.getString("author_first_name");
+        String lastName = resultSet.getString("author_last_name");
+        String password = resultSet.getString("author_password");
+        BigDecimal amount = resultSet.getBigDecimal("author_amount");
+
+        authorId = new UserEntityBuilder()
+                .setUserId(author_id)
+                .setEmail(email)
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setPassword(password)
+                .setAmount(amount)
+                .build();
+        return authorId;
+    }
+
+    private UserEntity getRepairmanUserEntity(ResultSet resultSet, int repairmanId) throws SQLException {
+        UserEntity repairmanEntityById;
+        String repairmanEmail = resultSet.getString("repairman_email");
+        String repairmanFirstName = resultSet.getString("repairman_first_name");
+        String repairmanLastName = resultSet.getString("repairman_last_name");
+        String repairmanPassword = resultSet.getString("repairman_password");
+        BigDecimal repairmanAmount = resultSet.getBigDecimal("repairman_amount");
+
+
+        repairmanEntityById = new UserEntityBuilder()
+                .setUserId(repairmanId)
+                .setEmail(repairmanEmail)
+                .setFirstName(repairmanFirstName)
+                .setLastName(repairmanLastName)
+                .setPassword(repairmanPassword)
+                .setAmount(repairmanAmount)
+                .build();
+        return repairmanEntityById;
+    }
+
+    private RepairFormEntity getRepairFormEntity(int repairFormId, ResultSet resultSet) throws SQLException {
+        RepairFormEntity repairFormEntityById;
+        String car = resultSet.getString("car");
+        LocalDateTime creationDate = resultSet.getObject("creation_date", LocalDateTime.class);
+        String description = resultSet.getString("rf_description");
+        String feedback = resultSet.getString("feedback");
+        LocalDateTime lastModifiedDate = resultSet.getObject("last_modified_date", LocalDateTime.class);
+        BigDecimal price = resultSet.getBigDecimal("price");
+        String shortDescription = resultSet.getString("rf_s_description");
+        Status status = Status.valueOf(resultSet.getString("rf_status"));
+
+        repairFormEntityById = new RepairFormBuilder()
+                .setId(repairFormId)
+                .setCar(car)
+                .setCreationDate(creationDate)
+                .setDescription(description)
+                .setFeedback(feedback)
+                .setLastModifiedDate(lastModifiedDate)
+                .setPrice(price)
+                .setShortDescription(shortDescription)
+                .setStatus(status)
+                .build();
         return repairFormEntityById;
     }
 
@@ -177,7 +196,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
                 return findAll(limit, offset, sortField, sortDir);
             }
             System.out.println("by status");
-            return findAll(limit, offset, sortField, sortDir, statusFilter);
+            return findByStatus(limit, offset, sortField, sortDir, statusFilter);
         }
 
         if (statusFilter == null) {
@@ -186,13 +205,15 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
         }
 
         System.out.println("by status and by master");
-        return findAllByStatusAndRepairman(limit, offset, sortField, sortDir,
+        return findByStatusAndRepairman(limit, offset, sortField, sortDir,
                 repairmanIdFilter, statusFilter);
     }
 
-    public List<RepairFormDto> findAllByStatusAndRepairman(int limit, int offset, String sortField, String sortDir,
-                                                           Integer repairmanIdFilter, Status statusFilter) {
-        String query = getQueryWithSortFieldAndDir(sortField, sortDir, Constants.SELECT_ALL_REPAIR_FORMS_BY_STATUS_AND_REPAIRMAN);
+    public List<RepairFormDto> findByStatusAndRepairman(int limit, int offset, String sortField, String sortDir,
+                                                        Integer repairmanIdFilter, Status statusFilter) {
+        String query = getQueryWithSortFieldAndDir(sortField, sortDir,
+                Constants.SELECT_ALL_REPAIR_FORMS_BY_STATUS_AND_REPAIRMAN);
+
         try (Connection con = DbUtil.getConnection()) {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setInt(1, repairmanIdFilter);
@@ -202,14 +223,13 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             preparedStatement.setInt(5, limit);
             preparedStatement.setInt(6, offset);
             return getAllRepairFormsDto(preparedStatement);
-
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private List<RepairFormDto> findAll(int limit, int offset, String sortField, String sortDir, Status statusFilter) {
+    private List<RepairFormDto> findByStatus(int limit, int offset, String sortField, String sortDir, Status statusFilter) {
         String query = getQueryWithSortFieldAndDir(sortField, sortDir, Constants.SELECT_ALL_REPAIR_FORMS_BY_STATUS);
         try (Connection con = DbUtil.getConnection()) {
             PreparedStatement preparedStatement = con.prepareStatement(query);
@@ -238,35 +258,20 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
         }
     }
 
-
-    @Override
-    public RepairFormEntity update(RepairFormEntity entity) {
-        //SET price = ?, rf_status = ?, repairman_id = ?, last_modified_date = ? WHERE id = ?
+    public List<RepairFormDto> findByRepairman(int userId, int limit, int offset, String sortField, String sortDir) {
+        String query = getQueryWithSortFieldAndDir(sortField, sortDir, Constants.SELECT_REPAIRMAN_REPAIR_FORMS);
         try (Connection con = DbUtil.getConnection()) {
-            PreparedStatement ps = con.prepareStatement(Constants.UPDATE_REPAIR_FORM);
-            ps.setBigDecimal(1, entity.getPrice());
-            ps.setString(2, entity.getStatus().name());
-            ps.setInt(3, entity.getRepairman().getUserId());
-            ps.setObject(4, LocalDateTime.now());
-            ps.setInt(5, entity.getId());
-            ps.executeUpdate();
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.setInt(3, limit);
+            preparedStatement.setInt(4, offset);
+            return getAllRepairFormsDto(preparedStatement);
+
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return entity;
-    }
-
-    @Override
-    public boolean delete(int id) {
-        throw new UnsupportedOperationException("Method doesn't implemented");
-    }
-
-    public int getTotalForms() {
-        return totalForms;
-    }
-
-    public BigDecimal getUserAmount() {
-        return userAmount;
     }
 
     public List<RepairFormDto> findByUserId(Integer userId, int limit, int offset, String sortField, String sortDir) {
@@ -304,33 +309,33 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
         return repairFormDtoList;
     }
 
-
-    public List<RepairFormDto> findByRepairman(int userId, int limit, int offset, String sortField, String sortDir) {
-        String query = getQueryWithSortFieldAndDir(sortField, sortDir, Constants.SELECT_REPAIRMAN_REPAIR_FORMS);
-
-        List<RepairFormDto> repairFormDtoList = new ArrayList<>();
-        int formsCount = 0;
-
+    @Override
+    public RepairFormEntity update(RepairFormEntity entity) {
         try (Connection con = DbUtil.getConnection()) {
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, userId);
-            preparedStatement.setInt(3, limit);
-            preparedStatement.setInt(4, offset);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                formsCount = resultSet.getInt("totalForms");
-                RepairFormDto dto = getRepairFormDto(resultSet);
-                repairFormDtoList.add(dto);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
+            PreparedStatement ps = con.prepareStatement(Constants.UPDATE_REPAIR_FORM);
+            ps.setBigDecimal(1, entity.getPrice());
+            ps.setString(2, entity.getStatus().name());
+            ps.setInt(3, entity.getRepairman().getUserId());
+            ps.setObject(4, LocalDateTime.now());
+            ps.setInt(5, entity.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        totalForms = formsCount;
-        return repairFormDtoList;
+        return entity;
+    }
+
+    @Override
+    public boolean delete(int id) {
+        throw new UnsupportedOperationException("Method doesn't implemented");
+    }
+
+    public int getTotalForms() {
+        return totalForms;
+    }
+
+    public BigDecimal getUserAmount() {
+        return userAmount;
     }
 
     private RepairFormDto getRepairFormDto(ResultSet resultSet) throws SQLException {
