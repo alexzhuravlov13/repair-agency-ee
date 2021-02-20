@@ -17,70 +17,70 @@
 <body>
 <jsp:include page="navbar.jsp"/>
 <div class="container mt-3">
-    <c:if test="${not empty amount}">
-        <h5><fmt:message key="users.Amount"/>: ${amount}</h5>
-    </c:if>
     <h5><fmt:message key="repairForm.title"/></h5>
 
-    <%--<div class="row">
+    <div class="row">
         <div class="col m-3" style="max-width: 80%; display:inline-block">
-            <c:if test="${not empty filterDto}">
 
-                    <form action="/repairs/manager/list" method="post" modelAttribute="filterDto">
-                        <div class="col m-3" style="display:inline-block">
-                            <div><strong><fmt:message key="repairForm.filter"/></strong></div>
+            <form action="${pageContext.request.contextPath}/app/manager/addRepairFormFilter" method="post">
+                <div class="col m-3" style="display:inline-block">
+                    <div><strong><fmt:message key="repairForm.filter"/></strong></div>
+                </div>
+
+                <div class="col m-3" style="display:inline-block">
+                    <div class="row">
+                        <div><fmt:message key="repairFormEdit.repairman"/></div>
+                    </div>
+
+                    <div class="row">
+                        <select
+                                class="form-select form-select-sm"
+                                name="repairman">
+                            <option value="${null}"></option>
+                            <c:forEach items="${sessionScope.repairmans}" var="repairman">
+                                <option value="${repairman.userId}">${repairman.firstName}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col m-3" style="display:inline-block">
+                    <div class="row">
+                        <div><fmt:message key="repairForm.Status"/></div>
+                    </div>
+
+                    <div class="row">
+                        <select
+                                class="form-select form-select-sm"
+                                name="status">
+                            <option value="${null}"></option>
+                            <c:forEach items="${sessionScope.allStatuses}" var="status">
+                                <option value="${status.name()}">${status.name()}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+                <div class="col m-3" style="display:inline-block">
+                    <div class="row">
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-outline-success m-3"><fmt:message
+                                    key="repairForm.apply"/>
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button onclick="location.href='${pageContext.request.contextPath}/app/manager/clearRepairFormFilter'"
+                                    type="button"
+                                    class="btn btn-outline-danger m-3"><fmt:message key="repairForm.clear"/>
+                            </button>
                         </div>
 
-                        <div class="col m-3" style="display:inline-block">
-                            <div class="row">
-                                <div><fmt:message key="repairFormEdit.repairman"/></div>
-                            </div>
-
-                            <div class="row">
-                                <form:select path="masterId" class="form-select form-select-sm m-3" id="selectMaster">
-                                    <option value=""></option>
-                                    <c:forEach items="${masters}" var="master">
-                                        <option value="${master.userId}">${master.firstName} ${master.lastName}</option>
-                                    </c:forEach>
-                                </form:select>
-                            </div>
-                        </div>
-
-                        <div class="col m-3" style="display:inline-block">
-                            <div class="row">
-                                <div><fmt:message key="repairForm.Status"/></div>
-                            </div>
-
-                            <div class="row">
-                                <form:select path="status" class="form-select form-select-sm m-3" id="selectStatus">
-                                    <option value=""></option>
-                                    <c:forEach items="${statuses}" var="status">
-                                        <option value="${status}">${status}</option>
-                                    </c:forEach>
-                                </form:select>
-                            </div>
-                        </div>
-                        <div class="col m-3" style="display:inline-block">
-                            <div class="row">
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <button type="submit" class="btn btn-outline-success m-3"><spring:message
-                                            code="repairForm.apply"/>
-                                    </button>
-                                </div>
-                                <div class="col">
-                                    <button onclick="location.href='/repairs/manager/list/clear'" type="button"
-                                            class="btn btn-outline-danger m-3"><fmt:message key="repairForm.clear"/>
-                                    </button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </form>
-            </c:if>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>--%>
+    </div>
 
 
     <table class="table table-striped table-light">

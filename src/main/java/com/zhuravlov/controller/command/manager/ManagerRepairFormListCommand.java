@@ -3,6 +3,7 @@ package com.zhuravlov.controller.command.manager;
 import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.controller.command.CommandUtility;
 import com.zhuravlov.model.dto.RepairFormDto;
+import com.zhuravlov.model.entity.Status;
 import com.zhuravlov.service.RepairFormService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +51,10 @@ public class ManagerRepairFormListCommand implements Command {
             sortDir = "";
         }
 
-        List<RepairFormDto> all = service.findAll(perPageSize, offset, sortField, sortDir);
+        Status statusFilter = (Status) session.getAttribute("statusFilter");
+        Integer repairmanFilter = (Integer) session.getAttribute("repairmanFilter");
+
+        List<RepairFormDto> all = service.findAll(perPageSize, offset, sortField, sortDir, repairmanFilter, statusFilter);
         CommandUtility.getRepairFomListPaginatedAddSessionAttributes(request, perPageSize, currentPage, service, all);
     }
 }

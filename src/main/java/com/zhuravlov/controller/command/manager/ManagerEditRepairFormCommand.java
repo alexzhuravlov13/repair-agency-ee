@@ -17,15 +17,15 @@ public class ManagerEditRepairFormCommand implements Command {
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         UserService service = new UserService();
-        List<UserEntity> repairmans = service.findRepairmans();
 
         int repairFormId = Integer.parseInt(request.getParameter("repairFormId"));
 
         RepairFormEntity repairForm = new RepairFormService().findById(repairFormId);
 
         List<Status> statuses = Arrays.asList(Status.CANCELED, Status.PAID, Status.WAITING_FOR_PAYMENT);
-        session.setAttribute("repairmans", repairmans);
+        List<UserEntity> repairmans = service.findRepairmans();
         request.setAttribute("statuses", statuses);
+        session.setAttribute("repairmans", repairmans);
         session.setAttribute("editedForm", repairForm);
         session.setAttribute("editedFormId", repairFormId);
         return "/manager_repair_form_edit.jsp";

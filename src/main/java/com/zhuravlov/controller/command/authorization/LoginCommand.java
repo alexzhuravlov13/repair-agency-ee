@@ -61,6 +61,10 @@ public class LoginCommand implements Command {
     private String getUserHomePage(Set<Role> userRoles) {
         if (userRoles.contains(Role.ADMIN)) {
             return "redirect:/admin/listUsers";
+        } else if (userRoles.contains(Role.MANAGER)) {
+            return "redirect:/manager/home";
+        } else if (userRoles.contains(Role.REPAIRMAN)) {
+            return "redirect:/repairman/repairmanRepairFormList";
         } else if (userRoles.contains(Role.USER)) {
             return "redirect:/user/userRepairFormList";
         }

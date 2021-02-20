@@ -139,6 +139,9 @@ public class Servlet extends HttpServlet {
         commands.put("manager/managerRepairFormList", new ManagerRepairFormListCommand());
         commands.put("manager/editRepairForm", new ManagerEditRepairFormCommand());
         commands.put("manager/saveRepairForm", new ManagerSaveRepairFormCommand());
+        commands.put("manager/addRepairFormFilter", new AddRepairFormFilterCommand());
+        commands.put("manager/clearRepairFormFilter", new ClearRepairFormFilterCommand());
+        commands.put("manager/home", new ManagerHomePageCommand());
 
         commands.put("repairman/repairmanRepairFormList", new RepairmanRepairFormListCommand());
         commands.put("repairman/editRepairForm", new RepairmanEditRepairFormCommand());

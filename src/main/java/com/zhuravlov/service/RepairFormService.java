@@ -27,8 +27,9 @@ public class RepairFormService {
         return dao.findAll();
     }
 
-    public List<RepairFormDto> findAll(int limit, int offset, String sortField, String sortDir) {
-        return dao.findAll(limit, offset, sortField, sortDir);
+    public List<RepairFormDto> findAll(int limit, int offset, String sortField, String sortDir,
+                                       Integer repairmanIdFilter, Status statusFilter) {
+        return dao.findAll(limit, offset, sortField, sortDir, repairmanIdFilter, statusFilter);
     }
 
     public int getFormsCount() {
