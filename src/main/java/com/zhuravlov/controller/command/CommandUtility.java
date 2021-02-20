@@ -13,15 +13,8 @@ public class CommandUtility {
     public static void setUserRoles(HttpServletRequest request,
                                     Set<Role> roles, String name) {
         HttpSession session = request.getSession();
-        ServletContext context = request.getServletContext();
-
         session.setAttribute("userName", name);
         session.setAttribute("roles", roles);
-        session.setAttribute("roleAdmin", Role.ADMIN);
-        session.setAttribute("roleManager", Role.MANAGER);
-        session.setAttribute("roleRepairman", Role.REPAIRMAN);
-        session.setAttribute("statusReady", Status.READY);
-        session.setAttribute("statusCanceled", Status.CANCELED);
     }
 
     public static boolean checkUserIsLoggedOrLogin(HttpServletRequest request, String userName) {

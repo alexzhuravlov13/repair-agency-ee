@@ -3,6 +3,7 @@ package com.zhuravlov.controller.command.authorization;
 import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.controller.command.CommandUtility;
 import com.zhuravlov.model.entity.Role;
+import com.zhuravlov.model.entity.Status;
 import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.UserService;
 import org.slf4j.Logger;
@@ -53,8 +54,10 @@ public class LoginCommand implements Command {
         session.setAttribute("user", user);
         CommandUtility.setUserRoles(request, userRoles, email);
 
-        String x = getUserHomePage(userRoles);
-        if (x != null) return x;
+        initDataForEdit(request);
+
+        String userHomePage = getUserHomePage(userRoles);
+        if (userHomePage != null) return userHomePage;
         return "/login.jsp";
     }
 
@@ -69,6 +72,15 @@ public class LoginCommand implements Command {
             return "redirect:/user/userRepairFormList";
         }
         return null;
+    }
+
+    private void initDataForEdit(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.setAttribute("roleAdmin", Role.ADMIN);
+        session.setAttribute("roleManager", Role.MANAGER);
+        session.setAttribute("roleRepairman", Role.REPAIRMAN);
+        session.setAttribute("statusReady", Status.READY);
+        session.setAttribute("statusCanceled", Status.CANCELED);
     }
 
 }
