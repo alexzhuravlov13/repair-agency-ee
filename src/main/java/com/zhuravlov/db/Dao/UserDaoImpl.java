@@ -34,11 +34,9 @@ public class UserDaoImpl implements Dao<UserEntity> {
                     throw new SQLException("Creating user failed, no ID obtained.");
                 }
             }
-
             insertUserRoles(userEntity, connection);
             connection.setAutoCommit(true);
         } catch (SQLException e) {
-            //TODO:what do we return?
             e.printStackTrace();
             return null;
         }
