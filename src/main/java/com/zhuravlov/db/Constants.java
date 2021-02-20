@@ -122,4 +122,6 @@ public class Constants {
             "WHERE r.rf_status = ? " +
             "GROUP BY r.id " +
             "ORDER BY ? LIMIT ? OFFSET ? ";
+    public static final String GET_AMOUNT = "SELECT amount FROM users WHERE users.user_id= ?";
+    public static final String UPDATE_AMOUNT = "UPDATE users SET users.amount=? WHERE users.user_id=?";
 }

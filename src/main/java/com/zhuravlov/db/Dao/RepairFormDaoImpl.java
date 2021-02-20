@@ -434,17 +434,19 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
         ResultSet resultSet = null;
         try {
             con = DbUtil.getConnection();
-            ps = con.prepareStatement("SELECT amount FROM users WHERE users.user_id=" + authorId);
+            ps = con.prepareStatement(Constants.GET_AMOUNT);
+            ps.setInt(1, authorId);
             resultSet = ps.executeQuery();
             BigDecimal amount = null;
             while (resultSet.next()) {
                 amount = resultSet.getBigDecimal("amount");
             }
-            if (amount.compareTo(price) < 0) {
+            if (amount == null || amount.compareTo(price) < 0) {
                 return false;
             }
 
             con.setAutoCommit(false);
+
             ps = con.prepareStatement(Constants.UPDATE_REPAIR_FORM);
             ps.setBigDecimal(1, price);
             ps.setString(2, status.name());
@@ -453,18 +455,19 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             ps.setInt(5, id);
             ps.executeUpdate();
 
-            ps = con.prepareStatement("UPDATE users SET users.amount=? WHERE users.user_id=?");
+            ps = con.prepareStatement(Constants.UPDATE_AMOUNT);
             ps.setBigDecimal(1, amount.subtract(price));
             ps.setInt(2, authorId);
             ps.executeUpdate();
 
-            ps = con.prepareStatement("SELECT amount FROM users WHERE users.user_id=" + authorId);
+            ps = con.prepareStatement(Constants.GET_AMOUNT);
+            ps.setInt(1, authorId);
             resultSet = ps.executeQuery();
             amount = null;
             while (resultSet.next()) {
                 amount = resultSet.getBigDecimal("amount");
             }
-            if (amount.doubleValue() < 0) {
+            if (amount == null || amount.doubleValue() < 0) {
                 con.rollback();
             } else {
                 con.commit();
@@ -481,8 +484,8 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
                     ps.close();
                     con.close();
                 }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
