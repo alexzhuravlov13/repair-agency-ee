@@ -1,6 +1,7 @@
 package com.zhuravlov.controller;
 
 import com.zhuravlov.controller.command.Command;
+import com.zhuravlov.controller.command.ErrorCommand;
 import com.zhuravlov.controller.command.authorization.*;
 import com.zhuravlov.controller.command.manager.*;
 import com.zhuravlov.controller.command.repairForm.*;
@@ -37,13 +38,18 @@ public class Servlet extends HttpServlet {
     public void init(ServletConfig servletConfig) throws ServletException {
         super.init(servletConfig);
 
+        //Todo:password encryption
+        //Todo:log4j.
+        //Todo:Код повинен містити коментарі документації (всі класи верхнього рівня, нетривіальні методи і конструктори).
+        //Todo:unit tests 40%
+        //Todo:Validation
+
         DbUtil.init();
 
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
+
         initCommandsMap();
-
-
     }
 
 
@@ -126,7 +132,7 @@ public class Servlet extends HttpServlet {
     }
 
     private void initCommandsMap() {
-        //commands.put("error", new ErrorCommand());
+        commands.put("error", new ErrorCommand());
         commands.put("login", new LoginPageCommand());
         commands.put("loginUser", new LoginCommand());
         commands.put("logout", new LogOutCommand());
