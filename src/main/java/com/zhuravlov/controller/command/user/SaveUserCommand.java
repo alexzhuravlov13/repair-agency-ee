@@ -46,7 +46,7 @@ public class SaveUserCommand implements Command {
                 .setFirstName(firstName)
                 .setLastName(lastName)
                 .setEmail(email)
-                .setPassword(password)
+                .setPassword(CommandUtility.hashPass(password, email))
                 .setRoles(roles)
                 .build();
     }

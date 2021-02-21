@@ -35,7 +35,7 @@ public class LoginCommand implements Command {
         //getFromDb
         UserEntity user = userService.findByEmail(email);
 
-        if (user == null || !user.getPassword().equals(pass)) {
+        if (user == null || !user.getPassword().equals(CommandUtility.hashPass(pass, email))) {
             request.setAttribute("error", "no such user");
             return "/login.jsp";
         }
