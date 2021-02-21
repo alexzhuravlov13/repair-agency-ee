@@ -20,9 +20,6 @@
 
         <li class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="/"><fmt:message key="navbar.home"/></a>
-                </li>
                 <c:forEach var="role" items="${sessionScope.roles}">
                     <c:if test="${role eq sessionScope.roleAdmin}">
                         <li class="nav-item">

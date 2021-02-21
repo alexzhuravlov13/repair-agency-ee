@@ -75,7 +75,7 @@
                         class="form-select form-select-sm"
                         multiple="multiple"
                         name="roles">
-                    <c:forEach items="${allRoles}" var="role">
+                    <c:forEach items="${sessionScope.allRoles}" var="role">
                         <option value="${role.name()}">${role.name()}</option>
                     </c:forEach>
                 </select>

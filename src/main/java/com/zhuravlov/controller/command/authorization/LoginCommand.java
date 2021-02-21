@@ -16,7 +16,6 @@ import java.util.Set;
 public class LoginCommand implements Command {
     private static Logger log = LoggerFactory.getLogger(LoginCommand.class);
 
-
     UserService userService;
 
     public LoginCommand() {
@@ -36,7 +35,7 @@ public class LoginCommand implements Command {
         //getFromDb
         UserEntity user = userService.findByEmail(email);
 
-        if (user == null) {
+        if (user == null || !user.getPassword().equals(pass)) {
             request.setAttribute("error", "no such user");
             return "/login.jsp";
         }

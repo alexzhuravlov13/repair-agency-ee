@@ -16,7 +16,7 @@ public class EditUserCommand implements Command {
         int userId = Integer.parseInt(request.getParameter("userId"));
 
         request.getSession().setAttribute("editedUser", UserService.getInstance().findById(userId));
-        request.setAttribute("allRoles", Role.values());
+        request.getSession().setAttribute("allRoles", Role.values());
 
         return "/admin_edit_user.jsp";
     }

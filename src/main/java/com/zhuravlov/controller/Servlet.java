@@ -44,7 +44,6 @@ public class Servlet extends HttpServlet {
         //Todo:log4j.
         //Todo:Код повинен містити коментарі документації (всі класи верхнього рівня, нетривіальні методи і конструктори).
         //Todo:unit tests 40%
-        //Todo:Validation
 
         DbUtil.init();
 
