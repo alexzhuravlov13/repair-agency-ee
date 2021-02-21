@@ -28,15 +28,21 @@
         <div class="row mb-3">
             <div class="col-xs-15">
                 <div>
-                    <c:if test="${not empty error}">
+                    <c:if test="${not empty errorRegistered}">
                         <div class="alert alert-danger col-xs-offset-1 col-xs-10">
                             <span><fmt:message key="registration.emailRegistered"/></span>
                         </div>
                     </c:if>
 
-                    <c:if test="${not empty status.error}">
+                    <c:if test="${not empty fieldsError}">
                         <div class="alert alert-danger col-xs-offset-1 col-xs-10">
-                            <span><fmt:message key="registration.errorEmailBlank"/></span>
+                            <span><fmt:message key="login.errorField"/></span>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${not empty emailError}">
+                        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                            <span><fmt:message key="registration.errorEmailFormat"/></span>
                         </div>
                     </c:if>
 
