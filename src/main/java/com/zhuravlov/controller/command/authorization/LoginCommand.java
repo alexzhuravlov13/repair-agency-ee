@@ -6,16 +6,13 @@ import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.Status;
 import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Set;
 
 public class LoginCommand implements Command {
-    private static Logger log = LoggerFactory.getLogger(LoginCommand.class);
-
     UserService userService;
 
     public LoginCommand() {

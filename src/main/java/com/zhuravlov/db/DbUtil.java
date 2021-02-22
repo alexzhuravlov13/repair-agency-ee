@@ -2,14 +2,14 @@ package com.zhuravlov.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.zhuravlov.controller.Servlet;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DbUtil {
-    private static final Logger log = LogManager.getLogger(DbUtil.class);
+    private final static Logger log = Logger.getLogger(DbUtil.class);
 
     //TODO:from properties
     private static final String DB_URL =
@@ -18,7 +18,7 @@ public class DbUtil {
     private static HikariDataSource dataSource;
 
     public static void init() {
-        log.debug("Db file path : {}", DB_URL);
+        log.info("Db file path :" + DB_URL);
 
         HikariConfig config = new HikariConfig();
         config.setPoolName("MySqlPool");
@@ -36,7 +36,7 @@ public class DbUtil {
         try {
             connection = dataSource.getConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
         }
 
         return connection;

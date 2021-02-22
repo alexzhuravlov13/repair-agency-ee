@@ -1,10 +1,12 @@
 package com.zhuravlov.db.Dao;
 
+import com.zhuravlov.controller.command.CommandUtility;
 import com.zhuravlov.db.Constants;
 import com.zhuravlov.db.DbUtil;
 import com.zhuravlov.model.builder.UserEntityBuilder;
 import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.UserEntity;
+import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UserDaoImpl implements Dao<UserEntity> {
+    private static final Logger log = Logger.getLogger(UserDaoImpl.class);
 
     @Override
     public UserEntity create(UserEntity userEntity) {
@@ -37,7 +40,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
             insertUserRoles(userEntity, connection);
             connection.setAutoCommit(true);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
             return null;
         }
 
@@ -71,7 +74,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
                 user.addRole(Role.valueOf(role));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
         }
         return user;
     }
@@ -92,7 +95,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
                 user.addRole(Role.valueOf(role));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
         }
         return user;
     }
@@ -108,7 +111,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
              ResultSet resultSet = statement.executeQuery(Constants.SELECT_ALL_FROM_USERS_SQL)) {
             getUserList(list, userById, resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
         }
         return list;
     }
@@ -127,7 +130,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
             ps.executeUpdate();
             updateRoles(connection, entity);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
         }
         return entity;
     }
@@ -147,7 +150,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }
-            e.printStackTrace();
+            log.error(e.getStackTrace());
         }
     }
 
@@ -212,7 +215,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
             ResultSet resultSet = ps.executeQuery(Constants.SELECT_ALL_REPAIRMANS);
             getUserList(list, userById, resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
         }
         return list;
     }

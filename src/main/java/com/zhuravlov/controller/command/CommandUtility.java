@@ -1,7 +1,9 @@
 package com.zhuravlov.controller.command;
 
+import com.zhuravlov.controller.command.authorization.RegisterCommand;
 import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.service.RepairFormService;
+import org.apache.log4j.Logger;
 
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;
@@ -15,6 +17,8 @@ import java.security.spec.KeySpec;
 import java.util.*;
 
 public class CommandUtility {
+    private static final Logger log = Logger.getLogger(CommandUtility.class);
+
     public static void setUserRoles(HttpServletRequest request,
                                     Set<Role> roles, String name) {
         HttpSession session = request.getSession();
@@ -83,7 +87,7 @@ public class CommandUtility {
             Base64.Encoder enc = Base64.getEncoder();
             return enc.encodeToString(hash);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
             return "";
         }
     }

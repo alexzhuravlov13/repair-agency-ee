@@ -1,5 +1,6 @@
 package com.zhuravlov.db.Dao;
 
+import com.zhuravlov.controller.Servlet;
 import com.zhuravlov.db.Constants;
 import com.zhuravlov.db.DbUtil;
 import com.zhuravlov.model.builder.RepairFormBuilder;
@@ -10,6 +11,7 @@ import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.Status;
 import com.zhuravlov.model.entity.UserEntity;
+import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -19,6 +21,7 @@ import java.util.*;
 public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
     private int totalForms;
     private BigDecimal userAmount = BigDecimal.valueOf(0);
+    public static final Logger log = Logger.getLogger(RepairFormDaoImpl.class);
 
     @Override
     public RepairFormEntity create(RepairFormEntity form) {
@@ -50,7 +53,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             }
             return form;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
             return null;
         }
     }
@@ -67,7 +70,6 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             PreparedStatement preparedStatement = con.prepareStatement(Constants.SELECT_REPAIR_FORM_BY_ID);
             preparedStatement.setInt(1, repairFormId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            System.out.println(Constants.SELECT_REPAIR_FORM_BY_ID);
             while (resultSet.next()) {
                 repairFormEntityById = repairFormByIdMap.get(repairFormId);
                 if (repairFormEntityById == null) {
@@ -113,7 +115,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
             return null;
         }
         return repairFormEntityById;
@@ -192,19 +194,19 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
                                        Integer repairmanIdFilter, Status statusFilter) {
         if (repairmanIdFilter == null) {
             if (statusFilter == null) {
-                System.out.println("all forms");
+                log.info("all forms");
                 return findAll(limit, offset, sortField, sortDir);
             }
-            System.out.println("by status");
+            log.info("by status");
             return findByStatus(limit, offset, sortField, sortDir, statusFilter);
         }
 
         if (statusFilter == null) {
-            System.out.println("by master");
+            log.info("by master");
             return findByRepairman(repairmanIdFilter, limit, offset, sortField, sortDir);
         }
 
-        System.out.println("by status and by master");
+        log.info("by status and by master");
         return findByStatusAndRepairman(limit, offset, sortField, sortDir,
                 repairmanIdFilter, statusFilter);
     }
@@ -224,7 +226,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             preparedStatement.setInt(6, offset);
             return getAllRepairFormsDto(preparedStatement);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
             return null;
         }
     }
@@ -239,7 +241,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             preparedStatement.setInt(4, offset);
             return getAllRepairFormsDto(preparedStatement);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
             return null;
         }
     }
@@ -253,7 +255,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             return getAllRepairFormsDto(preparedStatement);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
             return null;
         }
     }
@@ -269,7 +271,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             return getAllRepairFormsDto(preparedStatement);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
             return null;
         }
     }
@@ -298,7 +300,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
                 repairFormDtoList.add(dto);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
             return null;
         }
         totalForms = formsCount;
@@ -320,7 +322,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             ps.setInt(5, entity.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
         }
         return entity;
     }
@@ -396,7 +398,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
                 repairFormDtoList.add(dto);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
             return null;
         } finally {
             if (resultSet != null) {
@@ -423,7 +425,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             ps.setInt(3, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
         }
 
     }
@@ -475,7 +477,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             con.setAutoCommit(true);
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
             return false;
         } finally {
             try {
@@ -485,7 +487,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
                     con.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.error(e.getStackTrace());
             }
         }
     }

@@ -13,34 +13,27 @@ import com.zhuravlov.controller.command.user.EditUserCommand;
 import com.zhuravlov.controller.command.user.SaveUserCommand;
 import com.zhuravlov.controller.command.user.UserListCommand;
 import com.zhuravlov.db.DbUtil;
-import com.zhuravlov.model.builder.RepairFormBuilder;
-import com.zhuravlov.model.entity.RepairFormEntity;
-import com.zhuravlov.model.entity.Role;
-import com.zhuravlov.model.entity.Status;
-import com.zhuravlov.model.entity.UserEntity;
-import com.zhuravlov.service.RepairFormService;
-import com.zhuravlov.service.UserService;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+
 public class Servlet extends HttpServlet {
     private final Map<String, Command> commands = new HashMap<>();
+    public static final Logger log = Logger.getLogger(Servlet.class);
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
         super.init(servletConfig);
 
-        //Todo:password encryption
         //Todo:log4j.
         //Todo:Код повинен містити коментарі документації (всі класи верхнього рівня, нетривіальні методи і конструктори).
         //Todo:unit tests 40%
@@ -78,7 +71,7 @@ public class Servlet extends HttpServlet {
 
         String path = req.getRequestURI();
 
-        System.out.println("#SERVLET path:" + path);
+        log.info("#SERVLET path:" + path);
 
         path = path.replaceAll(".*/app/", "");
 
@@ -88,10 +81,10 @@ public class Servlet extends HttpServlet {
 
         if (page.contains("redirect:")) {
             page = page.replace("redirect:", "/app");
-            System.out.println("#SERVLET redirect to:" + page);
+            log.info("#SERVLET redirect to:" + page);
             resp.sendRedirect(page);
         } else {
-            System.out.println("#SERVLET forward to:" + page);
+            log.info("#SERVLET forward to:" + page);
             req.getRequestDispatcher(page).forward(req, resp);
         }
 

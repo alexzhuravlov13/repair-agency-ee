@@ -18,7 +18,6 @@ public class ViewRepairFormCommand implements Command {
         int repairFormId = Integer.parseInt(request.getParameter("repairFormId"));
 
         RepairFormEntity repairForm = new RepairFormService().findById(repairFormId);
-        System.out.println(repairForm);
 
         request.setAttribute("repairForm", repairForm);
         return "/user_repair_form_view.jsp";
