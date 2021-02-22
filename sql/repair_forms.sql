@@ -11,8 +11,6 @@ CREATE TABLE `repair_forms` (
   `author_id` int DEFAULT NULL,
   `repairman_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK4fw9r433k9a04xpuee1c8lb19` (`author_id`),
-  KEY `FK7yc6uxu9jifd4wbmk1dpe673s` (`repairman_id`),
-  CONSTRAINT `FK4fw9r433k9a04xpuee1c8lb19` FOREIGN KEY (`author_id`) REFERENCES `users` (`user_id`),
-  CONSTRAINT `FK7yc6uxu9jifd4wbmk1dpe673s` FOREIGN KEY (`repairman_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+  KEY `FKkelnb5r07oipk4675ky2o4mi2` (`author_id`),
+  CONSTRAINT `FKkelnb5r07oipk4675ky2o4mi2` FOREIGN KEY (`author_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
