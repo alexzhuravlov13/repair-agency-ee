@@ -1,5 +1,6 @@
 package com.zhuravlov.controller.command.authorization;
 
+import com.zhuravlov.controller.Servlet;
 import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.controller.command.CommandUtility;
 import com.zhuravlov.model.entity.Role;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Set;
 
 public class LoginCommand implements Command {
+    public static final Logger log = Logger.getLogger(LoginCommand.class);
     UserService userService;
 
     public LoginCommand() {

@@ -2,22 +2,34 @@ package com.zhuravlov.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import com.zhuravlov.controller.Servlet;
 import org.apache.log4j.Logger;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DbUtil {
     private final static Logger log = Logger.getLogger(DbUtil.class);
 
     //TODO:from properties
-    private static final String DB_URL =
-            "jdbc:mysql://localhost:3306/repair_service_db?useUnicode=true&serverTimezone=UTC&useSSL=false";
+    private static String DB_URL;
 
     private static HikariDataSource dataSource;
 
     public static void init() {
+        Properties appProps = new Properties();
+        try {
+            InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/app.properties");
+            appProps.load(input);
+        } catch (IOException e) {
+            log.warn(e.getMessage());
+        }
+        DB_URL = appProps.getProperty("connection.url");
+
         log.info("Db file path :" + DB_URL);
 
         HikariConfig config = new HikariConfig();
@@ -35,16 +47,16 @@ public class DbUtil {
         try {
             connection = dataSource.getConnection();
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
         }
         return connection;
     }
 
-    public static HikariDataSource getDataSource() {
-        return dataSource;
+    public static String getDbUrl() {
+        return DB_URL;
     }
 
-    public static void setDataSource(HikariDataSource dataSource) {
-        DbUtil.dataSource = dataSource;
+    public static void setDbUrl(String dbUrl) {
+        DB_URL = dbUrl;
     }
 }

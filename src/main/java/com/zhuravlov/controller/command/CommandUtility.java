@@ -88,7 +88,7 @@ public class CommandUtility {
             Base64.Encoder enc = Base64.getEncoder();
             return enc.encodeToString(hash);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
             return "";
         }
     }

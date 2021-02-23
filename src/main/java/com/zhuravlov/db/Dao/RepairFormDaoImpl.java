@@ -53,7 +53,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             }
             return form;
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
             return null;
         }
     }
@@ -115,7 +115,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
                 }
             }
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
             return null;
         }
         return repairFormEntityById;
@@ -226,7 +226,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             preparedStatement.setInt(6, offset);
             return getAllRepairFormsDto(preparedStatement);
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
             return null;
         }
     }
@@ -241,7 +241,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             preparedStatement.setInt(4, offset);
             return getAllRepairFormsDto(preparedStatement);
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
             return null;
         }
     }
@@ -255,7 +255,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             return getAllRepairFormsDto(preparedStatement);
 
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
             return null;
         }
     }
@@ -271,7 +271,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             return getAllRepairFormsDto(preparedStatement);
 
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
             return null;
         }
     }
@@ -300,7 +300,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
                 repairFormDtoList.add(dto);
             }
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
             return null;
         }
         totalForms = formsCount;
@@ -322,7 +322,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             ps.setInt(5, entity.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
         }
         return entity;
     }
@@ -398,7 +398,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
                 repairFormDtoList.add(dto);
             }
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
             return null;
         } finally {
             if (resultSet != null) {
@@ -426,7 +426,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
             return false;
         }
 
@@ -479,7 +479,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
             con.setAutoCommit(true);
             return true;
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
             return false;
         } finally {
             try {
@@ -489,7 +489,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
                     con.close();
                 }
             } catch (SQLException e) {
-                log.error(e.getStackTrace());
+                log.error(e.getMessage());
             }
         }
     }

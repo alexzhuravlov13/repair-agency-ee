@@ -40,7 +40,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
             insertUserRoles(userEntity, connection);
             connection.setAutoCommit(true);
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
             return null;
         }
 
@@ -74,7 +74,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
                 user.addRole(Role.valueOf(role));
             }
         } catch (Exception e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
         }
         return user;
     }
@@ -95,7 +95,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
                 user.addRole(Role.valueOf(role));
             }
         } catch (Exception e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
         }
         return user;
     }
@@ -111,7 +111,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
              ResultSet resultSet = statement.executeQuery(Constants.SELECT_ALL_FROM_USERS_SQL)) {
             getUserList(list, userById, resultSet);
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
         }
         return list;
     }
@@ -130,7 +130,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
             ps.executeUpdate();
             updateRoles(connection, entity);
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
         }
         return entity;
     }
@@ -150,7 +150,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
         }
     }
 
@@ -215,7 +215,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
             ResultSet resultSet = ps.executeQuery(Constants.SELECT_ALL_REPAIRMANS);
             getUserList(list, userById, resultSet);
         } catch (SQLException e) {
-            log.error(e.getStackTrace());
+            log.error(e.getMessage());
         }
         return list;
     }

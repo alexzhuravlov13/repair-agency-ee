@@ -28,15 +28,15 @@ public class AuthFilter implements Filter {
 
         String requestURL = request.getRequestURL().toString();
 
-        log.info("#AUTH roles:" + roles);
-        log.info("#AUTH requestURL:" + requestURL);
-
         handleByRole(request, response, roles, requestURL);
 
         filterChain.doFilter(request, response);
     }
 
     private void handleByRole(HttpServletRequest request, HttpServletResponse response, Set<Role> roles, String requestURL) throws ServletException, IOException {
+        log.info("#AUTH roles:" + roles);
+        log.info("#AUTH requestURL:" + requestURL);
+
         log.info("Handle by role " + roles);
         String destination = "";
 
