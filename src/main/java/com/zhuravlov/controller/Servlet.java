@@ -35,9 +35,10 @@ public class Servlet extends HttpServlet {
         super.init(servletConfig);
 
         //Todo:log4j.
+        //Todo:jsp error messages clear
         //Todo:Код повинен містити коментарі документації (всі класи верхнього рівня, нетривіальні методи і конструктори).
         //Todo:unit tests 40%
-
+        DbUtil.setUrlFromProp();
         DbUtil.init();
 
         servletConfig.getServletContext()

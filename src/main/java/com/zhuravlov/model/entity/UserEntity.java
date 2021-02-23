@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class UserEntity {
 
-    BigDecimal amount = BigDecimal.valueOf(0);
+    BigDecimal amount = BigDecimal.valueOf(0.00);
     private Integer userId;
     private String firstName;
     private String lastName;
@@ -50,7 +50,7 @@ public class UserEntity {
                 Objects.equals(lastName, that.lastName) &&
                 Objects.equals(email, that.email) &&
                 Objects.equals(password, that.password) &&
-                Objects.equals(amount, that.amount);
+                amount.compareTo(that.amount) == 0;
     }
 
     @Override

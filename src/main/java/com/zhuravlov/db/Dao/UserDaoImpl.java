@@ -135,7 +135,7 @@ public class UserDaoImpl implements Dao<UserEntity> {
         return entity;
     }
 
-    public void updateRoles(Connection con, UserEntity user) {
+    private void updateRoles(Connection con, UserEntity user) {
         try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_USER_ROLES_BY_ID)) {
             con.setAutoCommit(false);
             ps.setInt(1, user.getUserId());

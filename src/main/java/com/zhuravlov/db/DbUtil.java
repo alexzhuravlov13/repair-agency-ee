@@ -4,8 +4,6 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.log4j.Logger;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -20,7 +18,7 @@ public class DbUtil {
 
     private static HikariDataSource dataSource;
 
-    public static void init() {
+    public static void setUrlFromProp() {
         Properties appProps = new Properties();
         try {
             InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/app.properties");
@@ -31,7 +29,9 @@ public class DbUtil {
         DB_URL = appProps.getProperty("connection.url");
 
         log.info("Db file path :" + DB_URL);
+    }
 
+    public static void init() {
         HikariConfig config = new HikariConfig();
         config.setPoolName("MySqlPool");
         config.setDriverClassName("com.mysql.cj.jdbc.Driver");
@@ -52,11 +52,7 @@ public class DbUtil {
         return connection;
     }
 
-    public static String getDbUrl() {
-        return DB_URL;
-    }
-
-    public static void setDbUrl(String dbUrl) {
-        DB_URL = dbUrl;
+    public static void setDataSource(HikariDataSource dataSource) {
+        DbUtil.dataSource = dataSource;
     }
 }
