@@ -10,14 +10,13 @@ import javax.servlet.http.HttpSession;
 public class ViewRepairFormCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
         String basePath = (String) request.getSession().getAttribute("basePath");
         if (request.getParameter("repairFormId") == null) {
             return "redirect:/" + basePath;
         }
         int repairFormId = Integer.parseInt(request.getParameter("repairFormId"));
 
-        RepairFormEntity repairForm = new RepairFormService().findById(repairFormId);
+        RepairFormEntity repairForm = RepairFormService.getInstance().findById(repairFormId);
 
         request.setAttribute("repairForm", repairForm);
         return "/user_repair_form_view.jsp";

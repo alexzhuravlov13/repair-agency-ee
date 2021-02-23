@@ -7,6 +7,7 @@ import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.Status;
 import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.RepairFormService;
+import com.zhuravlov.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -24,15 +25,8 @@ public class CreateRepairFormCommand implements Command {
             return "/user_add_repair_form.jsp";
         }
 
-        RepairFormService.getInstance()
-                .create(RepairFormBuilder.getInstance()
-                .setCar(car)
-                .setDescription(description)
-                .setShortDescription(shortDescription)
-                .setCreationDate(LocalDateTime.now())
-                .setStatus(Status.NEW)
-                .setAuthor((UserEntity) request.getSession().getAttribute("user"))
-                .build());
+        UserEntity user = (UserEntity) request.getSession().getAttribute("user");
+        RepairFormService.getInstance().create(car, shortDescription, description, user);
 
         return "redirect:/user/userRepairFormList";
     }

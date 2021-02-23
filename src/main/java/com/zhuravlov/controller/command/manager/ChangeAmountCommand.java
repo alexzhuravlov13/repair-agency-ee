@@ -11,13 +11,11 @@ import java.math.BigDecimal;
 public class ChangeAmountCommand implements Command {
     @Override
     public String execute(HttpServletRequest req) {
-        HttpSession session = req.getSession();
         BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(req.getParameter("amount")));
-        UserEntity user = (UserEntity) session.getAttribute("editedUser");
-        user.setAmount(user.getAmount().add(amount));
+        UserEntity user = (UserEntity) req.getSession().getAttribute("editedUser");
 
-        UserService service = new UserService();
-        service.update(user);
+        user.setAmount(user.getAmount().add(amount));
+        UserService.getInstance().update(user);
         return "redirect:/manager/listUsers";
     }
 }

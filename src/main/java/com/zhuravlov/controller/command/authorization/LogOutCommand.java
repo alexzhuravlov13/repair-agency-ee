@@ -14,27 +14,15 @@ public class LogOutCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        ServletContext context = request.getServletContext();
 
         String userName = (String) session.getAttribute("userName");
 
         if (CommandUtility.checkUserIsLoggedOrLogin(request, userName)) {
-            logOut(request, session, userName);
+            CommandUtility.logOut(request, session, userName);
         }
 
         return "redirect:/login";
     }
 
-    private void logOut(HttpServletRequest request, HttpSession session, String userName) {
-        HashSet<String> loggedUsers = (HashSet<String>) session.getServletContext()
-                .getAttribute("loggedUsers");
-        loggedUsers.remove(userName);
 
-        CommandUtility.setUserRoles(request, new HashSet<>(Collections.singletonList(Role.GUEST)),
-                "Guest");
-
-        request.getServletContext().setAttribute("userName", "");
-
-        request.getSession().invalidate();
-    }
 }

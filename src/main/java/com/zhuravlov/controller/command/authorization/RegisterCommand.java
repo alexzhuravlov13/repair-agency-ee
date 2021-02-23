@@ -5,6 +5,7 @@ import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.controller.command.CommandUtility;
 import com.zhuravlov.model.builder.UserEntityBuilder;
 import com.zhuravlov.model.entity.Role;
+import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.UserService;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
@@ -27,7 +28,7 @@ public class RegisterCommand implements Command {
             return "/registration.jsp";
         }
 
-        if (!isEmailCorrect(email)) {
+        if (!CommandUtility.isEmailCorrect(email)) {
             request.setAttribute("emailError", "emailError");
             return "/registration.jsp";
         }
@@ -37,20 +38,10 @@ public class RegisterCommand implements Command {
             return "/registration.jsp";
         }
 
-        UserService.getInstance().
-                create(UserEntityBuilder.getInstance()
-                        .setFirstName(firstName)
-                        .setLastName(lastName)
-                        .setEmail(email)
-                        .setPassword(CommandUtility.hashPass(password, email))
-                        .setRoles(new HashSet<>(Collections.singletonList(Role.USER)))
-                        .build());
+        UserService.getInstance().registerUser(firstName, lastName, email, password);
 
         return "/login.jsp";
     }
 
-    private boolean isEmailCorrect(String email) {
-        return EmailValidator.getInstance().isValid(email);
-    }
 
 }

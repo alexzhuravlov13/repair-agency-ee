@@ -11,13 +11,11 @@ import javax.servlet.http.HttpSession;
 public class ChangeAmountPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
 
         int userId = Integer.parseInt(request.getParameter("userId"));
 
         UserService service = new UserService(new UserDaoImpl());
         UserEntity user = service.findById(userId);
-
 
         request.setAttribute("editedUser", user);
 

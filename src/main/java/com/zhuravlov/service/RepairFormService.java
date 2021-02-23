@@ -1,11 +1,15 @@
 package com.zhuravlov.service;
 
 import com.zhuravlov.db.Dao.RepairFormDaoImpl;
+import com.zhuravlov.model.builder.RepairFormBuilder;
 import com.zhuravlov.model.dto.RepairFormDto;
 import com.zhuravlov.model.entity.RepairFormEntity;
 import com.zhuravlov.model.entity.Status;
+import com.zhuravlov.model.entity.UserEntity;
 
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class RepairFormService {
@@ -21,6 +25,17 @@ public class RepairFormService {
 
     public RepairFormEntity create(RepairFormEntity repairForm) {
         return dao.create(repairForm);
+    }
+
+    public RepairFormEntity create(String car, String shortDescription, String description, UserEntity user) {
+        return dao.create(RepairFormBuilder.getInstance()
+                .setCar(car)
+                .setDescription(description)
+                .setShortDescription(shortDescription)
+                .setCreationDate(LocalDateTime.now())
+                .setStatus(Status.NEW)
+                .setAuthor(user)
+                .build());
     }
 
     public List<RepairFormEntity> findAll() {
@@ -67,5 +82,22 @@ public class RepairFormService {
 
     public static RepairFormService getInstance() {
         return new RepairFormService();
+    }
+
+    public RepairFormEntity updateRepairForm(RepairFormEntity editedForm, HttpSession session, Status status, int repairmanId, BigDecimal price, RepairFormService service) {
+        editedForm.setStatus(status);
+        List<UserEntity> repairmans = (List<UserEntity>) session.getAttribute("repairmans");
+        UserEntity repairman = null;
+        for (UserEntity userEntity : repairmans) {
+            if (userEntity.getUserId() == repairmanId) {
+                repairman = userEntity;
+            }
+        }
+        editedForm.setRepairman(repairman);
+        editedForm.setStatus(status);
+        editedForm.setPrice(price);
+        service.updateRepairForm(editedForm);
+
+        return editedForm;
     }
 }

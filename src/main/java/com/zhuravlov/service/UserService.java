@@ -1,8 +1,13 @@
 package com.zhuravlov.service;
 
+import com.zhuravlov.controller.command.CommandUtility;
 import com.zhuravlov.db.Dao.UserDaoImpl;
+import com.zhuravlov.model.builder.UserEntityBuilder;
+import com.zhuravlov.model.entity.Role;
 import com.zhuravlov.model.entity.UserEntity;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class UserService {
@@ -47,5 +52,15 @@ public class UserService {
 
     public static UserService getInstance() {
         return new UserService();
+    }
+
+    public UserEntity registerUser(String firstName, String lastName, String email, String password) {
+        return dao.create(UserEntityBuilder.getInstance()
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setEmail(email)
+                .setPassword(CommandUtility.hashPass(password, email))
+                .setRoles(new HashSet<>(Collections.singletonList(Role.USER)))
+                .build());
     }
 }

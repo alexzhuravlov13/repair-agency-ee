@@ -17,9 +17,7 @@ public class RepairmanSaveRepairFormCommand implements Command {
             return "/repairman_repair_form_edit.jsp";
         }
 
-        HttpSession session = request.getSession();
-
-        RepairFormEntity editedForm = (RepairFormEntity) session.getAttribute("editedForm");
+        RepairFormEntity editedForm = (RepairFormEntity) request.getSession().getAttribute("editedForm");
         Status status = Status.valueOf(request.getParameter("status"));
         editedForm.setStatus(status);
         RepairFormService.getInstance().updateRepairForm(editedForm);

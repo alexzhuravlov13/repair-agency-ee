@@ -37,43 +37,17 @@ public class LoginCommand implements Command {
             return "/login.jsp";
         }
 
-        //IfLoggined-quit
         if (CommandUtility.checkUserIsLoggedOrLogin(request, email)) {
             return "redirect:/error";
         }
 
-        Set<Role> userRoles = user.getRoles();
-        HttpSession session = request.getSession();
-        session.setAttribute("user", user);
-        CommandUtility.setUserRoles(request, userRoles, email);
+        String userHomePage = CommandUtility.loginUserAndSendToHomePage(request, email, user);
 
-        initDataForEdit(request);
+        CommandUtility.initDataForEdit(request);
 
-        String userHomePage = getUserHomePage(userRoles);
         if (userHomePage != null) return userHomePage;
         return "/login.jsp";
     }
 
-    private String getUserHomePage(Set<Role> userRoles) {
-        if (userRoles.contains(Role.ADMIN)) {
-            return "redirect:/admin/listUsers";
-        } else if (userRoles.contains(Role.MANAGER)) {
-            return "redirect:/manager/home";
-        } else if (userRoles.contains(Role.REPAIRMAN)) {
-            return "redirect:/repairman/repairmanRepairFormList";
-        } else if (userRoles.contains(Role.USER)) {
-            return "redirect:/user/userRepairFormList";
-        }
-        return null;
-    }
-
-    private void initDataForEdit(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        session.setAttribute("roleAdmin", Role.ADMIN);
-        session.setAttribute("roleManager", Role.MANAGER);
-        session.setAttribute("roleRepairman", Role.REPAIRMAN);
-        session.setAttribute("statusReady", Status.READY);
-        session.setAttribute("statusCanceled", Status.CANCELED);
-    }
 
 }

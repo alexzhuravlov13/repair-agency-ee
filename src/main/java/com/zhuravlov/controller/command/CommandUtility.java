@@ -1,16 +1,17 @@
 package com.zhuravlov.controller.command;
 
-import com.zhuravlov.controller.command.authorization.RegisterCommand;
+import com.zhuravlov.model.dto.RepairFormDto;
 import com.zhuravlov.model.entity.Role;
+import com.zhuravlov.model.entity.Status;
+import com.zhuravlov.model.entity.UserEntity;
 import com.zhuravlov.service.RepairFormService;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
 
-import javax.crypto.*;
+import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
@@ -92,5 +93,122 @@ public class CommandUtility {
         }
     }
 
+    public static String loginUserAndSendToHomePage(HttpServletRequest request, String email, UserEntity user) {
+        Set<Role> userRoles = user.getRoles();
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user);
+        CommandUtility.setUserRoles(request, userRoles, email);
+        return getUserHomePage(userRoles);
+    }
+
+    public static String getUserHomePage(Set<Role> userRoles) {
+        if (userRoles.contains(Role.ADMIN)) {
+            return "redirect:/admin/listUsers";
+        } else if (userRoles.contains(Role.MANAGER)) {
+            return "redirect:/manager/home";
+        } else if (userRoles.contains(Role.REPAIRMAN)) {
+            return "redirect:/repairman/repairmanRepairFormList";
+        } else if (userRoles.contains(Role.USER)) {
+            return "redirect:/user/userRepairFormList";
+        }
+        return null;
+    }
+
+    public static void initDataForEdit(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.setAttribute("roleAdmin", Role.ADMIN);
+        session.setAttribute("roleManager", Role.MANAGER);
+        session.setAttribute("roleRepairman", Role.REPAIRMAN);
+        session.setAttribute("statusReady", Status.READY);
+        session.setAttribute("statusCanceled", Status.CANCELED);
+    }
+
+    public static void logOut(HttpServletRequest request, HttpSession session, String userName) {
+        HashSet<String> loggedUsers = (HashSet<String>) session.getServletContext()
+                .getAttribute("loggedUsers");
+        loggedUsers.remove(userName);
+
+        CommandUtility.setUserRoles(request, new HashSet<>(Collections.singletonList(Role.GUEST)),
+                "Guest");
+
+        request.getServletContext().setAttribute("userName", "");
+
+        request.getSession().invalidate();
+    }
+
+    public static boolean isEmailCorrect(String email) {
+        return EmailValidator.getInstance().isValid(email);
+    }
+
+    public static void setFilters(HttpServletRequest request) {
+        Status status = null;
+        String statusPar = request.getParameter("status");
+        if (CommandUtility.isValidated(statusPar)) {
+            status = Status.valueOf(statusPar);
+        }
+
+        Integer repairmanId = null;
+        String repairmanPar = request.getParameter("repairman");
+        if (CommandUtility.isValidated(repairmanPar)) {
+            repairmanId = Integer.parseInt(repairmanPar);
+        }
+
+        HttpSession session = request.getSession();
+        session.setAttribute("statusFilter", status);
+        session.setAttribute("repairmanFilter", repairmanId);
+    }
+
+    public static void addListWithPaginationAndSorting(HttpServletRequest request, Role role) {
+        HttpSession session = request.getSession();
+
+        String sortDir = request.getParameter("sortDir");
+        if (sortDir == null) {
+            sortDir = "asc";
+        }
+
+        String sortField = CommandUtility.getSortField(request);
+        addListWithPagination(request, session, sortField, sortDir, role);
+
+        request.setAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+    }
+
+    public static void addListWithPagination(HttpServletRequest request, HttpSession session, String sortField, String sortDir, Role role) {
+
+        int page = 1;
+        int perPageSize = 5;
+        int currentPage = 1;
+
+        String pagePar = request.getParameter("page");
+        if (pagePar != null) {
+            page = Integer.parseInt(pagePar);
+            currentPage = page;
+        }
+
+        int offset = 0;
+
+        if (page > 1) {
+            offset = (page - 1) * perPageSize;
+        }
+
+        RepairFormService service = new RepairFormService();
+        if (sortDir == null) {
+            sortDir = "";
+        }
+        UserEntity user = (UserEntity) session.getAttribute("user");
+        Integer userId = user.getUserId();
+        List<RepairFormDto> all = null;
+
+        if (role.equals(Role.USER)) {
+            all = service.findByUserId(userId, perPageSize, offset, sortField, sortDir);
+        } else if (role.equals(Role.REPAIRMAN)) {
+            all = service.findByRepairman(userId, perPageSize, offset, sortField, sortDir);
+        } else if (role.equals(Role.MANAGER)) {
+            Status statusFilter = (Status) session.getAttribute("statusFilter");
+            Integer repairmanFilter = (Integer) session.getAttribute("repairmanFilter");
+            all = service.findAll(perPageSize, offset, sortField, sortDir, repairmanFilter, statusFilter);
+        }
+
+        CommandUtility.getRepairFomListPaginatedAddSessionAttributes(request, perPageSize, currentPage, service, all);
+    }
 
 }
