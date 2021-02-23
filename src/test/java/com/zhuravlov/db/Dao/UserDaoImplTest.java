@@ -27,27 +27,15 @@ import static org.junit.Assert.assertTrue;
 public class UserDaoImplTest {
     private static UserDaoImpl dao;
 
-    private UserEntity getUser() {
-        String email = "email@email.com";
-        String password = "password";
-        return UserEntityBuilder.getInstance()
-                .setFirstName("first")
-                .setLastName("last")
-                .setEmail(email)
-                .setPassword(CommandUtility.hashPass(password, email))
-                .setRoles(new HashSet<>(Collections.singletonList(Role.USER)))
-                .build();
-    }
-
     @BeforeClass
     public static void setup() throws SQLException {
         dao = new UserDaoImpl();
-        initH2();
+        TestUtil.initH2();
 
         Connection connection = DbUtil.getConnection();
         Statement statement = connection.createStatement();
         try {
-            executeDBScripts("sql\\schema.sql", statement);
+            TestUtil.executeDBScripts("sql\\schema.sql", statement);
             connection.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -56,7 +44,7 @@ public class UserDaoImplTest {
 
     @Test
     public void create() {
-        UserEntity userEntity = getUser();
+        UserEntity userEntity = TestUtil.getUser();
         UserEntity userEntityByDao = dao.create(userEntity);
         assertEquals(userEntity, userEntityByDao);
 
@@ -64,22 +52,22 @@ public class UserDaoImplTest {
 
     @Test
     public void findByEmail() {
-        UserEntity userEntity = getUser();
+        UserEntity userEntity = TestUtil.getUser();
         UserEntity userEntityByDao1 = dao.create(userEntity);
         assertEquals("first", dao.findByEmail("email@email.com").getFirstName());
     }
 
     @Test
     public void findById() {
-        UserEntity userEntity = getUser();
+        UserEntity userEntity = TestUtil.getUser();
         UserEntity userEntityByDao1 = dao.create(userEntity);
         assertEquals(userEntityByDao1, dao.findById(1));
     }
 
     @Test
     public void findAll() {
-        UserEntity userEntity1 = getUser();
-        UserEntity userEntity2 = getUser();
+        UserEntity userEntity1 = TestUtil.getUser();
+        UserEntity userEntity2 = TestUtil.getUser();
         userEntity2.setEmail("user1@emal.com");
         UserEntity userEntityByDao1 = dao.create(userEntity1);
         UserEntity userEntityByDao2 = dao.create(userEntity2);
@@ -89,7 +77,7 @@ public class UserDaoImplTest {
 
     @Test
     public void update() {
-        UserEntity userEntity1 = getUser();
+        UserEntity userEntity1 = TestUtil.getUser();
         userEntity1.setEmail("user42@email.com");
         UserEntity userEntity = dao.create(userEntity1);
         assertEquals(userEntity, dao.update(userEntity));
@@ -97,7 +85,7 @@ public class UserDaoImplTest {
 
     @Test
     public void delete() {
-        UserEntity userEntity1 = getUser();
+        UserEntity userEntity1 = TestUtil.getUser();
         UserEntity userEntityByDao1 = dao.create(userEntity1);
         assertTrue(dao.delete(1));
     }
@@ -105,36 +93,5 @@ public class UserDaoImplTest {
     @Test
     public void findRepairmans() {
         assertEquals(0, dao.findRepairmans().size());
-    }
-
-    public static boolean executeDBScripts(String aSQLScriptFilePath, Statement stmt) throws IOException, SQLException {
-        boolean isScriptExecuted = false;
-        try {
-            BufferedReader in = new BufferedReader(new FileReader(aSQLScriptFilePath));
-            String str;
-            StringBuilder sb = new StringBuilder();
-            while ((str = in.readLine()) != null) {
-                sb.append(str).append("\n ");
-            }
-            in.close();
-            stmt.executeUpdate(sb.toString());
-            isScriptExecuted = true;
-        } catch (Exception e) {
-            System.err.println("Failed to Execute" + aSQLScriptFilePath + ". The error is" + e.getMessage());
-        } finally {
-            stmt.close();
-        }
-        return isScriptExecuted;
-    }
-
-    public static void initH2() {
-        HikariConfig config = new HikariConfig();
-        config.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
-        config.setConnectionTestQuery("VALUES 1");
-        config.addDataSourceProperty("URL", "jdbc:h2:~/test");
-        config.addDataSourceProperty("user", "sa");
-        config.addDataSourceProperty("password", "");
-        HikariDataSource ds = new HikariDataSource(config);
-        DbUtil.setDataSource(ds);
     }
 }

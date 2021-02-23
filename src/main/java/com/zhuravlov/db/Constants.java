@@ -41,9 +41,9 @@ public class Constants {
 
     public static final String INSERT_REPAIR_FORM =
             "INSERT INTO repair_forms" +
-                    "(id, car, creation_date, rf_description, feedback, last_modified_date, price, rf_s_description, rf_status, author_id, repairman_id)" +
+                    "(car, creation_date, rf_description, feedback, last_modified_date, price, rf_s_description, rf_status, author_id, repairman_id)" +
                     "VALUES" +
-                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     public static final String SELECT_REPAIR_FORM_BY_ID =
             "SELECT r.id, r.car, r.creation_date, r.rf_description, r.feedback, r.last_modified_date, r.price, r.rf_s_description, r.rf_status, " +

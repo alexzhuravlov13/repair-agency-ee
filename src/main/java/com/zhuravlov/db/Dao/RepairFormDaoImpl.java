@@ -27,20 +27,19 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
     public RepairFormEntity create(RepairFormEntity form) {
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(Constants.INSERT_REPAIR_FORM, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, form.getId());
-            ps.setString(2, form.getCar());
-            ps.setObject(3, form.getCreationDate());
-            ps.setString(4, form.getDescription());
-            ps.setString(5, form.getFeedback());
-            ps.setObject(6, form.getLastModifiedDate());
-            ps.setBigDecimal(7, form.getPrice());
-            ps.setString(8, form.getShortDescription());
-            ps.setString(9, form.getStatus().name());
-            ps.setInt(10, form.getAuthor().getUserId());
+            ps.setString(1, form.getCar());
+            ps.setObject(2, form.getCreationDate());
+            ps.setString(3, form.getDescription());
+            ps.setString(4, form.getFeedback());
+            ps.setObject(5, form.getLastModifiedDate());
+            ps.setBigDecimal(6, form.getPrice());
+            ps.setString(7, form.getShortDescription());
+            ps.setString(8, form.getStatus().name());
+            ps.setInt(9, form.getAuthor().getUserId());
             if (form.getRepairman() != null) {
-                ps.setInt(11, form.getRepairman().getUserId());
+                ps.setInt(10, form.getRepairman().getUserId());
             } else {
-                ps.setInt(11, 0);
+                ps.setInt(10, 0);
             }
             ps.executeUpdate();
 
