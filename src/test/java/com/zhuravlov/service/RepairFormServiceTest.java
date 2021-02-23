@@ -44,7 +44,8 @@ public class RepairFormServiceTest {
     @Test
     public void findAll() {
         List<RepairFormDto> all = Arrays.asList(new RepairFormDto(), new RepairFormDto());
-        when(mockDao.findAll(anyInt(), anyInt(), anyString(), anyString(), anyInt(), any(Status.class))).thenReturn(all);
+        when(mockDao.findAll(anyInt(), anyInt(), anyString(), anyString(), anyInt(), any(Status.class)))
+                .thenReturn(all);
         assertEquals(all, service.findAll(1, 2, "", "", 3, Status.NEW));
     }
 
@@ -86,7 +87,8 @@ public class RepairFormServiceTest {
     @Test
     public void writeOffFunds() {
         RepairFormEntity repairFormEntity = RepairFormBuilder.getInstance().build();
-        when(mockDao.writeOffFunds(anyInt(), anyInt(), any(Status.class), anyInt(), any(BigDecimal.class))).thenReturn(true);
+        when(mockDao.writeOffFunds(anyInt(), anyInt(), any(Status.class), anyInt(), any(BigDecimal.class)))
+                .thenReturn(true);
         assertTrue(service.writeOffFunds(1, 2, Status.NEW, 3, new BigDecimal(0)));
     }
 
