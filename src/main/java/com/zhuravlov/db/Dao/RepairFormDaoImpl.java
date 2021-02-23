@@ -210,7 +210,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
                 repairmanIdFilter, statusFilter);
     }
 
-    public List<RepairFormDto> findByStatusAndRepairman(int limit, int offset, String sortField, String sortDir,
+    private List<RepairFormDto> findByStatusAndRepairman(int limit, int offset, String sortField, String sortDir,
                                                         Integer repairmanIdFilter, Status statusFilter) {
         String query = getQueryWithSortFieldAndDir(sortField, sortDir,
                 Constants.SELECT_ALL_REPAIR_FORMS_BY_STATUS_AND_REPAIRMAN);
@@ -383,7 +383,7 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
         return sql.replaceAll("ORDER BY \\?", "ORDER BY " + sortField + " " + sortDir);
     }
 
-    public List<RepairFormDto> getAllRepairFormsDto(PreparedStatement ps) {
+    private List<RepairFormDto> getAllRepairFormsDto(PreparedStatement ps) {
         List<RepairFormDto> repairFormDtoList = new ArrayList<>();
         int formsCount = 0;
 
