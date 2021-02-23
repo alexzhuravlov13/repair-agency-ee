@@ -417,15 +417,17 @@ public class RepairFormDaoImpl implements Dao<RepairFormEntity> {
 
     }
 
-    public void saveFeedback(int id, String feedback) {
+    public boolean saveFeedback(int id, String feedback) {
         try (Connection con = DbUtil.getConnection()) {
             PreparedStatement ps = con.prepareStatement(Constants.SAVE_REVIEW);
             ps.setString(1, feedback);
             ps.setObject(2, LocalDateTime.now());
             ps.setInt(3, id);
             ps.executeUpdate();
+            return true;
         } catch (SQLException e) {
             log.error(e.getStackTrace());
+            return false;
         }
 
     }

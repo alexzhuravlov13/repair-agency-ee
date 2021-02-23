@@ -32,14 +32,19 @@ public class DbUtil {
 
     public static Connection getConnection() {
         Connection connection = null;
-
         try {
             connection = dataSource.getConnection();
         } catch (SQLException e) {
             log.error(e.getStackTrace());
         }
-
         return connection;
     }
 
+    public static HikariDataSource getDataSource() {
+        return dataSource;
+    }
+
+    public static void setDataSource(HikariDataSource dataSource) {
+        DbUtil.dataSource = dataSource;
+    }
 }

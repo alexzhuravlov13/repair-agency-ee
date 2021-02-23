@@ -38,10 +38,6 @@ public class RepairFormService {
                 .build());
     }
 
-    public List<RepairFormEntity> findAll() {
-        return dao.findAll();
-    }
-
     public List<RepairFormDto> findAll(int limit, int offset, String sortField, String sortDir,
                                        Integer repairmanIdFilter, Status statusFilter) {
         return dao.findAll(limit, offset, sortField, sortDir, repairmanIdFilter, statusFilter);
@@ -60,12 +56,8 @@ public class RepairFormService {
         return dao.findByUserId(userId, limit, offset, sortField, sortDir);
     }
 
-    public void saveReview(int id, String feedback) {
-        dao.saveFeedback(id, feedback);
-    }
-
-    public void updateRepairForm(RepairFormEntity editedForm) {
-        dao.update(editedForm);
+    public boolean saveReview(int id, String feedback) {
+        return dao.saveFeedback(id, feedback);
     }
 
     public boolean writeOffFunds(int id, int authorId, Status status, int repairmanId, BigDecimal price) {
@@ -84,20 +76,7 @@ public class RepairFormService {
         return new RepairFormService();
     }
 
-    public RepairFormEntity updateRepairForm(RepairFormEntity editedForm, HttpSession session, Status status, int repairmanId, BigDecimal price, RepairFormService service) {
-        editedForm.setStatus(status);
-        List<UserEntity> repairmans = (List<UserEntity>) session.getAttribute("repairmans");
-        UserEntity repairman = null;
-        for (UserEntity userEntity : repairmans) {
-            if (userEntity.getUserId() == repairmanId) {
-                repairman = userEntity;
-            }
-        }
-        editedForm.setRepairman(repairman);
-        editedForm.setStatus(status);
-        editedForm.setPrice(price);
-        service.updateRepairForm(editedForm);
-
-        return editedForm;
+    public RepairFormEntity updateRepairForm(RepairFormEntity editedForm) {
+        return dao.update(editedForm);
     }
 }

@@ -42,10 +42,27 @@ public class ManagerSaveRepairFormCommand implements Command {
                 return "/manager_repair_form_edit.jsp";
             }
         } else {
-            service.updateRepairForm(editedForm, session, status, repairmanId, price, service);
+            updateRepairForm(editedForm, session, status, repairmanId, price, service);
         }
 
         return "redirect:/manager/managerRepairFormList";
+    }
+
+    public RepairFormEntity updateRepairForm(RepairFormEntity editedForm, HttpSession session, Status status, int repairmanId, BigDecimal price, RepairFormService service) {
+        editedForm.setStatus(status);
+        List<UserEntity> repairmans = (List<UserEntity>) session.getAttribute("repairmans");
+        UserEntity repairman = null;
+        for (UserEntity userEntity : repairmans) {
+            if (userEntity.getUserId() == repairmanId) {
+                repairman = userEntity;
+            }
+        }
+        editedForm.setRepairman(repairman);
+        editedForm.setStatus(status);
+        editedForm.setPrice(price);
+        service.updateRepairForm(editedForm);
+
+        return editedForm;
     }
 
 }
