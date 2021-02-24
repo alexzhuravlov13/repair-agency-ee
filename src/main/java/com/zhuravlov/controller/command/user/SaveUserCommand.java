@@ -14,6 +14,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SaveUserCommand implements Command {
+    private final UserService service;
+
     @Override
     public String execute(HttpServletRequest req) {
         if (!CommandUtility.isValidated(req.getParameter("userId"),
@@ -26,7 +28,7 @@ public class SaveUserCommand implements Command {
             return "/admin_edit_user.jsp";
         }
 
-        UserService.getInstance().update(getUserFromRequest(req));
+        service.update(getUserFromRequest(req));
         return "redirect:/admin/listUsers";
     }
 
@@ -49,5 +51,13 @@ public class SaveUserCommand implements Command {
                 .setPassword(CommandUtility.hashPass(password, email))
                 .setRoles(roles)
                 .build();
+    }
+
+    public SaveUserCommand(UserService service) {
+        this.service = service;
+    }
+
+    public SaveUserCommand() {
+        this.service = UserService.getInstance();
     }
 }

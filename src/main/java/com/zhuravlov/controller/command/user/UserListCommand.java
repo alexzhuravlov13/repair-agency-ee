@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class UserListCommand implements Command {
-    private UserService userService;
+    private final UserService userService;
 
     @Override
     public String execute(HttpServletRequest request) {
