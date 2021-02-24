@@ -34,10 +34,6 @@ public class Servlet extends HttpServlet {
     public void init(ServletConfig servletConfig) throws ServletException {
         super.init(servletConfig);
 
-        //Todo:log4j.
-        //Todo:jsp error messages clear
-        //Todo:Код повинен містити коментарі документації (всі класи верхнього рівня, нетривіальні методи і конструктори).
-        //Todo:unit tests 40%
         DbUtil.setUrlFromProp();
         DbUtil.init();
 
@@ -60,16 +56,6 @@ public class Servlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer code = (Integer) req.getAttribute("javax.servlet.error.status_code");
-        String message = (String) req.getAttribute("javax.servlet.error.message");
-        String exception_type = (String) req.getAttribute("javax.servlet.error.exception_type");
-        String exception = (String) req.getAttribute("javax.servlet.error.exception");
-
-        req.getSession().setAttribute("errorType", exception_type);
-        req.getSession().setAttribute("errorMessage", message);
-        req.getSession().setAttribute("exception", exception);
-        req.getSession().setAttribute("errorCode", code);
-
         String path = req.getRequestURI();
 
         log.info("#SERVLET path:" + path);

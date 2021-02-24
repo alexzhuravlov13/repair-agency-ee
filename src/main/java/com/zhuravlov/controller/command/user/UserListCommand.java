@@ -10,13 +10,22 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class UserListCommand implements Command {
+    private UserService userService;
+
     @Override
     public String execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
 
-        List<UserEntity> all = new UserService(new UserDaoImpl()).findAll();
+        List<UserEntity> all = userService.findAll();
         request.setAttribute("users", all);
 
         return "/admin_users_list.jsp";
+    }
+
+    public UserListCommand(UserService userService) {
+        this.userService = userService;
+    }
+
+    public UserListCommand() {
+        this.userService = UserService.getInstance();
     }
 }

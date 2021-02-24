@@ -2,7 +2,19 @@ package com.zhuravlov.db.Dao;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.controller.command.CommandUtility;
+import com.zhuravlov.controller.command.ErrorCommand;
+import com.zhuravlov.controller.command.authorization.*;
+import com.zhuravlov.controller.command.manager.*;
+import com.zhuravlov.controller.command.repairForm.*;
+import com.zhuravlov.controller.command.repairman.RepairmanEditRepairFormCommand;
+import com.zhuravlov.controller.command.repairman.RepairmanRepairFormListCommand;
+import com.zhuravlov.controller.command.repairman.RepairmanSaveRepairFormCommand;
+import com.zhuravlov.controller.command.user.DeleteUserCommand;
+import com.zhuravlov.controller.command.user.EditUserCommand;
+import com.zhuravlov.controller.command.user.SaveUserCommand;
+import com.zhuravlov.controller.command.user.UserListCommand;
 import com.zhuravlov.db.DbUtil;
 import com.zhuravlov.model.builder.RepairFormBuilder;
 import com.zhuravlov.model.builder.UserEntityBuilder;
@@ -18,9 +30,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class TestUtil {
+    private static final Map<String, Command> commands = new HashMap<>();
+
     public static boolean executeDBScripts(String aSQLScriptFilePath, Statement stmt) throws IOException, SQLException {
         boolean isScriptExecuted = false;
         try {
@@ -72,5 +88,48 @@ public class TestUtil {
                 .setCar("car")
                 .setCreationDate(LocalDateTime.now())
                 .build();
+    }
+
+    public static void initCommandsMap() {
+        commands.put("error", new ErrorCommand());
+        commands.put("login", new LoginPageCommand());
+        commands.put("loginUser", new LoginCommand());
+        commands.put("logout", new LogOutCommand());
+        commands.put("registration", new RegistrationPageController());
+        commands.put("register", new RegisterCommand());
+
+        commands.put("manager/listUsers", new ManagerUserListCommand());
+        commands.put("manager/listUsers/changeAmount", new ChangeAmountPageCommand());
+        commands.put("manager/listUsers/saveAmount", new ChangeAmountCommand());
+        commands.put("manager/managerRepairFormList", new ManagerRepairFormListCommand());
+        commands.put("manager/editRepairForm", new ManagerEditRepairFormCommand());
+        commands.put("manager/saveRepairForm", new ManagerSaveRepairFormCommand());
+        commands.put("manager/addRepairFormFilter", new AddRepairFormFilterCommand());
+        commands.put("manager/clearRepairFormFilter", new ClearRepairFormFilterCommand());
+        commands.put("manager/home", new ManagerHomePageCommand());
+
+        commands.put("repairman/repairmanRepairFormList", new RepairmanRepairFormListCommand());
+        commands.put("repairman/editRepairForm", new RepairmanEditRepairFormCommand());
+        commands.put("repairman/saveRepairForm", new RepairmanSaveRepairFormCommand());
+
+        commands.put("admin/listUsers", new UserListCommand());
+        commands.put("admin/listUsers/edit", new EditUserCommand());
+        commands.put("admin/listUsers/delete", new DeleteUserCommand());
+        commands.put("admin/saveEditedUser", new SaveUserCommand());
+
+        commands.put("user/userRepairFormList", new UserRepairFormListCommand());
+        commands.put("user/addRepairFormPage", new CreateRepairFormPageCommand());
+        commands.put("user/addRepairForm", new CreateRepairFormCommand());
+        commands.put("user/viewRepairForm", new ViewRepairFormCommand());
+        commands.put("user/reviewRepairForm", new ReviewRepairFormCommand());
+        commands.put("user/saveReview", new SaveReviewCommand());
+    }
+
+    public static Command getCommand(String path) {
+        return commands.get(path);
+    }
+
+    public static Map<String, Command> getCommands() {
+        return commands;
     }
 }
