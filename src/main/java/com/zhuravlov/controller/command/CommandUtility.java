@@ -111,7 +111,7 @@ public class CommandUtility {
         } else if (userRoles.contains(Role.USER)) {
             return "redirect:/user/userRepairFormList";
         }
-        return null;
+        return "redirect:/login";
     }
 
     public static void initDataForEdit(HttpServletRequest request) {

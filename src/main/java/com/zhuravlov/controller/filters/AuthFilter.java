@@ -34,10 +34,7 @@ public class AuthFilter implements Filter {
     }
 
     private void handleByRole(HttpServletRequest request, HttpServletResponse response, Set<Role> roles, String requestURL) throws ServletException, IOException {
-        log.info("#AUTH roles:" + roles);
-        log.info("#AUTH requestURL:" + requestURL);
-
-        log.info("Handle by role " + roles);
+        log.info("#AUTH: Handle by role " + roles);
         String destination = "";
 
         if (roles == null || roles.contains(Role.GUEST)) {

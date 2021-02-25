@@ -4,7 +4,6 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zhuravlov.controller.command.Command;
 import com.zhuravlov.controller.command.CommandUtility;
-import com.zhuravlov.controller.command.ErrorCommand;
 import com.zhuravlov.controller.command.authorization.*;
 import com.zhuravlov.controller.command.manager.*;
 import com.zhuravlov.controller.command.repairForm.*;
@@ -91,7 +90,6 @@ public class TestUtil {
     }
 
     public static void initCommandsMap() {
-        commands.put("error", new ErrorCommand());
         commands.put("login", new LoginPageCommand());
         commands.put("loginUser", new LoginCommand());
         commands.put("logout", new LogOutCommand());

@@ -1,7 +1,7 @@
 package com.zhuravlov.controller;
 
 import com.zhuravlov.controller.command.Command;
-import com.zhuravlov.controller.command.ErrorCommand;
+import com.zhuravlov.controller.command.HomePageCommand;
 import com.zhuravlov.controller.command.authorization.*;
 import com.zhuravlov.controller.command.manager.*;
 import com.zhuravlov.controller.command.repairForm.*;
@@ -63,7 +63,7 @@ public class Servlet extends HttpServlet {
         path = path.replaceAll(".*/app/", "");
 
         Command command = commands.getOrDefault(path,
-                (r) -> "error");
+                (r) -> "/404.jsp");
         String page = command.execute(req);
 
         if (page.contains("redirect:")) {
@@ -78,7 +78,7 @@ public class Servlet extends HttpServlet {
     }
 
     private void initCommandsMap() {
-        commands.put("error", new ErrorCommand());
+        commands.put("home", new HomePageCommand());
         commands.put("login", new LoginPageCommand());
         commands.put("loginUser", new LoginCommand());
         commands.put("logout", new LogOutCommand());
