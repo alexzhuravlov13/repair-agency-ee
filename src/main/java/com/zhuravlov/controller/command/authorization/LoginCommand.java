@@ -15,7 +15,7 @@ import java.util.Set;
 
 public class LoginCommand implements Command {
     public static final Logger log = Logger.getLogger(LoginCommand.class);
-    UserService userService;
+    private UserService userService;
 
     public LoginCommand() {
         this.userService = new UserService();
