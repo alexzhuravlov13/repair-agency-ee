@@ -1,6 +1,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://example.com/functions" prefix="f" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="messages"/>
@@ -27,7 +28,7 @@
         <div class="row mb-3">
             <div class="col-xs-15">
                 <strong><fmt:message
-                        key="repairForm.Created"/></strong>: ${repairForm.creationDate.toLocalDate()}
+                        key="repairForm.Created"/></strong>: ${f:formatLocalDateTime(repairForm.creationDate, 'dd.MM.yyyy HH:mm')}
             </div>
         </div>
 
