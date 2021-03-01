@@ -18,6 +18,14 @@ public class AuthFilter implements Filter {
 
     }
 
+    /**
+     * Do filter to the request
+     * @param servletRequest processed request
+     * @param servletResponse processed response
+     * @param filterChain processed filterchain
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
@@ -33,6 +41,15 @@ public class AuthFilter implements Filter {
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * Handle request by role
+     * @param request processed request
+     * @param response processed response
+     * @param roles of user from session
+     * @param requestURL requested url
+     * @throws ServletException
+     * @throws IOException
+     */
     private void handleByRole(HttpServletRequest request, HttpServletResponse response, Set<Role> roles, String requestURL) throws ServletException, IOException {
         log.info("#AUTH: Handle by role " + roles);
         String destination = "";

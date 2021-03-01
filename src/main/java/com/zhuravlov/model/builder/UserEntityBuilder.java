@@ -6,6 +6,9 @@ import com.zhuravlov.model.entity.UserEntity;
 import java.math.BigDecimal;
 import java.util.Set;
 
+/**
+ * @see UserEntity builder
+ */
 public class UserEntityBuilder {
     private UserEntity userEntity;
 

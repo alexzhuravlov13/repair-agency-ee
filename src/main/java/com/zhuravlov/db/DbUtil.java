@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * Class for database util methods
+ */
 public class DbUtil {
     private final static Logger log = Logger.getLogger(DbUtil.class);
 
@@ -18,6 +21,9 @@ public class DbUtil {
 
     private static HikariDataSource dataSource;
 
+    /**
+     * Get url from property fle
+     */
     public static void setUrlFromProp() {
         Properties appProps = new Properties();
         try {
@@ -31,6 +37,9 @@ public class DbUtil {
         log.info("Db file path :" + DB_URL);
     }
 
+    /**
+     * Create hickari connection pool config for mysql
+     */
     public static void init() {
         HikariConfig config = new HikariConfig();
         config.setPoolName("MySqlPool");
@@ -42,6 +51,10 @@ public class DbUtil {
         dataSource = new HikariDataSource(config);
     }
 
+    /**
+     * Static method for getting connection from connection pool
+     * @return connection
+     */
     public static Connection getConnection() {
         Connection connection = null;
         try {

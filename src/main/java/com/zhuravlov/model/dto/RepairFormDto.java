@@ -6,6 +6,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Class for displaying the list of Repair Forms
+ * @see com.zhuravlov.model.entity.RepairFormEntity
+ */
 public class RepairFormDto {
     private int id;
 

@@ -7,6 +7,9 @@ import com.zhuravlov.model.entity.Status;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * @see RepairFormDto builder
+ */
 public class RepairFormDtoBuilder {
     private RepairFormDto repairFormDto;
 

@@ -11,6 +11,10 @@ public class SessionListener implements HttpSessionListener {
 
     }
 
+    /**
+     * Remove session, logout user
+     * @param httpSessionEvent
+     */
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         HashSet<String> loggedUsers = (HashSet<String>) httpSessionEvent

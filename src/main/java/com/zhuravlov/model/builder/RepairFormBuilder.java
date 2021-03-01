@@ -8,6 +8,9 @@ import com.zhuravlov.model.entity.UserEntity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * @see RepairFormEntity builder
+ */
 public class RepairFormBuilder {
     private RepairFormEntity repairForm;
 

@@ -5,6 +5,14 @@ import javax.servlet.*;
 import java.io.IOException;
 
 public class EncodingFilter implements Filter {
+    /**
+     * Set encoding parameters
+     * @param servletRequest processed request
+     * @param servletResponse processed response
+     * @param filterChain processed filter chain
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
